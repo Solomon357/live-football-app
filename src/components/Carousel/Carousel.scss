@@ -1,6 +1,8 @@
 .carousel-container{
+    display: flex;
     border: 2px solid darkgrey;
     border-radius: 5px;
-    padding: 0 .8% 16%;
+    padding: .8%;
     margin: 5% 0 5%;
+    height: fit-content;
 }

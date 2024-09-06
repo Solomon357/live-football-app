@@ -1,0 +1,19 @@
+
+.matchweek-container {
+    height: 80%;
+    width: 33%;
+
+    &__card {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        margin: 2%;
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow:  -0.5px 0.5px #77aaff,
+        -1px 1px #77aaff,
+        -2px 2px #77aaff,
+        -3px 3px #77aaff,
+        -4px 4px #77aaff;
+    }
+}
