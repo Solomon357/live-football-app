@@ -1,6 +1,49 @@
 .matchday-card {
+    font-size: x-small;
     text-align: center;
-    border: 1px solid black;
+    //border: 1px solid black;
     padding: .4%;
     margin: .4%;
+    height: fit-content;
+    position: relative;
+
+    &__status {
+        text-align: left;
+    }
+    &__verses{
+        margin-bottom: 0;
+    }
+    &__time{
+        margin-top: 0;
+        font-size: xx-small;
+        color: darkgrey;
+    }
+    // &__history-container {
+    //     border: 1px solid black;
+    // }
+}
+
+//pseudo-element shared styling 
+.matchday-card ::before,
+.matchday-card ::after {
+    content: '';
+    position:absolute;
+    background-color: darkgray;
+    z-index: 1;
+}
+
+//borders for rows
+.matchday-card ::after{
+    inline-size: 100vw;
+    block-size: 2px;
+    inset-inline-start: 0;
+    inset-block-start: calc(2px * -1); // because gap is 4px 
+}
+
+//borders for columns 
+.matchday-card ::before {
+  inline-size: 2px;
+  block-size: 100vh;
+  inset-inline-start: calc(2px * -1);
+
 }
