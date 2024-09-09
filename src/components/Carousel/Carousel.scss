@@ -7,6 +7,21 @@
     margin: 5% 0 5%;
     height: fit-content;
 
+    //because both of these are going to have the exact same styling
+    &__leftbtn,
+    &__rightbtn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin: .3%;
+    }
+
+    &__leftbtn:hover,
+    &__rightbtn:hover {
+        background-color: lightgray;
+        border-radius: 5px;
+    }
+
     &__carousel-row{
         //border: 2px solid red;
         display: flex;
@@ -19,4 +34,5 @@
         display: block;
         width: 32%;
     }
+
 }

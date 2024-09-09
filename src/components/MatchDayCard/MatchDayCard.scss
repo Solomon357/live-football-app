@@ -27,14 +27,15 @@
 .matchday-card ::before,
 .matchday-card ::after {
     content: '';
-    position:absolute;
+    //display: inline-block;
+    position: absolute;
     background-color: darkgray;
     z-index: 1;
 }
 
 //borders for rows
 .matchday-card ::after{
-    inline-size: 100vw;
+    inline-size: 30vw;
     block-size: 2px;
     inset-inline-start: 0;
     inset-block-start: calc(2px * -1); // because gap is 4px 
@@ -45,5 +46,5 @@
   inline-size: 2px;
   block-size: 100vh;
   inset-inline-start: calc(2px * -1);
-
+  inset-block-start: 0;
 }

@@ -2,13 +2,20 @@ import { useState, useEffect } from 'react'
 import './App.scss';
 import Carousel from './components/Carousel/Carousel';
 
+//TODO:
+//  1. create a functioning carousel that works with dummy data
+//  2. pass actual football API data into my project
+//  3. work on styling so I can include more information
+//  4?. could include europa league and conference league aswell 
+//  4?. create multiple pages for different leagues based off the framework of the first page 
+
 function App() {
   const [mockChampData, setMockChampData] = useState<number[][]>([]);
   const [mockPremData, setMockPremData] = useState<number[][]>([]);
 
   useEffect(()=> {
-    setMockChampData([[0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]]);
-    setMockPremData([[10,11,12,13,14,15,16,17,18], [10,11,12,13,14,15,16,17,18], [10,11,12,13,14,15,16,17,18]]);
+    setMockChampData([[0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]]);
+    setMockPremData([[10,11,12,13,14,15,16,17,18], [10,11,12,13,14,15,16,17,18], [10,11,12,13,14,15,16,17,18], [10,11,12,13,14,15,16,17,18], [10,11,12,13,14,15,16,17,18]]);
   }, [])
 
 
