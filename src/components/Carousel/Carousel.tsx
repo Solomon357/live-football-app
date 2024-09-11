@@ -1,12 +1,13 @@
 import "./Carousel.scss";
 import leftArrow from "../../assets/left-arrow.png";
 import rightArrow from "../../assets/right-arrow.png";
-
 import MatchWeekCard from '../MatchWeekCard/MatchWeekCard';
 import { useState } from "react";
+import FootballData from "../../type/FootballData";
+
 type CarouselPropTypes = {
   heading: string,
-  data: number[][];
+  data: FootballData[][];
 }
 
 const Carousel = ({ heading, data }: CarouselPropTypes) => {
@@ -14,14 +15,6 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
   //start and end of my slices will always have a gap of 3
   const [sliceStart, setSliceStart] = useState<number>(0);
   const [sliceEnd, setSliceEnd] = useState<number>(3);
-
-  // I want to display max 3 items at a time.
-  // I already know for the initial render I can use .slice() to get 3 things to display.
-  // slice method will already handle if ending index is greater than data.length 
-  // which means all I need to do is to handel the increment of slices with handleIncrement and Decrement.
-  
-  const displayedData = data.slice(sliceStart, sliceEnd);
-  // console.log(displayedData)
 
   const handleIncrement = () => {
     if (sliceEnd < data.length) {
@@ -33,11 +26,13 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
 
   const handleDecrement = () => {
     if (sliceStart > 0) {
-      setPage(page - 1);
+      setPage((page) => page - 1);
       setSliceStart((start) => start - 3);
       setSliceEnd((start) => start - 3);
     } 
   };
+
+  const displayedData = data.slice(sliceStart, sliceEnd);
 
   return (
     <div className="carousel-container">
@@ -48,13 +43,22 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
           <img src={leftArrow} alt="left-arrow" />
         </button>
 
-        {displayedData.map((matchWeekData, i) => {
+        {displayedData.map((gameWeekData, i) => {
+          if (gameWeekData.length){
+            return (
+              <div key={i} className="carousel-container__matchweek-info">
+                <h3>Game Week {gameWeekData[i].intRound}</h3>
+              <MatchWeekCard data={gameWeekData} />
+            </div>
+            )
+          }  
+
           return (
             <div key={i} className="carousel-container__matchweek-info">
-              <h3>Current Match Week {i}</h3>  {/* The actual data will have the real matchday as an attribute so i dont need to rely on index*/}
-              <MatchWeekCard data={matchWeekData} />
+              <h3>Game Week n/a</h3>
+              <p>No Games this week</p>
             </div>
-          )
+          ) 
         })}
 
         <button className="carousel-container__rightbtn" onClick={handleIncrement}>
