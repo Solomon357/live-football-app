@@ -1,3 +1,16 @@
 h1 {
     font-size: 2.8em;
 }
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flag-navigation {
+   display: flex;
+   width: 25%;
+   justify-content: space-between;
+   list-style: none;
+}
+

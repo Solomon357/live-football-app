@@ -36,7 +36,7 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
 
   return (
     <div className="carousel-container">
-      <h2>{heading} Matches</h2>
+      <h2>{heading}</h2>
       <div className="carousel-container__carousel-row">
 
         <button className="carousel-container__leftbtn" onClick={handleDecrement}>

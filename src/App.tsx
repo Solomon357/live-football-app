@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { cleanFootballData, filterFootballData, groupFootballData } from './helperFunctions/helperFunctions';
 import './App.scss';
-import Carousel from './components/Carousel/Carousel';
 import FootballData from './type/FootballData';
 import Navbar from './components/Navbar/Navbar';
+import PremPage from './containers/PremPage';
+import SerieAPage from './containers/SerieAPage';
+import LigueOnePage from './containers/LigueOnePage';
+import LaligaPage from './containers/LaligaPage';
+import BundesligaPage from './containers/BundesligaPage';
 
 //TODO:
 //  2. work on styling so I can include more information 
@@ -58,8 +64,10 @@ import Navbar from './components/Navbar/Navbar';
 // }
 
 function App() {
-  const [premData, setPremData] = useState<FootballData[]>([]);
+  // const [premData, setPremData] = useState<FootballData[]>([]);
+  // const [serieAData, setSerieAData] = useState<FootballData[]>([]);
   const [champData, setChampData] = useState<FootballData[]>([]);
+  const [europaData, setEuropaData] = useState<FootballData[]>([]);
   //const champData = useFetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2024-2025");
   //const premData = useFetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025");
 
@@ -69,91 +77,45 @@ function App() {
   useEffect(()=> {
     //apparently using 2 different fetches sequentially is an issue, so this is the solution I found
     const champRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2024-2025").then(response => response.json());
-    const premRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025").then(response => response.json());
-    Promise.all([champRequest, premRequest])
-      .then(([dataChamp, dataPrem]) => {
+    const europaRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4481&s=2024-2025").then(response => response.json());
+    // const premRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025").then(response => response.json());
+    // const serieARequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4332&s=2024-2025").then(response => response.json());
+   
+    Promise.all([champRequest, europaRequest])
+      .then(([dataChamp, dataEuropa]) => {
         setChampData(dataChamp.events)
-        setPremData(dataPrem.events)
+        setEuropaData(dataEuropa.events)
+        // setSerieAData(dataSerieA.events)
       })
       .catch((err) => console.log(err))
   }, [])
 
-  console.log("Prem data in state", premData) //test
+  // console.log("Prem data in state", premData) //test
+  // console.log("serie A data in state", serieAData) //test
+  console.log("Europa data in state", europaData) //test
   console.log("Champ data in state", champData) //test
 
-  const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
-    return anyData.map((data) => ({
-      idEvent: data.idEvent,
-      dateEvent: data.dateEvent,
-      idLeague: data.idLeague,
-      intAwayScore: data.intAwayScore,
-      intHomeScore: data.intHomeScore,
-      intRound: data.intRound,
-      strEvent: data.strEvent,
-      strLeague: data.strLeague,
-      strLeagueBadge: data.strLeagueBadge,
-      strTime: data.strTime,
-      strHomeTeam: data.strHomeTeam,
-      strHomeTeamBadge: data.strHomeTeamBadge,
-      strAwayTeam: data.strAwayTeam,
-      strAwayTeamBadge: data.strAwayTeamBadge,
-      strStatus: data.strStatus
-    }))
-  }
-
-  const filterFootballData = (anyData: FootballData[]):FootballData[] => {
-    return anyData.filter((item)=> {
-      //comparing dates using the Date constructor
-      const present = new Date(currentDate)
-      const currentMatchDate = new Date(item.dateEvent)
-
-      if(currentMatchDate.getTime() > present.getTime()){
-        return item;
-      }
-    })
-  }
-
-  const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
-    //okay this is probably a really sloppy way of doing things. But I want and array of array of objects so i can group the matchdays into match weeks
-    //so to do this I am going to 
-    //1. create an empty array called groupedData
-    //2. create a for loop that creates a filtered array based on the gameweek and pushes that array into groupedData
-
-    console.log("im here with data", anyData) //test
-    const groupedData = [];
-    console.log(+anyData[0]?.intRound) //test
-    console.log(+anyData[anyData.length -1]?.intRound) //test
-    const startIndex:number = +anyData[0]?.intRound;
-    const endIndex:number = +anyData[anyData.length -1]?.intRound; 
-
-    for(let i = startIndex; i <= endIndex; i++){ // we loop thru current matchday till the last matchday available
-
-      //getting an array where all the matches are related by given gameweek
-      const gameWeekData = anyData.filter((matchday) => { 
-        if(i === +matchday.intRound){
-          return matchday;
-        }
-      })
-      groupedData.push(gameWeekData)
-    }
-    // console.log(typeof groupedData) // test
-    return groupedData;
-  }
-
-  const cleanedPremData = cleanFootballData(premData)
   const cleanedChampData = cleanFootballData(champData)
+  const cleanedEuropaData = cleanFootballData(europaData)
+  // const cleanedPremData = cleanFootballData(premData)
+  // const cleanedSerieAData = cleanFootballData(serieAData)
 
-  // console.log("cleaned Prem Data", cleanedPremData);
-  // console.log("cleaned Champ Data", cleanedChampData);
+  // console.log("cleaned Prem Data", cleanedPremData); //test
+  // console.log("cleaned Champ Data", cleanedChampData); //test
 
-  const filteredPremData = filterFootballData(cleanedPremData)
+ 
   const filteredChampData = filterFootballData(cleanedChampData)
+  const filteredEuropaData = filterFootballData(cleanedEuropaData)
+  // const filteredPremData = filterFootballData(cleanedPremData)
+  // const filteredSerieAData = filterFootballData(cleanedSerieAData)
 
-  // console.log("filtered Prem Data", filteredPremData)
-  // console.log("filtered Champ Data", filteredChampData)
+  // console.log("filtered Prem Data", filteredPremData) //test
+  // console.log("filtered Champ Data", filteredChampData) //test
 
-  const premWeekData = groupFootballData(filteredPremData); 
   const champWeekData = groupFootballData(filteredChampData); 
+  const europaWeekData = groupFootballData(filteredEuropaData);
+  // const premWeekData = groupFootballData(filteredPremData);  
+  // const serieAWeekData = groupFootballData(filteredSerieAData);  
 
   //testing without return
   // groupFootballData(filteredPremData)
@@ -162,22 +124,49 @@ function App() {
   // console.log("grouped prem Data by week", premWeekData)
   // console.log("grouped champ Data by week", champWeekData)
 
+  //atm its just showing the top league of a country followed by international comps, later ill make it so each country shows top 3 leagues
   return (
     <>
-     {champData && premData ?
-      <>
+     {champWeekData && europaWeekData ?
+      <BrowserRouter>
         <Navbar />
+        <Routes>
+          <Route 
+            path='/' 
+            element={<PremPage champData={champWeekData} euroData={europaWeekData} />}
+          />
+          <Route 
+            path='/italy-leagues' 
+            element={<SerieAPage champData={champWeekData} euroData={europaWeekData} />}
+          />
+          <Route 
+            path='/france-leagues' 
+            element={<LigueOnePage champData={champWeekData} euroData={europaWeekData} />}
+          />
+          <Route 
+            path='/spain-leagues' 
+            element={<LaligaPage champData={champWeekData} euroData={europaWeekData} />}
+          />
+          <Route 
+            path='/germany-leagues' 
+            element={<BundesligaPage champData={champWeekData} euroData={europaWeekData} />}
+          />
+        </Routes>
+      {/* <input type="text" placeholder='search UCL teams...' />
+      <button>Search</button>
 
-        <input type="text" placeholder='search CL teams...' />
-        <button>Search</button>
+      <Carousel heading="UEFA Champions League" data={champWeekData}/>
 
-        <Carousel heading="Champions League" data={champWeekData}/>
+      <input type="text" placeholder='search UEL teams...' />
+      <button>Search</button>
 
-        <input type="text" placeholder='search PL teams...' />
-        <button>Search</button>
-          
-        <Carousel heading="Premier League" data={premWeekData}/>
-      </>
+      <Carousel heading="UEFA Europa League" data={europaWeekData}/>
+
+      <input type="text" placeholder='search PL teams...' />
+      <button>Search</button>
+        
+      <Carousel heading="Premier League" data={premWeekData}/> */}
+      </BrowserRouter>
       : 
       <p>loading ...</p>
       }
