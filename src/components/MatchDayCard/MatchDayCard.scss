@@ -10,11 +10,34 @@
     &__status {
         text-align: left;
     }
-    &__verses{
-        margin-bottom: 0;
+    &__main-info-container{
+        display: flex;
+
+        &--verses{
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            margin-right: 8%;
+        }
+        &--teams {
+            margin: 2%; 
+            display: flex;
+            justify-content: flex-start;
+            flex-flow: row;
+        }
+
+        &--score-card {
+            width: 40%;
+            display: block;
+            padding: 2%;
+            border-left: 1px solid rgb(94, 93, 93);
+        }
+
     }
+    
     &__time{
-        margin-top: 0;
+        margin: 0;
         font-size: xx-small;
         color: darkgrey;
     }
@@ -35,7 +58,7 @@
 
 //borders for rows
 .matchday-card ::after{
-    inline-size: 30vw;
+    inline-size: 100vw;
     block-size: 2px;
     inset-inline-start: 0;
     inset-block-start: calc(2px * -1); // because gap is 4px 

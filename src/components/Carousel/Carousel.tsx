@@ -12,23 +12,23 @@ type CarouselPropTypes = {
 
 const Carousel = ({ heading, data }: CarouselPropTypes) => {
   const [page, setPage] = useState<number>(1);
-  //start and end of my slices will always have a gap of 3
+  //start and end of my slices will always have a gap of 2
   const [sliceStart, setSliceStart] = useState<number>(0);
-  const [sliceEnd, setSliceEnd] = useState<number>(3);
+  const [sliceEnd, setSliceEnd] = useState<number>(2);
 
   const handleIncrement = () => {
     if (sliceEnd < data.length) {
-      setPage((counter) =>  counter + 1);
-      setSliceStart((start) =>  start + 3);
-      setSliceEnd((end) =>  end + 3);
+      setPage((page) =>  page + 1);
+      setSliceStart((start) =>  start + 2);
+      setSliceEnd((end) =>  end + 2);
     }
   };
 
   const handleDecrement = () => {
     if (sliceStart > 0) {
       setPage((page) => page - 1);
-      setSliceStart((start) => start - 3);
-      setSliceEnd((start) => start - 3);
+      setSliceStart((start) => start - 2);
+      setSliceEnd((start) => start - 2);
     } 
   };
 
@@ -48,8 +48,8 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
             return (
               <div key={i} className="carousel-container__matchweek-info">
                 <h3>Game Week {gameWeekData[i].intRound}</h3>
-              <MatchWeekCard data={gameWeekData} />
-            </div>
+                <MatchWeekCard data={gameWeekData} />
+              </div>
             )
           }  
 
@@ -66,7 +66,7 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
         </button>
       </div>
 
-      <p> page {page} / {Math.ceil(data.length / 3)} </p>
+      <p> page {page} / {Math.ceil(data.length / 2)} </p>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.scss';
 import Carousel from './components/Carousel/Carousel';
 import FootballData from './type/FootballData';
+import Navbar from './components/Navbar/Navbar';
 
 //TODO:
 //  2. work on styling so I can include more information 
@@ -48,9 +49,9 @@ import FootballData from './type/FootballData';
 //   useEffect(() => {
 //     fetch(url)
 //     .then(res => res.json())
-//     .then(data => setData(data.events))
+//     .then(data => setData(data))
 //     .catch(err => console.log(err))
-//   }, [url])
+// //   }, [url])
 
 //   return data;
 
@@ -77,8 +78,8 @@ function App() {
       .catch((err) => console.log(err))
   }, [])
 
-  //console.log("Prem data in state", premData) //test
-  //console.log("Champ data in state", champData) //test
+  console.log("Prem data in state", premData) //test
+  console.log("Champ data in state", champData) //test
 
   const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
     return anyData.map((data) => ({
@@ -102,15 +103,11 @@ function App() {
 
   const filterFootballData = (anyData: FootballData[]):FootballData[] => {
     return anyData.filter((item)=> {
-      //getting slices of months and days so we can filter to today and onwards.
-      const currentYearSlice = currentDate.slice(0,4);
-      const itemYearSlice = item.dateEvent.slice(0,4);
-      const currentMonthSlice = currentDate.slice(5,7);
-      const itemMonthSlice = item.dateEvent.slice(5,7);
-      const currentDaySlice = currentDate.slice(8);
-      const itemDaySlice = item.dateEvent.slice(8);
-      // in order to get dates from today onwards
-      if((currentMonthSlice <= itemMonthSlice && currentDaySlice <= itemDaySlice) || (currentYearSlice < itemYearSlice)){
+      //comparing dates using the Date constructor
+      const present = new Date(currentDate)
+      const currentMatchDate = new Date(item.dateEvent)
+
+      if(currentMatchDate.getTime() > present.getTime()){
         return item;
       }
     })
@@ -122,14 +119,15 @@ function App() {
     //1. create an empty array called groupedData
     //2. create a for loop that creates a filtered array based on the gameweek and pushes that array into groupedData
 
-    //console.log("im here with data", anyData) //test
+    console.log("im here with data", anyData) //test
     const groupedData = [];
-    //console.log(+anyData[0]?.intRound) //test
-    //console.log(+anyData[anyData.length -1]?.intRound) //test
+    console.log(+anyData[0]?.intRound) //test
+    console.log(+anyData[anyData.length -1]?.intRound) //test
     const startIndex:number = +anyData[0]?.intRound;
     const endIndex:number = +anyData[anyData.length -1]?.intRound; 
 
     for(let i = startIndex; i <= endIndex; i++){ // we loop thru current matchday till the last matchday available
+
       //getting an array where all the matches are related by given gameweek
       const gameWeekData = anyData.filter((matchday) => { 
         if(i === +matchday.intRound){
@@ -168,7 +166,8 @@ function App() {
     <>
      {champData && premData ?
       <>
-        <h1>Live Football Matches</h1>
+        <Navbar />
+
         <input type="text" placeholder='search CL teams...' />
         <button>Search</button>
 
@@ -180,8 +179,8 @@ function App() {
         <Carousel heading="Premier League" data={premWeekData}/>
       </>
       : 
-    <p>loading ...</p>
-  }
+      <p>loading ...</p>
+      }
     </>
   )
 }
