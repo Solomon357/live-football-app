@@ -40,9 +40,9 @@ const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData, url
 
   const ligueOneWeekData = getPrimedFootballData(ligueOneData);
   const userLigueOneWeekData = getPrimedFootballData(userLigueOneData);
+  
   const userChampWeekData = getPrimedFootballData(userChampData);
   const userEuroWeekData = getPrimedFootballData(userEuroData);
-
 
   const handleLeagueUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLeagueBtnPress(false)
@@ -72,7 +72,6 @@ const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData, url
     setEuroBtnPress(true)
     setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
   }
-
 
   return (
     <section>

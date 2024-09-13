@@ -18,18 +18,24 @@ const MatchDayCardInfo = () => {
     .catch((err) => console.log(err))
 
   }, [id])
-  console.log("heres some venueData",venueData)
 
   return (
     <section>
       <h1>Home Team Ground</h1>
       <div className="venue-card">
         <h2 className="venue-card__venue-header">{venueData.strVenue}</h2>
-        <a href={"https://" + venueData.strWebsite} target="_blank">Click here for more info!</a>
+        {venueData.strWebsite ?
+          <a href={"https://" + venueData.strWebsite} target="_blank">Click here for more info!</a>
+          :
+          ""
+        }
+
         <img src={venueData.strThumb} alt="stadiumPic" width={"80%"} height={"20%"} />
+
         <p>Location: <span className="venue-card__venue-metadata">{venueData.strLocation}</span></p>
         <p>Capacity: <span className="venue-card__venue-metadata">{venueData.intCapacity}</span></p>
-        <article className="venue-desc">
+
+        <article className="venue-card__venue-desc">
           <h3>About {venueData.strVenue}</h3>
           <p>{venueData.strDescriptionEN}</p>
         </article>

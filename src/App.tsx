@@ -25,10 +25,24 @@ import MatchDayCardInfo from './components/MatchDayCardInfo/MatchDayCardInfo';
 
     //Domestic Competitions
     //  4328: Prem ID
+    //  4329: EFL Championship ID
+    //  4397: English League 2
+    //  4396: English League 3
+
     //  4335: LaLiga ID
+    //  5106: Spanish Liga F
+    //  4400: La Liga 2
+
     //  4331: BundesLiga ID
+    //  4399: German 2. Bundesliga"
+
     //  4334: Ligue 1 ID
+    //  5203: France Première Ligue
+    //  4401: French Ligue 2
+
     //  4332: Serie A ID
+    //  4394: Italian Serie B
+    //  5340: Italian Serie C Girone A
 
     // s = season filter
     // r = mathday (round) filter  
@@ -36,72 +50,30 @@ import MatchDayCardInfo from './components/MatchDayCardInfo/MatchDayCardInfo';
     // All Events in a League by season (limited to 100 events): 
     //  - https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025
 
-    //NOTE: These round numbers relate to special strings:
-    // Round 125 = Quarter-Final
-    // Round 150 = Semi-Final
-    // Round 160 = Playoff
-    // Round 170 = Playoff Semi-Final
-    // Round 180 = Playoff Final
-    // Round 200 = Final
-    // Round 500 = Pre-Season
-
-    // Head to Head of given teams example: https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=Arsenal_vs_Chelsea
-
-
-//going to be a custom hook later
-
-// const useFetch = (url: string): FootballData[] => {
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     fetch(url)
-//     .then(res => res.json())
-//     .then(data => setData(data))
-//     .catch(err => console.log(err))
-// //   }, [url])
-
-//   return data;
-
-// }
-
 function App() {
-  // const [premData, setPremData] = useState<FootballData[]>([]);
-  // const [serieAData, setSerieAData] = useState<FootballData[]>([]);
   const [champData, setChampData] = useState<FootballData[]>([]);
   const [europaData, setEuropaData] = useState<FootballData[]>([]);
-  //const champData = useFetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2024-2025");
-  //const premData = useFetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025");
-
-  const currentDate: string = new Date().toISOString().slice(0, 10) // gets current date in format YYYY-MM-DD
-  console.log(currentDate)
 
   useEffect(()=> {
-    //apparently using 2 different fetches sequentially is an issue, so this is the solution I found
     const champRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2024-2025").then(response => response.json());
     const europaRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4481&s=2024-2025").then(response => response.json());
-    // const premRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025").then(response => response.json());
-    // const serieARequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4332&s=2024-2025").then(response => response.json());
    
     Promise.all([champRequest, europaRequest])
       .then(([dataChamp, dataEuropa]) => {
         setChampData(dataChamp.events)
         setEuropaData(dataEuropa.events)
-        // setSerieAData(dataSerieA.events)
       })
       .catch((err) => console.log(err))
   }, [])
 
-  // console.log("Prem data in state", premData) //test
-  // console.log("serie A data in state", serieAData) //test
-  console.log("Europa data in state", europaData) //test
-  console.log("Champ data in state", champData) //test
+  // console.log("Europa data in state", europaData) //test
+  // console.log("Champ data in state", champData) //test
  
   const filteredChampData = getFilteredFootballData(champData)
   const filteredEuropaData = getFilteredFootballData(europaData)
  
   const champWeekData = getPrimedFootballData(champData); 
   const europaWeekData = getPrimedFootballData(europaData);
-
 
   //testing without return
   // groupFootballData(filteredPremData)
@@ -158,20 +130,6 @@ function App() {
             element={<MatchDayCardInfo />}
           />
         </Routes>
-      {/* <input type="text" placeholder='search UCL teams...' />
-      <button>Search</button>
-
-      <Carousel heading="UEFA Champions League" data={champWeekData}/>
-
-      <input type="text" placeholder='search UEL teams...' />
-      <button>Search</button>
-
-      <Carousel heading="UEFA Europa League" data={europaWeekData}/>
-
-      <input type="text" placeholder='search PL teams...' />
-      <button>Search</button>
-        
-      <Carousel heading="Premier League" data={premWeekData}/> */}
       </BrowserRouter>
       : 
       <p>loading ...</p>

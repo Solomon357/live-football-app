@@ -40,13 +40,10 @@ export const getFilteredFootballData = (anyData: FootballData[]):FootballData[] 
 const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
   console.log("im here with data", anyData) //test
   const groupedData = [];
-  // console.log(+anyData[0]?.intRound) //test
-  // console.log(+anyData[anyData.length -1]?.intRound) //test
   const startIndex:number = +anyData[0]?.intRound;
   const endIndex:number = +anyData[anyData.length -1]?.intRound; 
 
-  for(let i = startIndex; i <= endIndex; i++){ // we loop thru current matchday till the last matchday available
-
+  for(let i = startIndex; i <= endIndex; i++){
     //getting an array where all the matches are related by given gameweek
     const gameWeekData = anyData.filter((matchday) => { 
       if(i === +matchday.intRound){
@@ -55,7 +52,7 @@ const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
     })
     groupedData.push(gameWeekData)
   }
-  // console.log(typeof groupedData) // test
+
   return groupedData;
 }
 
@@ -74,6 +71,5 @@ export const handleFootballSearch = (anyData: FootballData[], userInput: string)
 export const getPrimedFootballData = (anyData: FootballData[]): FootballData[][] => {
   const filterAnyData = getFilteredFootballData(anyData)
   const groupAnyData = groupFootballData(filterAnyData)
-
   return groupAnyData;
 }

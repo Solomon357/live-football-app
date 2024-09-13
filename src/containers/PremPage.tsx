@@ -57,17 +57,14 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }:
   }
 
   const handleLeagueSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
     setLeagueBtnPress(true)
     setUserPremData(handleFootballSearch(premData, leagueUserInput))
   }
   const handleChampSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
     setChampBtnPress(true)
     setUserChampData(handleFootballSearch(searchChampData, champUserInput))
   }
   const handleEuroSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
     setEuroBtnPress(true)
     setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
   }

@@ -1,10 +1,9 @@
 .matchday-card {
     font-size: x-small;
     text-align: center;
-    //border: 1px solid black;
     padding: .4%;
     margin: .4%;
-    height: fit-content;
+    min-height: 20%;
     position: relative;
 
     &__status {
@@ -41,9 +40,6 @@
         font-size: xx-small;
         color: darkgrey;
     }
-    // &__history-container {
-    //     border: 1px solid black;
-    // }
 }
 
 //pseudo-element shared styling 

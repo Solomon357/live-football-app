@@ -37,13 +37,6 @@ const MatchDayCard = ({ data }: MatchDayCardPropTypes) => {
           </div>  
         }
       </div>
-
-      <div className='matchday-card__history-container'>
-        {/* <h4> v <img src={data.strAwayTeamBadge} alt="homeBadge" height={'20px'} width={'20px'} /></h4> */}
-        {/* <p>{data.strHomeTeamBadge} 5 - 2 Team {data.strAwayTeamBadge}</p> */}
-        {/* <p>Team {data} 2 - 0 Team {data + 1}</p>
-        <p>Team {data} 0 - 1 Team {data + 1}</p> */}
-      </div>
     </div> 
   )
 }

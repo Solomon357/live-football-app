@@ -40,7 +40,9 @@ const BundesligaPage = ({ champData, searchChampData, euroData, searchEuroData, 
 
   const bundesligaWeekData = getPrimedFootballData(bundesligaData);
   const userBundesligaWeekData = getPrimedFootballData(userBundesligaData);
+
   const userChampWeekData = getPrimedFootballData(userChampData);
+
   const userEuroWeekData = getPrimedFootballData(userEuroData);
 
 
@@ -72,7 +74,6 @@ const BundesligaPage = ({ champData, searchChampData, euroData, searchEuroData, 
     setEuroBtnPress(true)
     setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
   }
-
 
   return (
     <section>

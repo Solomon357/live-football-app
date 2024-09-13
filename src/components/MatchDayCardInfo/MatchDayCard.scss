@@ -18,6 +18,10 @@ h1 {
     &__venue-metadata {
         font-weight: bold;
     }
+
+    &__venue-desc {
+        text-align: left;
+    }
 }
 
 a {
@@ -26,7 +30,5 @@ a {
     color: lightgray;
     margin-bottom:2%;
 }
-.venue-desc {
-    text-align: left;
-}
+
 

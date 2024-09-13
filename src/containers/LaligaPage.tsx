@@ -31,7 +31,7 @@ const LaligaPage = ({ champData,searchChampData, euroData, searchEuroData, url }
 
     useEffect(() => {
       const laLigaRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4335&s=2024-2025").then(response => response.json());
-  
+
       Promise.resolve(laLigaRequest)
       .then(data => setLaLigaData(data.events))
       .catch((err) => console.log(err))
@@ -58,19 +58,16 @@ const LaligaPage = ({ champData,searchChampData, euroData, searchEuroData, url }
     }
   
     const handleLeagueSearch = () => {
-      //I want to only display the match cards that contains the userInput teams
       setLeagueBtnPress(true)
       setUserLaLigaData(handleFootballSearch(laLigaData, leagueUserInput))
     }
     
     const handleChampSearch = () => {
-      //I want to only display the match cards that contains the userInput teams
       setChampBtnPress(true)
       setUserChampData(handleFootballSearch(searchChampData, champUserInput))
     }
 
     const handleEuroSearch = () => {
-      //I want to only display the match cards that contains the userInput teams
       setEuroBtnPress(true)
       setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
     }
