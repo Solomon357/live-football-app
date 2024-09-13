@@ -1,0 +1,32 @@
+
+h1 {
+    text-align: center;
+    font-size: 3em;
+}
+.venue-card{
+    max-width: 80%;
+    max-height: 80%;
+    border: 2px solid whitesmoke;
+    border-radius: 5px;
+    margin: auto;
+    text-align: center;
+    padding: 1%;
+
+    &__venue-header{
+       margin-bottom: .5%; 
+    }
+    &__venue-metadata {
+        font-weight: bold;
+    }
+}
+
+a {
+    display: block;
+    font-size: smaller;
+    color: lightgray;
+    margin-bottom:2%;
+}
+.venue-desc {
+    text-align: left;
+}
+

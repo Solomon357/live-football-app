@@ -1,8 +1,9 @@
 type FootballData = {
     idEvent: string,
+    idVenue: string,
+    idLeague: string,
     dateEvent: string,
     intRound: string,
-    idLeague: string,
     intAwayScore: string | null,
     intHomeScore: string | null,
     strEvent: string,
@@ -13,7 +14,8 @@ type FootballData = {
     strAwayTeam: string,
     strAwayTeamBadge: string,
     strStatus: string
-    strTime: string | null
+    strTime: string | null,
+   
   }
 
   export default FootballData;

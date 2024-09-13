@@ -3,6 +3,7 @@ import FootballData from "../type/FootballData"
 const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
   return anyData.map((data) => ({
     idEvent: data.idEvent,
+    idVenue: data.idVenue,
     dateEvent: data.dateEvent,
     idLeague: data.idLeague,
     intAwayScore: data.intAwayScore,

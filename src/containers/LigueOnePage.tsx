@@ -8,10 +8,11 @@ type LigueOnePagePropTypes = {
   champData: FootballData[][],
   euroData: FootballData[][],
   searchChampData: FootballData[],
-  searchEuroData: FootballData[]
+  searchEuroData: FootballData[],
+  url?: string
 }
 
-const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData }: LigueOnePagePropTypes) => {
+const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData, url }: LigueOnePagePropTypes) => {
   const [ligueOneData, setLigueOneData] = useState<FootballData[]>([]);
 
   const [userLigueOneData, setUserLigueOneData] = useState<FootballData[]>([]);
@@ -84,17 +85,17 @@ const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData }: L
         <input type="text" placeholder='search Ligue teams...' onChange={handleLeagueUserInput} />
         <button onClick={handleLeagueSearch}>Search</button>
 
-        <Carousel heading={ligueOneData[0]?.strLeague} data={leagueBtnPress ? userLigueOneWeekData : ligueOneWeekData}/>
+        <Carousel heading={ligueOneData[0]?.strLeague} url={url} data={leagueBtnPress ? userLigueOneWeekData : ligueOneWeekData}/>
 
         <input type="text" placeholder='search UCL teams...' onChange={handleChampUserInput}/>
         <button onClick={handleChampSearch}>Search</button>
 
-        <Carousel heading="UEFA Champions League" data={champBtnPress ? userChampWeekData : champData}/>
+        <Carousel heading="UEFA Champions League" url={url} data={champBtnPress ? userChampWeekData : champData}/>
 
         <input type="text" placeholder='search UEL teams...' onChange={handleEuroUserInput} />
         <button onClick={handleEuroSearch}>Search</button>
 
-        <Carousel heading="UEFA Europa League" data={euroBtnPress ? userEuroWeekData : euroData}/>
+        <Carousel heading="UEFA Europa League" url={url} data={euroBtnPress ? userEuroWeekData : euroData}/>
       </>
       :
       <p>Loading...</p>

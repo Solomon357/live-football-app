@@ -9,11 +9,12 @@ import SerieAPage from './containers/SerieAPage';
 import LigueOnePage from './containers/LigueOnePage';
 import LaligaPage from './containers/LaligaPage';
 import BundesligaPage from './containers/BundesligaPage';
+import MatchDayCardInfo from './components/MatchDayCardInfo/MatchDayCardInfo';
 
 //TODO:
-//  2. work on styling so I can include more information 
-//  3?. could include europa league and conference league aswell 
-//  4?. create multiple pages for different leagues based off the framework of the first page 
+//  1. make use of useParams
+//  2. work on styling so I can include more information on matchday cards
+//  3?. could include domestic competitions for each league, and make the homepage the european competitions
 
  //Events on a given matchday: 
     //  - https://www.thesportsdb.com/api/v1/json/3/eventsround.php?id=4328&r=38&s=2014-2015 
@@ -118,23 +119,43 @@ function App() {
         <Routes>
           <Route 
             path='/' 
-            element={<PremPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
+            element={<PremPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={"england-leagues"}  />}
+          />
+          <Route 
+            path='/england-leagues/:id' 
+            element={<MatchDayCardInfo />}
           />
           <Route 
             path='/italy-leagues' 
-            element={<SerieAPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
+            element={<SerieAPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'italy-leagues'} />}
+          />
+          <Route 
+            path='/italy-leagues/:id' 
+            element={<MatchDayCardInfo />}
           />
           <Route 
             path='/france-leagues' 
-            element={<LigueOnePage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
+            element={<LigueOnePage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'france-leagues'} />}
+          />
+          <Route 
+            path='/france-leagues/:id' 
+            element={<MatchDayCardInfo />}
           />
           <Route 
             path='/spain-leagues' 
-            element={<LaligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
+            element={<LaligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'spain-leagues'} />}
+          />
+          <Route 
+            path='/spain-leagues/:id' 
+            element={<MatchDayCardInfo />}
           />
           <Route 
             path='/germany-leagues' 
-            element={<BundesligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
+            element={<BundesligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'germany-leagues'} />}
+          />
+          <Route 
+            path='/germany-leagues/:id' 
+            element={<MatchDayCardInfo />}
           />
         </Routes>
       {/* <input type="text" placeholder='search UCL teams...' />

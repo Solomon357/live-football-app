@@ -5,6 +5,11 @@ h1 {
 .navbar{
     display: flex;
     justify-content: space-between;
+    border-bottom: 2px solid black;
+}
+
+.header-link {
+    text-decoration: none;
 }
 
 .flag-navigation {

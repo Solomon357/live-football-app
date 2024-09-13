@@ -8,9 +8,10 @@ type PremPagePropType = {
   champData: FootballData[][],
   euroData: FootballData[][],
   searchChampData: FootballData[],
-  searchEuroData: FootballData[]
+  searchEuroData: FootballData[],
+  url?: string
 }
-const PremPage = ({ champData, searchChampData, euroData, searchEuroData }: PremPagePropType) => {
+const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }: PremPagePropType) => {
   const [premData, setPremData] = useState<FootballData[]>([]);
 
   const [userPremData, setUserPremData] = useState<FootballData[]>([]);
@@ -82,17 +83,17 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData }: Prem
         <input type="text" placeholder='search PL teams...' onChange={handleLeagueUserInput} />
         <button onClick={handleLeagueSearch}>Search</button>
 
-        <Carousel heading={premData[0]?.strLeague} data={leagueBtnPress ? userPremWeekData : premWeekData}/>
+        <Carousel heading={premData[0]?.strLeague} url={url} data={leagueBtnPress ? userPremWeekData : premWeekData}/>
 
         <input type="text" placeholder='search UCL teams...' onChange={handleChampUserInput}/>
         <button onClick={handleChampSearch}>Search</button>
 
-        <Carousel heading="UEFA Champions League" data={champBtnPress ? userChampWeekData : champData}/>
+        <Carousel heading="UEFA Champions League" url={url} data={champBtnPress ? userChampWeekData : champData}/>
 
         <input type="text" placeholder='search UEL teams...' onChange={handleEuroUserInput}/>
         <button onClick={handleEuroSearch}>Search</button>
 
-        <Carousel heading="UEFA Europa League" data={euroBtnPress ? userEuroWeekData : euroData}/>
+        <Carousel heading="UEFA Europa League" url={url} data={euroBtnPress ? userEuroWeekData : euroData}/>
       </>
       :
       <p>Loading...</p>

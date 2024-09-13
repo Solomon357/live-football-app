@@ -8,11 +8,11 @@ type SerieAPagePropTypes = {
   champData: FootballData[][],
   euroData: FootballData[][],
   searchChampData: FootballData[],
-  searchEuroData: FootballData[]
-  
+  searchEuroData: FootballData[],
+  url?: string
 }
 
-const SerieAPage = ({ champData, searchChampData, euroData, searchEuroData }: SerieAPagePropTypes) => {
+const SerieAPage = ({ champData, searchChampData, euroData, searchEuroData, url }: SerieAPagePropTypes) => {
   const [serieAData, setSerieAData] = useState<FootballData[]>([]);
 
   const [userSerieAData, setUserSerieAData] = useState<FootballData[]>([]);
@@ -83,18 +83,18 @@ const SerieAPage = ({ champData, searchChampData, euroData, searchEuroData }: Se
       <input type="text" placeholder='search Serie teams...' onChange={handleLeagueUserInput}/>
       <button onClick={handleLeagueSearch}>Search</button>
 
-      <Carousel heading={serieAData[0]?.strLeague} data={leagueBtnPress ? userSerieAWeekData : serieAWeekData}/>
+      <Carousel heading={serieAData[0]?.strLeague} url={url} data={leagueBtnPress ? userSerieAWeekData : serieAWeekData}/>
 
 
       <input type="text" placeholder='search UCL teams...' onChange={handleChampUserInput} />
       <button onClick={handleChampSearch}>Search</button>
 
-      <Carousel heading="UEFA Champions League" data={champBtnPress ? userChampWeekData : champData}/>
+      <Carousel heading="UEFA Champions League" url={url} data={champBtnPress ? userChampWeekData : champData}/>
 
       <input type="text" placeholder='search UEL teams...' onChange={handleEuroUserInput} />
       <button onClick={handleEuroSearch}>Search</button>
 
-      <Carousel heading="UEFA Europa League" data={euroBtnPress ? userEuroWeekData : euroData}/>
+      <Carousel heading="UEFA Europa League" url={url} data={euroBtnPress ? userEuroWeekData : euroData}/>
     </>
     :
     <p>Loading...</p>

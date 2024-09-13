@@ -7,10 +7,11 @@ import FootballData from "../../type/FootballData";
 
 type CarouselPropTypes = {
   heading: string,
-  data: FootballData[][];
+  data: FootballData[][],
+  url?:string
 }
 
-const Carousel = ({ heading, data }: CarouselPropTypes) => {
+const Carousel = ({ heading, data, url }: CarouselPropTypes) => {
   const [page, setPage] = useState<number>(1);
   //start and end of my slices will always have a gap of 2
   const [sliceStart, setSliceStart] = useState<number>(0);
@@ -48,7 +49,7 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
             return (
               <div key={i} className="carousel-container__matchweek-info">
                 <h3>Game Week {gameWeekData[i]?.intRound}</h3>
-                <MatchWeekCard data={gameWeekData} />
+                <MatchWeekCard data={gameWeekData} url={url} />
               </div>
             )
           }  

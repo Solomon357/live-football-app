@@ -9,8 +9,9 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className='navbar'>
-      <h1>Live Football Matches</h1>
-
+      <Link to={'/'} className='header-link'>
+        <h1>Live Football Matches</h1>
+      </Link>
       <ul className='flag-navigation'>
         <li>
           <Link to="/">
