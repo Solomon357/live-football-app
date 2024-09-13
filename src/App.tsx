@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { cleanFootballData, filterFootballData, groupFootballData } from './helperFunctions/helperFunctions';
+import { getFilteredFootballData, getPrimedFootballData} from './helperFunctions/helperFunctions';
 import './App.scss';
 import FootballData from './type/FootballData';
 import Navbar from './components/Navbar/Navbar';
@@ -94,28 +94,13 @@ function App() {
   // console.log("serie A data in state", serieAData) //test
   console.log("Europa data in state", europaData) //test
   console.log("Champ data in state", champData) //test
-
-  const cleanedChampData = cleanFootballData(champData)
-  const cleanedEuropaData = cleanFootballData(europaData)
-  // const cleanedPremData = cleanFootballData(premData)
-  // const cleanedSerieAData = cleanFootballData(serieAData)
-
-  // console.log("cleaned Prem Data", cleanedPremData); //test
-  // console.log("cleaned Champ Data", cleanedChampData); //test
-
  
-  const filteredChampData = filterFootballData(cleanedChampData)
-  const filteredEuropaData = filterFootballData(cleanedEuropaData)
-  // const filteredPremData = filterFootballData(cleanedPremData)
-  // const filteredSerieAData = filterFootballData(cleanedSerieAData)
+  const filteredChampData = getFilteredFootballData(champData)
+  const filteredEuropaData = getFilteredFootballData(europaData)
+ 
+  const champWeekData = getPrimedFootballData(champData); 
+  const europaWeekData = getPrimedFootballData(europaData);
 
-  // console.log("filtered Prem Data", filteredPremData) //test
-  // console.log("filtered Champ Data", filteredChampData) //test
-
-  const champWeekData = groupFootballData(filteredChampData); 
-  const europaWeekData = groupFootballData(filteredEuropaData);
-  // const premWeekData = groupFootballData(filteredPremData);  
-  // const serieAWeekData = groupFootballData(filteredSerieAData);  
 
   //testing without return
   // groupFootballData(filteredPremData)
@@ -133,23 +118,23 @@ function App() {
         <Routes>
           <Route 
             path='/' 
-            element={<PremPage champData={champWeekData} euroData={europaWeekData} />}
+            element={<PremPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
           />
           <Route 
             path='/italy-leagues' 
-            element={<SerieAPage champData={champWeekData} euroData={europaWeekData} />}
+            element={<SerieAPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
           />
           <Route 
             path='/france-leagues' 
-            element={<LigueOnePage champData={champWeekData} euroData={europaWeekData} />}
+            element={<LigueOnePage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
           />
           <Route 
             path='/spain-leagues' 
-            element={<LaligaPage champData={champWeekData} euroData={europaWeekData} />}
+            element={<LaligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
           />
           <Route 
             path='/germany-leagues' 
-            element={<BundesligaPage champData={champWeekData} euroData={europaWeekData} />}
+            element={<BundesligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} />}
           />
         </Routes>
       {/* <input type="text" placeholder='search UCL teams...' />

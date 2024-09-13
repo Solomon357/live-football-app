@@ -47,7 +47,7 @@ const Carousel = ({ heading, data }: CarouselPropTypes) => {
           if (gameWeekData.length){
             return (
               <div key={i} className="carousel-container__matchweek-info">
-                <h3>Game Week {gameWeekData[i].intRound}</h3>
+                <h3>Game Week {gameWeekData[i]?.intRound}</h3>
                 <MatchWeekCard data={gameWeekData} />
               </div>
             )

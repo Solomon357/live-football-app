@@ -1,6 +1,6 @@
 import FootballData from "../type/FootballData"
 
-export const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
+const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
   return anyData.map((data) => ({
     idEvent: data.idEvent,
     dateEvent: data.dateEvent,
@@ -20,10 +20,13 @@ export const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
   }))
 }
 
-export const filterFootballData = (anyData: FootballData[]):FootballData[] => {
-  const currentDate: string = new Date().toISOString().slice(0, 10) // gets current date in format YYYY-MM-DD
-  return anyData.filter((item)=> {
-    //comparing dates using the Date constructor
+export const getFilteredFootballData = (anyData: FootballData[]):FootballData[] => {
+
+  const cleanData = cleanFootballData(anyData)
+  const currentDate: string = new Date().toISOString().slice(0, 10)
+
+  return cleanData.filter((item)=> {
+
     const present = new Date(currentDate)
     const currentMatchDate = new Date(item.dateEvent)
 
@@ -33,12 +36,7 @@ export const filterFootballData = (anyData: FootballData[]):FootballData[] => {
   })
 }
 
-export const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
-  //okay this is probably a really sloppy way of doing things. But I want and array of array of objects so i can group the matchdays into match weeks
-  //so to do this I am going to 
-  //1. create an empty array called groupedData
-  //2. create a for loop that creates a filtered array based on the gameweek and pushes that array into groupedData
-
+const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
   console.log("im here with data", anyData) //test
   const groupedData = [];
   // console.log(+anyData[0]?.intRound) //test
@@ -58,4 +56,23 @@ export const groupFootballData = (anyData: FootballData[]): FootballData[][] => 
   }
   // console.log(typeof groupedData) // test
   return groupedData;
+}
+
+
+export const handleFootballSearch = (anyData: FootballData[], userInput: string) => {
+  return anyData.filter((userData) => {
+    if (userInput.toLowerCase() === userData?.strHomeTeam.toLowerCase() || 
+        userInput.toLowerCase() === userData?.strAwayTeam.toLowerCase() || 
+        userData?.strHomeTeam.toLowerCase().includes(userInput.toLowerCase()) 
+      ){
+      return userData;
+    }
+  })
+}
+
+export const getPrimedFootballData = (anyData: FootballData[]): FootballData[][] => {
+  const filterAnyData = getFilteredFootballData(anyData)
+  const groupAnyData = groupFootballData(filterAnyData)
+
+  return groupAnyData;
 }
