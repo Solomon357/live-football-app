@@ -26,19 +26,19 @@ export const getFilteredFootballData = (anyData: FootballData[]):FootballData[] 
   const cleanData = cleanFootballData(anyData)
   const currentDate: string = new Date().toISOString().slice(0, 10)
 
-  return cleanData.filter((item)=> {
+  return cleanData.filter((match)=> {
 
     const present = new Date(currentDate)
-    const currentMatchDate = new Date(item.dateEvent)
+    const currentMatchDate = new Date(match.dateEvent)
 
-    if(currentMatchDate.getTime() > present.getTime()){
-      return item;
+    if(currentMatchDate.getTime() >= present.getTime()){
+      return match;
     }
   })
 }
 
 const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
-  console.log("im here with data", anyData) //test
+  // console.log("im here with data", anyData) //test
   const groupedData = [];
   const startIndex:number = +anyData[0]?.intRound;
   const endIndex:number = +anyData[anyData.length -1]?.intRound; 

@@ -76,7 +76,6 @@ const SerieAPage = ({ champData, searchChampData, euroData, searchEuroData, url 
       <header className='header-img'>
         <img className="league-logo" src={serieAData[0]?.strLeagueBadge} alt="LeagueBadge" />
       </header>
-      <p>current user input: {leagueUserInput}</p>
       <input type="text" placeholder='search Serie teams...' onChange={handleLeagueUserInput}/>
       <button onClick={handleLeagueSearch}>Search</button>
 
