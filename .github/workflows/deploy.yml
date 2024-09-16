@@ -16,7 +16,7 @@ concurrency:
   group: 'pages'
   cancel-in-progress: true
 jobs:
-  # Single deploy job since we're just deploying
+  # Single deploy job since we're just deployin
   deploy:
     environment:
       name: github-pages
