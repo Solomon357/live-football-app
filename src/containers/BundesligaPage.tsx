@@ -12,6 +12,9 @@ type BundesligaPagePropTypes = {
   url?: string
 }
 
+  //Domestic Competitions
+  //  4331: BundesLiga ID
+  //  4399: German 2. Bundesliga"
 const BundesligaPage = ({ champData, searchChampData, euroData, searchEuroData, url }: BundesligaPagePropTypes) => {
   const [bundesligaData, setBundesligaData] = useState<FootballData[]>([]);
 

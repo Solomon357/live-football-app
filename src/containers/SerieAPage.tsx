@@ -12,6 +12,10 @@ type SerieAPagePropTypes = {
   url?: string
 }
 
+  //Domestic Competitions
+  //  4332: Serie A ID
+  //  4394: Italian Serie B
+  //  5340: Italian Serie C Girone A
 const SerieAPage = ({ champData, searchChampData, euroData, searchEuroData, url }: SerieAPagePropTypes) => {
   const [serieAData, setSerieAData] = useState<FootballData[]>([]);
 

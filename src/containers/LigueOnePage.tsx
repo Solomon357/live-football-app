@@ -11,6 +11,10 @@ type LigueOnePagePropTypes = {
   searchEuroData: FootballData[],
   url?: string
 }
+//Domestic Competitions
+  //  4334: Ligue 1 ID
+  //  5203: France Première Ligue
+  //  4401: French Ligue 2
 
 const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData, url }: LigueOnePagePropTypes) => {
   const [ligueOneData, setLigueOneData] = useState<FootballData[]>([]);

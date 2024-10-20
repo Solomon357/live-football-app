@@ -4,8 +4,17 @@ import './MatchDayCard.scss';
 type MatchDayCardPropTypes = {
   data: FootballData;
 }
-//Dumb Component
+
 const MatchDayCard = ({ data }: MatchDayCardPropTypes) => {
+
+  switch(data.strStatus){
+    case "1H":
+      data.strStatus = "1st Half"
+      break
+    case "2H":
+      data.strStatus = "2nd Half"
+  }
+
   return (
     <div className='matchday-card'>
 
@@ -27,8 +36,8 @@ const MatchDayCard = ({ data }: MatchDayCardPropTypes) => {
 
         {data.intHomeScore && data.intAwayScore ?
           <div className='matchday-card__main-info-container--score-card'>
-            <p>{data.intHomeScore}</p>
-            <p>{data.intAwayScore}</p>
+            <span>{data.intHomeScore}</span>
+            <span>{data.intAwayScore}</span>
           </div>
           :
           <div className='matchday-card__main-info-container--score-card'>

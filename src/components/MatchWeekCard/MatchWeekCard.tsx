@@ -14,7 +14,7 @@ return (
   <section className='matchweek-container'>
     {data.map((matchDayData) => {
       return (
-        <Link className="matchweek-container__matchday-link" key={matchDayData.idEvent} to={`/${url}/${matchDayData.idVenue}`}>
+        <Link className="matchweek-container__matchday-link" key={matchDayData.idEvent} to={`/live-football-app/${url}/${matchDayData.idVenue}`}>
           <MatchDayCard data={matchDayData}/>
         </Link>
       )

@@ -12,7 +12,11 @@ type LaligaPagePropTypes = {
   searchEuroData: FootballData[],
   url?: string
 }
-
+  //Domestic Competitions
+  //  4335: LaLiga ID
+  //  5106: Spanish Liga F
+  //  4400: La Liga 2
+  
 const LaligaPage = ({ champData,searchChampData, euroData, searchEuroData, url }: LaligaPagePropTypes) => {
 
   const [laLigaData, setLaLigaData] = useState<FootballData[]>([]);

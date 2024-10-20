@@ -14,27 +14,27 @@ const Navbar = () => {
       </Link>
       <ul className='flag-navigation'>
         <li>
-          <Link to="/">
+          <Link to="/live-football-app/">
             <img src={englandFlag} alt="englandFlag" />
           </Link>
         </li>
         <li>
-          <Link to="/spain-leagues">
+          <Link to="/live-football-app/spain-leagues">
             <img src={spainFlag} alt="spainFlag" />
           </Link>
         </li>
         <li>
-          <Link to="/germany-leagues">
+          <Link to="/live-football-app/germany-leagues">
             <img src={germanyFlag} alt="germanyFlag" />
           </Link>
         </li>
         <li>
-          <Link to="/italy-leagues">
+          <Link to="/live-football-app/italy-leagues">
             <img src={italyFlag} alt="italyFlag" />
           </Link>
         </li>
         <li>
-          <Link to="/france-leagues">
+          <Link to="/live-football-app/france-leagues">
             <img src={franceFlag} alt="franceFlag" />
           </Link>
         </li>
