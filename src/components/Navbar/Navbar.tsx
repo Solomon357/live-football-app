@@ -14,7 +14,7 @@ const Navbar = () => {
       </Link>
       <ul className='flag-navigation'>
         <li>
-          <Link to="/live-football-app/">
+          <Link to="/live-football-app/england-leagues">
             <img src={englandFlag} alt="englandFlag" />
           </Link>
         </li>

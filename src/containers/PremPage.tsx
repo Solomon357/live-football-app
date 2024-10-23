@@ -12,13 +12,16 @@ type PremPagePropType = {
   url?: string
 }
 
+
   //Domestic Competitions
   //  4328: Prem ID
   //  4329: EFL Championship ID
   //  4397: English League 2
   //  4396: English League 3
 const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }: PremPagePropType) => {
+  
   const [premData, setPremData] = useState<FootballData[]>([]);
+  const [newPremData, setNewPremData] = useState<FootballData[]>([]);
   const [championshipData, setChampionshipData] = useState<FootballData[]>([]);
   const [leagueOneData, setLeagueOneData] = useState<FootballData[]>([]);
   const [leagueTwoData, setLeagueTwoData] = useState<FootballData[]>([]);
@@ -46,14 +49,27 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }:
  
 
   useEffect(() => {
+
+    const accessParams = {
+      method: "GET",
+      headers: {
+        mode: "cors",
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'X-Auth-Token': '02d8eeaffef746b59f28060310b24ccc'
+      },
+    }
+
+    const newPremRequest = fetch("/api/v4/competitions/PL/matches?dateFrom=2024-10-20&dateTo=2025-01-20", accessParams).then(res => res.json())
     const premRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025").then(response => response.json());
     const championshipRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4329&s=2024-2025").then(response => response.json());
     const leagueOneRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4397&s=2024-2025").then(response => response.json());
     const leagueTwoRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4396&s=2024-2025").then(response => response.json());
 
-    Promise.all([premRequest, championshipRequest, leagueOneRequest, leagueTwoRequest])
-    .then(([dataPrem, dataChampionship, dataLeagueOne, dataLeagueTwo]) => {
-      setPremData(dataPrem.events)
+    Promise.all([newPremRequest, premRequest, championshipRequest, leagueOneRequest, leagueTwoRequest])
+    .then(([dataPrem, dataNewPrem, dataChampionship, dataLeagueOne, dataLeagueTwo]) => {
+      setPremData(dataPrem)
+      setNewPremData(dataNewPrem.events)
       setChampionshipData(dataChampionship.events)
       setLeagueOneData(dataLeagueOne.events)
       setLeagueTwoData(dataLeagueTwo.events)
@@ -66,6 +82,7 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }:
   console.log("championship data in Component", championshipData) //test
   console.log("efl1 data in Component", leagueOneData) //test
   console.log("efl2 data in Component", leagueTwoData) //test
+  console.log("New Prem Data with CORS issue resolved", newPremData);
   
   const premWeekData = getPrimedFootballData(premData);
   // const championshipWeekData = getPrimedFootballData(championshipData);

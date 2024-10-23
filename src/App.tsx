@@ -10,6 +10,7 @@ import LigueOnePage from './containers/LigueOnePage';
 import LaligaPage from './containers/LaligaPage';
 import BundesligaPage from './containers/BundesligaPage';
 import MatchDayCardInfo from './components/MatchDayCardInfo/MatchDayCardInfo';
+import HomePage from './containers/HomePage';
 
 //TODO:
 //  1. work on styling so I can include more information on matchday cards
@@ -68,7 +69,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route 
-            path='/live-football-app/' 
+            path='/' 
+            element={<HomePage />}
+          />
+          <Route 
+            path='/live-football-app/england-leagues' 
             element={<PremPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={"england-leagues"}  />}
           />
           <Route 

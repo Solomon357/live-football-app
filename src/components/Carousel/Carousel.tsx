@@ -36,38 +36,47 @@ const Carousel = ({ heading, data, url }: CarouselPropTypes) => {
   const displayedData = data.slice(sliceStart, sliceEnd);
 
   return (
-    <div className="carousel-container">
-      <h2>{heading}</h2>
-      <div className="carousel-container__carousel-row">
 
-        <button className="carousel-container__leftbtn" onClick={handleDecrement}>
-          <img src={leftArrow} alt="left-arrow" />
-        </button>
+    <div className="carousel-search-container">
 
-        {displayedData.map((gameWeekData, i) => {
-          if (gameWeekData.length){
+      {/* <div className="search-container">
+        <input type="text" placeholder='search Ligue teams...' onChange={handleLeagueUserInput} />
+        <button onClick={handleLeagueSearch}>Search</button>
+      </div> */}
+
+      <div className="carousel-container">
+        <h2>{heading}</h2>
+        <div className="carousel-container__carousel-row">
+
+          <button className="carousel-container__leftbtn" onClick={handleDecrement}>
+            <img src={leftArrow} alt="left-arrow" />
+          </button>
+
+          {displayedData.map((gameWeekData, i) => {
+            if (gameWeekData.length){
+              return (
+                <div key={i} className="carousel-container__matchweek-info">
+                  <h3>Game Week {gameWeekData[i]?.intRound}</h3>
+                  <MatchWeekCard data={gameWeekData} url={url} />
+                </div>
+              )
+            }  
+
             return (
               <div key={i} className="carousel-container__matchweek-info">
-                <h3>Game Week {gameWeekData[i]?.intRound}</h3>
-                <MatchWeekCard data={gameWeekData} url={url} />
+                <h3>Game Week n/a</h3>
+                <p>No Games this week</p>
               </div>
-            )
-          }  
+            ) 
+          })}
 
-          return (
-            <div key={i} className="carousel-container__matchweek-info">
-              <h3>Game Week n/a</h3>
-              <p>No Games this week</p>
-            </div>
-          ) 
-        })}
+          <button className="carousel-container__rightbtn" onClick={handleIncrement}>
+            <img src={rightArrow} alt="right-arrow" />
+          </button>
+        </div>
 
-        <button className="carousel-container__rightbtn" onClick={handleIncrement}>
-          <img src={rightArrow} alt="right-arrow" />
-        </button>
+        <p> page {page} / {Math.ceil(data.length / 2)} </p>
       </div>
-
-      <p> page {page} / {Math.ceil(data.length / 2)} </p>
     </div>
   )
 }
