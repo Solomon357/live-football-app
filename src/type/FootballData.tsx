@@ -15,7 +15,6 @@ type FootballData = {
     strAwayTeamBadge: string,
     strStatus: string
     strTime: string | null,
-   
   }
 
   export default FootballData;

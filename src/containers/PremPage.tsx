@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
 import FootballData from '../type/FootballData';
-import { getPrimedFootballData, handleFootballSearch } from '../helperFunctions/helperFunctions';
+import { getPrimedFixtureData, getPrimedFootballData, handleFootballSearch } from '../helperFunctions/helperFunctions';
+import FixtureData from '../type/NewFootballData';
 
 type PremPagePropType = {
   champData: FootballData[][],
@@ -21,7 +22,7 @@ type PremPagePropType = {
 const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }: PremPagePropType) => {
   
   const [premData, setPremData] = useState<FootballData[]>([]);
-  const [newPremData, setNewPremData] = useState<FootballData[]>([]);
+  const [newPremData, setNewPremData] = useState<FixtureData[]>([]);
   const [championshipData, setChampionshipData] = useState<FootballData[]>([]);
   const [leagueOneData, setLeagueOneData] = useState<FootballData[]>([]);
   const [leagueTwoData, setLeagueTwoData] = useState<FootballData[]>([]);
@@ -67,9 +68,9 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }:
     const leagueTwoRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4396&s=2024-2025").then(response => response.json());
 
     Promise.all([newPremRequest, premRequest, championshipRequest, leagueOneRequest, leagueTwoRequest])
-    .then(([dataPrem, dataNewPrem, dataChampionship, dataLeagueOne, dataLeagueTwo]) => {
-      setPremData(dataPrem)
-      setNewPremData(dataNewPrem.events)
+    .then(([dataNewPrem, dataPrem , dataChampionship, dataLeagueOne, dataLeagueTwo]) => {
+      setNewPremData(dataNewPrem.matches)
+      setPremData(dataPrem.events)
       setChampionshipData(dataChampionship.events)
       setLeagueOneData(dataLeagueOne.events)
       setLeagueTwoData(dataLeagueTwo.events)
@@ -85,6 +86,8 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }:
   console.log("New Prem Data with CORS issue resolved", newPremData);
   
   const premWeekData = getPrimedFootballData(premData);
+  const newPremWeekData = getPrimedFixtureData(newPremData);
+  console.log("grouped new prem data",newPremWeekData)
   // const championshipWeekData = getPrimedFootballData(championshipData);
   // const leagueOneWeekData = getPrimedFootballData(leagueOneData);
   // const leagueTwoWeekData = getPrimedFootballData(leagueTwoData);

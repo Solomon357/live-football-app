@@ -14,6 +14,6 @@ export default defineConfig({
         rewrite: (p) => p.replace(/^\/api/, ""),
       },
     },
-    cors: false,
+    cors: false
   }
 })

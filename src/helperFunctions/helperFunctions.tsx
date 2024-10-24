@@ -1,4 +1,5 @@
 import FootballData from "../type/FootballData"
+import FixtureData from "../type/NewFootballData"
 
 const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
   return anyData.map((data) => ({
@@ -18,6 +19,20 @@ const cleanFootballData = (anyData: FootballData[]): FootballData[] => {
     strAwayTeam: data.strAwayTeam,
     strAwayTeamBadge: data.strAwayTeamBadge,
     strStatus: data.strStatus
+  }))
+}
+
+const cleanFixtureData = (anyData: FixtureData[]): FixtureData[] => {
+  return anyData.map((data) => ({
+    area: data.area,
+    awayTeam: data.awayTeam,
+    homeTeam: data.homeTeam,
+    competition: data.competition,
+    id: data.id,
+    matchday: data.matchday,
+    score: data.score,
+    status: data.status,
+    utcDate: data.utcDate
   }))
 }
 
@@ -56,6 +71,24 @@ const groupFootballData = (anyData: FootballData[]): FootballData[][] => {
   return groupedData;
 }
 
+const groupFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
+  // console.log("im here with data", anyData) //test
+  const groupedData = [];
+  const startIndex:number = anyData[0]?.matchday;
+  const endIndex:number = anyData[anyData.length -1]?.matchday; 
+
+  for(let i = startIndex; i <= endIndex; i++){
+    //getting an array where all the matches are related by given gameweek
+    const gameWeekData = anyData.filter((fixture) => { 
+      if(i === fixture.matchday){
+        return fixture;
+      }
+    })
+    groupedData.push(gameWeekData)
+  }
+  return groupedData;
+}
+
 
 export const handleFootballSearch = (anyData: FootballData[], userInput: string) => {
   return anyData.filter((userData) => {
@@ -72,4 +105,10 @@ export const getPrimedFootballData = (anyData: FootballData[]): FootballData[][]
   const filterAnyData = getFilteredFootballData(anyData)
   const groupAnyData = groupFootballData(filterAnyData)
   return groupAnyData;
+}
+
+
+export const getPrimedFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
+  const cleanFixtures = cleanFixtureData(anyData);
+  return groupFixtureData(cleanFixtures)
 }
