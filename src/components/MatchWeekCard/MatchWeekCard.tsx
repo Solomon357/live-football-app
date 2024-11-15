@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import FootballData from '../../type/FootballData';
 import MatchDayCard from '../MatchDayCard/MatchDayCard';
 import './MatchWeekCard.scss';
+import FixtureData from '../../type/NewFootballData';
 
 type MatchWeekCardPropType = {
-  data: FootballData[],
+  data: FixtureData[],
   url?: string
 }
 
@@ -14,7 +15,7 @@ return (
   <section className='matchweek-container'>
     {data.map((matchDayData) => {
       return (
-        <Link className="matchweek-container__matchday-link" key={matchDayData.idEvent} to={`/live-football-app/${url}/${matchDayData.idVenue}`}>
+        <Link className="matchweek-container__matchday-link" key={matchDayData.id} to={`/live-football-app/${url}/${matchDayData.id}`}>
           <MatchDayCard data={matchDayData}/>
         </Link>
       )

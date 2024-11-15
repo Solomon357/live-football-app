@@ -8,7 +8,7 @@
 export type ClubTableData = {
   position: number,
   playedGames: number,
-  win: number,
+  won: number,
   draw: number,
   lost: number,
   goalDifference: number,

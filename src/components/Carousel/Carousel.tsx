@@ -4,13 +4,13 @@ import rightArrow from "../../assets/right-arrow.png";
 import MatchWeekCard from '../MatchWeekCard/MatchWeekCard';
 import { useState } from "react";
 import FootballData from "../../type/FootballData";
-import { getPrimedFootballData, handleFootballSearch } from "../../helperFunctions/helperFunctions";
+import { getPrimedFixtureData, getPrimedFootballData, handleFixtureSearch, handleFootballSearch } from "../../helperFunctions/helperFunctions";
 import FixtureData from "../../type/NewFootballData";
 
 type CarouselPropTypes = {
   heading: string,
-  searchData: FootballData[],
-  data: FootballData[][],
+  searchData: FixtureData[],
+  data: FixtureData[][],
   url?:string
 }
 
@@ -19,7 +19,7 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
 
   const [userInput, setUserInput] = useState<string>("");
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const [userSearchData, setUserSearchData] = useState<FootballData[][]>(data);
+  const [userSearchData, setUserSearchData] = useState<FixtureData[][]>(data);
   //start and end of my slices will always have a gap of 2
   const [sliceStart, setSliceStart] = useState<number>(0);
   const [sliceEnd, setSliceEnd] = useState<number>(2);
@@ -48,17 +48,17 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
 
   const handleLeagueSearch = () => {
     setIsSearch(true)
-    const userSearchResult = handleFootballSearch(searchData, userInput);
-    setUserSearchData(getPrimedFootballData(userSearchResult))
+    const userSearchResult = handleFixtureSearch(searchData, userInput);
+    setUserSearchData(getPrimedFixtureData(userSearchResult))
   }
 
-  const displayedData = isSearch ? userSearchData.slice(sliceStart, sliceEnd) : data.slice(sliceStart, sliceEnd);
+  const displayedData = userSearchData.length ? userSearchData.slice(sliceStart, sliceEnd) : data.slice(sliceStart, sliceEnd);
 
   return (
     <div className="carousel-search-container">
 
       <div className="search-container">
-        <input type="text" placeholder='search Ligue teams...' onChange={handleLeagueUserInput} />
+        <input type="text" placeholder='search League teams...' onChange={handleLeagueUserInput} />
         <button onClick={handleLeagueSearch}>Search</button>
       </div>
 
@@ -74,7 +74,7 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
             if (gameWeekData.length){
               return (
                 <div key={i} className="carousel-container__matchweek-info">
-                  <h3>Game Week {gameWeekData[i]?.intRound}</h3>
+                  <h3>Game Week {gameWeekData[i]?.matchday}</h3>
                   <MatchWeekCard data={gameWeekData} url={url} />
                 </div>
               )

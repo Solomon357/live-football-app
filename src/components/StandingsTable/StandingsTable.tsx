@@ -29,7 +29,7 @@ const StandingsTable = ({ tableData }: ClubTablePropTypes) => {
             <td>{clubs.position}</td>
             <td><img src={clubs.team.crest} alt="teamBadge" width={"15px"} height={"15px"} /> {clubs.team.shortName}</td>
             <td>{clubs.playedGames}</td>
-            <td>{clubs.win}</td>
+            <td>{clubs.won}</td>
             <td>{clubs.draw}</td>
             <td>{clubs.lost}</td>
             <td>{clubs.goalsFor}</td>

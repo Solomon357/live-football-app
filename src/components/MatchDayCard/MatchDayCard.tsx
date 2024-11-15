@@ -1,48 +1,43 @@
 import FootballData from '../../type/FootballData';
+import FixtureData from '../../type/NewFootballData';
 import './MatchDayCard.scss';
 
 type MatchDayCardPropTypes = {
-  data: FootballData;
+  data: FixtureData;
 }
 
 const MatchDayCard = ({ data }: MatchDayCardPropTypes) => {
 
-  switch(data.strStatus){
-    case "1H":
-      data.strStatus = "1st Half"
-      break
-    case "2H":
-      data.strStatus = "2nd Half"
-  }
+  const currentTime: string = new Date().toISOString();
+
 
   return (
     <div className='matchday-card'>
 
-      <p className='matchday-card__status'> {data.strStatus}</p>
+      <p className='matchday-card__status'> {new Date(data.utcDate).getTime() >= new Date(currentTime).getTime() ? data.utcDate.slice(0,10) : data.status}</p>
 
       <div className='matchday-card__main-info-container'>
         <header className='matchday-card__main-info-container--verses'>
           <div className='matchday-card__main-info-container--teams'>
-            <img src={data.strHomeTeamBadge} alt="homeBadge" height={'15px'} width={'15px'} />
-            <span>{data.strHomeTeam}</span>
+            <img src={data.homeTeam.crest} alt="homeBadge" height={'15px'} width={'15px'} />
+            <span>{data.homeTeam.shortName}</span>
           </div>
 
           <div className='matchday-card__main-info-container--teams'>
-            <img src={data.strAwayTeamBadge} alt="awayBadge" height={'15px'} width={'15px'} />
-            <span>{data.strAwayTeam}</span>
+            <img src={data.awayTeam.crest} alt="awayBadge" height={'15px'} width={'15px'} />
+            <span>{data.awayTeam.shortName}</span>
           </div>
 
         </header>
 
-        {data.intHomeScore && data.intAwayScore ?
+        {new Date(data.utcDate).getTime() <= new Date(currentTime).getTime() ?
           <div className='matchday-card__main-info-container--score-card'>
-            <span>{data.intHomeScore}</span>
-            <span>{data.intAwayScore}</span>
+            <span>{data.score.fullTime.home ? data.score.fullTime.home : data.score.halfTime.home ? data.score.halfTime.home : 0}</span>
+            <span>{data.score.fullTime.away ? data.score.fullTime.away : data.score.halfTime.away ? data.score.halfTime.away : 0}</span>
           </div>
           :
           <div className='matchday-card__main-info-container--score-card'>
-            <p className='matchday-card__time'>{data.dateEvent}</p>
-            <p className='matchday-card__time'>{data.strTime?.slice(0,5)} KO</p>
+            <p className='matchday-card__time'>{data.utcDate?.slice(11,16)} KO</p>
           </div>  
         }
       </div>

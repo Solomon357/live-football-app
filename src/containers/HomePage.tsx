@@ -1,7 +1,8 @@
 // import Carousel from "../components/Carousel/Carousel"
+import '../App.scss';
 import HomeBadge from "../assets/homepage-badge.png";
-import LeftArrow from "../assets/left-arrow.png";
-import RightArrow from "../assets/right-arrow.png";
+// import LeftArrow from "../assets/left-arrow.png";
+// import RightArrow from "../assets/right-arrow.png";
 // import MatchWeekCard from "../components/MatchWeekCard/MatchWeekCard";
 import { useEffect, useState } from "react";
 import FixtureData from "../type/NewFootballData";
@@ -10,12 +11,13 @@ import StandingsTable from "../components/StandingsTable/StandingsTable";
 import { ClubTableData } from "../type/ClubTableData";
 import PlayerTableData from "../type/PlayerTableData";
 import PlayerTable from "../components/PlayerTable/PlayerTable";
+import Carousel from '../components/Carousel/Carousel';
 
 const HomePage = () => {
 	const data = [1,2,3,4,5,6,7,8,9];
-	const [page, setPage] = useState<number>(1);
-	const [sliceStart, setSliceStart] = useState<number>(0);
-  const [sliceEnd, setSliceEnd] = useState<number>(2);
+	// const [page, setPage] = useState<number>(1);
+	// const [sliceStart, setSliceStart] = useState<number>(0);
+  // const [sliceEnd, setSliceEnd] = useState<number>(2);
 
 	const [champMatchData, setChampMatchData] = useState<FixtureData[]>([]);
 	const [champStandingsData, setChampStandingsData] = useState<ClubTableData[]>([]);
@@ -32,14 +34,14 @@ const HomePage = () => {
 
     const key: string = import.meta.env.VITE_API_KEY;
 
-    let startDate: Date | string =  new Date();
-    startDate.setDate((startDate.getDate() - (startDate.getDay() + 4) % 7) -7);
+    let europeStartDate: Date | string =  new Date();
+    europeStartDate.setDate((europeStartDate.getDate() - (europeStartDate.getDay() + 3) % 7) -7);
 
-    let endDate: Date | string = new Date();
-    endDate.setMonth(startDate.getMonth() + 2);
+    let europeEndDate: Date | string = new Date();
+    europeEndDate.setMonth(europeStartDate.getMonth() + 2);
 
-    startDate = startDate.toISOString().slice(0,10);
-    endDate = endDate.toISOString().slice(0,10);
+    europeStartDate = europeStartDate.toISOString().slice(0,10);
+    europeEndDate = europeEndDate.toISOString().slice(0,10);
 
     const accessParams = {
       method: "GET",
@@ -51,7 +53,7 @@ const HomePage = () => {
       }
     }
 
-		const champMatchRequest = fetch(`/api/v4/competitions/CL/matches?dateFrom=${startDate}&dateTo=${endDate}`, accessParams).then(res => res.json());
+		const champMatchRequest = fetch(`/api/v4/competitions/CL/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`, accessParams).then(res => res.json());
 		const champStandingsRequest = fetch(`/api/v4/competitions/CL/standings`, accessParams).then(res => res.json());
 		const champScorersRequest = fetch(`/api/v4/competitions/CL/scorers`, accessParams).then(res => res.json());
     //const premRequest = fetch(`/api/v4/competitions/PL/matches?dateFrom=${startDate}&dateTo=${endDate}`, accessParams).then(res => res.json())
@@ -75,23 +77,23 @@ const HomePage = () => {
 	console.log("Champions League Scorers ", champScorersData);
 
 
-  const handleIncrement = () => {
-    if (sliceEnd < data.length) {
-      setPage((page) =>  page + 1);
-      setSliceStart((start) =>  start + 2);
-      setSliceEnd((end) =>  end + 2);
-    }
-  };
+  // const handleIncrement = () => {
+  //   if (sliceEnd < data.length) {
+  //     setPage((page) =>  page + 1);
+  //     setSliceStart((start) =>  start + 2);
+  //     setSliceEnd((end) =>  end + 2);
+  //   }
+  // };
 
-  const handleDecrement = () => {
-    if (sliceStart > 0) {
-      setPage((page) => page - 1);
-      setSliceStart((start) => start - 2);
-      setSliceEnd((start) => start - 2);
-    } 
-  };
+  // const handleDecrement = () => {
+  //   if (sliceStart > 0) {
+  //     setPage((page) => page - 1);
+  //     setSliceStart((start) => start - 2);
+  //     setSliceEnd((start) => start - 2);
+  //   } 
+  // };
 
-  const displayedData = data.slice(sliceStart, sliceEnd);
+  // const displayedData = data.slice(sliceStart, sliceEnd);
 
 	return (
 		<section>
@@ -104,11 +106,8 @@ const HomePage = () => {
 				<section>
 					<h2>{competitionTitle}</h2>
 
-					<input type="text" placeholder='search UCL teams...'/>
-					<button >Search</button>
-
-					{/* <Carousel heading="UEFA Champions League" /> */}
-					<div className="carousel-container">
+					<Carousel heading={competitionTitle} data={groupedMatchdayData} searchData={champMatchData} />
+					{/* <div className="carousel-container">
 						<h2>Champs League</h2>
 						<div className="carousel-container__carousel-row">
 
@@ -131,12 +130,13 @@ const HomePage = () => {
 						</div>
 
 						<p> page {page} / {Math.ceil(data.length / 2)} </p>
+					</div> */}
+
+					<div className="table-container"> 
+						<StandingsTable tableData={champStandingsData} />
+
+						<PlayerTable tableData={champScorersData} />
 					</div>
-
-					<StandingsTable tableData={champStandingsData} />
-
-					<PlayerTable tableData={champScorersData} />
-
 				</section>
 			</>
 			:

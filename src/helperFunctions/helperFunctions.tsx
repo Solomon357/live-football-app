@@ -101,6 +101,18 @@ export const handleFootballSearch = (anyData: FootballData[], userInput: string)
   })
 }
 
+export const handleFixtureSearch = (anyData: FixtureData[], userInput: string) => {
+  return anyData.filter((userData) => {
+    if (userInput.toLowerCase() === userData?.homeTeam.name.toLowerCase() || 
+        userInput.toLowerCase() === userData?.awayTeam.name.toLowerCase() || 
+        userData?.homeTeam.name.toLowerCase().includes(userInput.toLowerCase()) || 
+        userData?.awayTeam.name.toLowerCase().includes(userInput.toLowerCase())  
+      ){
+      return userData;
+    }
+  })
+}
+
 export const getPrimedFootballData = (anyData: FootballData[]): FootballData[][] => {
   const filterAnyData = getFilteredFootballData(anyData)
   const groupAnyData = groupFootballData(filterAnyData)
