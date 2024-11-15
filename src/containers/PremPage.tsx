@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
-import FootballData from '../type/FootballData';
-import { getPrimedFixtureData, getPrimedFootballData } from '../helperFunctions/helperFunctions';
+import { getPrimedFixtureData, } from '../helperFunctions/helperFunctions';
 import FixtureData from '../type/NewFootballData';
+import { ClubTableData } from '../type/ClubTableData';
+import PlayerTableData from '../type/PlayerTableData';
+import StandingsTable from '../components/StandingsTable/StandingsTable';
+import PlayerTable from '../components/PlayerTable/PlayerTable';
 
-type PremPagePropType = {
-  champData: FootballData[][],
-  euroData: FootballData[][],
-  searchChampData: FootballData[],
-  searchEuroData: FootballData[],
-  url?: string
-}
+// type PremPagePropType = {
+//   champData: FootballData[][],
+//   euroData: FootballData[][],
+//   searchChampData: FootballData[],
+//   searchEuroData: FootballData[],
+//   url?: string
+// }
 
 
   //Domestic Competitions
@@ -19,35 +22,28 @@ type PremPagePropType = {
   //  4329: EFL Championship ID
   //  4397: English League 2
   //  4396: English League 3
-const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }: PremPagePropType) => {
-  
-  const [premData, setPremData] = useState<FootballData[]>([]);
-  const [newPremData, setNewPremData] = useState<FixtureData[]>([]);
-  const [championshipData, setChampionshipData] = useState<FootballData[]>([]);
-  const [leagueOneData, setLeagueOneData] = useState<FootballData[]>([]);
-  const [leagueTwoData, setLeagueTwoData] = useState<FootballData[]>([]);
+const PremPage = () => {
 
-  // const [userPremData, setUserPremData] = useState<FootballData[]>([]);
-  // const [userChampionshipData, setUserChampionshipData] = useState<FootballData[]>([]);
-  // const [userLeagueOneData, setUserLeagueOneData] = useState<FootballData[]>([]);
-  // const [userLeagueTwoData, setUserLeagueTwoData] = useState<FootballData[]>([]);
-  // const [userChampData, setUserChampData] = useState<FootballData[]>([]);
-  // const [userEuroData, setUserEuroData] = useState<FootballData[]>([]);
- 
+  const [competitionTitle, setCompetitionTitle] = useState<string>("");
+  const [competitionBadge, setCompetitionBadge] = useState<string>("");
+
+  const [premData, setPremData] = useState<FixtureData[]>([]);
+  const [premStandingsData, setPremStandingsData] = useState<ClubTableData[]>([]);
+	const [premScorersData, setPremScorersData] = useState<PlayerTableData[]>([]);
 
 
   useEffect(() => {
 
     const key: string = import.meta.env.VITE_API_KEY;
 
-    let startDate: Date | string =  new Date();
-    startDate.setDate((startDate.getDate() - (startDate.getDay() + 4) % 7) -7);
+    let leagueStartDate: Date | string =  new Date();
+    leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
 
-    let endDate: Date | string = new Date();
-    endDate.setMonth(startDate.getMonth() + 2);
+    let leagueEndDate: Date | string = new Date();
+    leagueEndDate.setMonth(leagueStartDate.getMonth() + 2);
 
-    startDate = startDate.toISOString().slice(0,10);
-    endDate = endDate.toISOString().slice(0,10);
+    leagueStartDate = leagueStartDate.toISOString().slice(0,10);
+    leagueEndDate = leagueEndDate.toISOString().slice(0,10);
 
     const accessParams = {
       method: "GET",
@@ -58,52 +54,45 @@ const PremPage = ({ champData, searchChampData, euroData, searchEuroData, url }:
         'X-Auth-Token': key
       }
     }
-
-    const newPremRequest = fetch(`/api/v4/competitions/PL/matches?dateFrom=${startDate}&dateTo=${endDate}`, accessParams).then(res => res.json())
-    const premRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025").then(response => response.json());
-    const championshipRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4329&s=2024-2025").then(response => response.json());
-    const leagueOneRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4397&s=2024-2025").then(response => response.json());
-    const leagueTwoRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4396&s=2024-2025").then(response => response.json());
-
-    Promise.all([newPremRequest, premRequest, championshipRequest, leagueOneRequest, leagueTwoRequest])
-    .then(([dataNewPrem, dataPrem , dataChampionship, dataLeagueOne, dataLeagueTwo]) => {
-      setNewPremData(dataNewPrem.matches)
-      setPremData(dataPrem.events)
-      setChampionshipData(dataChampionship.events)
-      setLeagueOneData(dataLeagueOne.events)
-      setLeagueTwoData(dataLeagueTwo.events)
-    })
-    .catch((err) => console.log(err))
-
+      const premRequest = fetch(`/api/v4/competitions/PL/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
+      const premStandingsRequest = fetch(`/api/v4/competitions/PL/standings`, accessParams).then(res => res.json());
+      const premScorersRequest = fetch(`/api/v4/competitions/PL/scorers`, accessParams).then(res => res.json());
+  
+      Promise.all([premRequest, premStandingsRequest, premScorersRequest])
+      .then(([dataPrem, premStandingsData , premScorersData]) => {
+        setCompetitionTitle(dataPrem.competition.name);
+        setCompetitionBadge(dataPrem.competition.emblem);
+        setPremData(dataPrem.matches)
+        setPremStandingsData(premStandingsData.standings[0].table)
+        setPremScorersData(premScorersData.scorers)
+      })
+      .catch((err) => console.log(err))
+  
   }, [])
 
   console.log("Prem data in Component", premData) //test
-  console.log("championship data in Component", championshipData) //test
-  console.log("efl1 data in Component", leagueOneData) //test
-  console.log("efl2 data in Component", leagueTwoData) //test
-  console.log("New Prem Data with CORS issue resolved", newPremData);
   
-  const premWeekData = getPrimedFootballData(premData);
-  const newPremWeekData = getPrimedFixtureData(newPremData);
-  console.log("grouped new prem data",newPremWeekData)
+  const premWeekData = getPrimedFixtureData(premData);
+  console.log("grouped new prem data",premWeekData)
 
   return (
     <section>
       {premWeekData ? 
       <>
         <header className='header-img'>
-          <img className="league-logo" src={premData[0]?.strLeagueBadge} alt="LeagueBadge" />
+          <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
         </header>
 
-        <Carousel heading={premData[0]?.strLeague} data={premWeekData} searchData={premData} url={url}/>
-
-        <Carousel heading="UEFA Champions League" data={champData} searchData={searchChampData} url={url} />
-
-        <Carousel heading="UEFA Europa League" url={url} data={euroData} searchData={searchEuroData}/>
+        <Carousel heading={competitionTitle} data={premWeekData} searchData={premData}/>
       </>
       :
       <p>Loading...</p>
       }
+      <div className="table-container"> 
+        <StandingsTable tableData={premStandingsData} />
+
+        <PlayerTable tableData={premScorersData} />
+      </div>
     </section>
   )
 }

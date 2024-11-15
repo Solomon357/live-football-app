@@ -1,108 +1,94 @@
 import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
-import FootballData from '../type/FootballData';
-import { getPrimedFootballData, handleFootballSearch } from '../helperFunctions/helperFunctions';
+import { getPrimedFixtureData } from '../helperFunctions/helperFunctions';
+import FixtureData from '../type/NewFootballData';
+import { ClubTableData } from '../type/ClubTableData';
+import PlayerTableData from '../type/PlayerTableData';
+import StandingsTable from '../components/StandingsTable/StandingsTable';
+import PlayerTable from '../components/PlayerTable/PlayerTable';
 
-type LigueOnePagePropTypes = {
-  champData: FootballData[][],
-  euroData: FootballData[][],
-  searchChampData: FootballData[],
-  searchEuroData: FootballData[],
-  url?: string
-}
+// type LigueOnePagePropTypes = {
+//   champData: FootballData[][],
+//   euroData: FootballData[][],
+//   searchChampData: FootballData[],
+//   searchEuroData: FootballData[],
+//   url?: string
+// }
 //Domestic Competitions
   //  4334: Ligue 1 ID
   //  5203: France Première Ligue
   //  4401: French Ligue 2
 
-const LigueOnePage = ({champData, searchChampData, euroData, searchEuroData, url }: LigueOnePagePropTypes) => {
-  const [ligueOneData, setLigueOneData] = useState<FootballData[]>([]);
+const LigueOnePage = () => {
+  const [competitionTitle, setCompetitionTitle] = useState<string>("");
+  const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
-  const [userLigueOneData, setUserLigueOneData] = useState<FootballData[]>([]);
-  const [userChampData, setUserChampData] = useState<FootballData[]>([]);
-  const [userEuroData, setUserEuroData] = useState<FootballData[]>([]);
-  
-  const [leagueUserInput, setLeagueUserInput] = useState<string>("");
-  const [champUserInput, setChampUserInput] = useState<string>("");
-  const [euroUserInput, setEuroUserInput] = useState<string>("");
+  const [ligueOneData, setLigueOneData] = useState<FixtureData[]>([]);
+  const [ligueOneStandingsData, setLigueOneStandingsData] = useState<ClubTableData[]>([]);
+	const [ligueOneScorersData, setLigueOneScorersData] = useState<PlayerTableData[]>([]);
 
-  const [leagueBtnPress, setLeagueBtnPress] = useState<boolean>(false);
-  const [champBtnPress, setChampBtnPress] = useState<boolean>(false);
-  const [euroBtnPress, setEuroBtnPress] = useState<boolean>(false);
 
   useEffect(() => {
-    const ligueOneRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4334&s=2024-2025").then(response => response.json());
 
-    Promise.resolve(ligueOneRequest)
-    .then(data => setLigueOneData(data.events))
-    .catch((err) => console.log(err))
+    const key: string = import.meta.env.VITE_API_KEY;
 
+    let leagueStartDate: Date | string =  new Date();
+    leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
+
+    let leagueEndDate: Date | string = new Date();
+    leagueEndDate.setMonth(leagueStartDate.getMonth() + 2);
+
+    leagueStartDate = leagueStartDate.toISOString().slice(0,10);
+    leagueEndDate = leagueEndDate.toISOString().slice(0,10);
+
+    const accessParams = {
+      method: "GET",
+      headers: {
+        mode: "cors",
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'X-Auth-Token': key
+      }
+    }
+      const ligueOneRequest = fetch(`/api/v4/competitions/FL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
+      const ligueOneStandingsRequest = fetch(`/api/v4/competitions/FL1/standings`, accessParams).then(res => res.json());
+      const ligueOneScorersRequest = fetch(`/api/v4/competitions/FL1/scorers`, accessParams).then(res => res.json());
+  
+      Promise.all([ligueOneRequest, ligueOneStandingsRequest, ligueOneScorersRequest])
+      .then(([dataLigueOne, ligueOneStandingsData, ligueOneScorersData]) => {
+        setCompetitionTitle(dataLigueOne.competition.name);
+        setCompetitionBadge(dataLigueOne.competition.emblem);
+        setLigueOneData(dataLigueOne.matches)
+        setLigueOneStandingsData(ligueOneStandingsData.standings[0].table);
+        setLigueOneScorersData(ligueOneScorersData.scorers);
+      })
+      .catch((err) => console.log(err))
   }, [])
 
-  console.log("ligue one data in Component", ligueOneData) //test
-
-  const ligueOneWeekData = getPrimedFootballData(ligueOneData);
-  const userLigueOneWeekData = getPrimedFootballData(userLigueOneData);
+  console.log("Ligue One data in Component", ligueOneData) //test
   
-  const userChampWeekData = getPrimedFootballData(userChampData);
-  const userEuroWeekData = getPrimedFootballData(userEuroData);
-
-  const handleLeagueUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLeagueBtnPress(false)
-    setLeagueUserInput(e.target.value)
-  }
-  const handleChampUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChampBtnPress(false)
-    setChampUserInput(e.target.value)
-  }
-  const handleEuroUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEuroBtnPress(false)
-    setEuroUserInput(e.target.value)
-  }
-
-  const handleLeagueSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
-    setLeagueBtnPress(true)
-    setUserLigueOneData(handleFootballSearch(ligueOneData, leagueUserInput))
-  }
-  const handleChampSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
-    setChampBtnPress(true)
-    setUserChampData(handleFootballSearch(searchChampData, champUserInput))
-  }
-  const handleEuroSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
-    setEuroBtnPress(true)
-    setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
-  }
+  const ligueOneWeekData = getPrimedFixtureData(ligueOneData);
+  console.log("grouped new prem data",ligueOneWeekData)
 
   return (
     <section>
       {ligueOneWeekData ? 
       <>
         <header className='header-img'>
-          <img className="league-logo" src={ligueOneData[0]?.strLeagueBadge} alt="LeagueBadge" />
+          <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
         </header>
-        
-        <input type="text" placeholder='search Ligue teams...' onChange={handleLeagueUserInput} />
-        <button onClick={handleLeagueSearch}>Search</button>
 
-        <Carousel heading={ligueOneData[0]?.strLeague} url={url} data={leagueBtnPress ? userLigueOneWeekData : ligueOneWeekData}/>
-
-        <input type="text" placeholder='search UCL teams...' onChange={handleChampUserInput}/>
-        <button onClick={handleChampSearch}>Search</button>
-
-        <Carousel heading="UEFA Champions League" url={url} data={champBtnPress ? userChampWeekData : champData}/>
-
-        <input type="text" placeholder='search UEL teams...' onChange={handleEuroUserInput} />
-        <button onClick={handleEuroSearch}>Search</button>
-
-        <Carousel heading="UEFA Europa League" url={url} data={euroBtnPress ? userEuroWeekData : euroData}/>
+        <Carousel heading={competitionTitle} data={ligueOneWeekData} searchData={ligueOneData}/>
       </>
       :
       <p>Loading...</p>
       }
+      <div className="table-container"> 
+        <StandingsTable tableData={ligueOneStandingsData} />
+
+        <PlayerTable tableData={ligueOneScorersData} />
+      </div>
     </section>
   )
 }

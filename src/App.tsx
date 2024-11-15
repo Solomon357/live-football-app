@@ -1,8 +1,5 @@
-import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { getFilteredFootballData, getPrimedFootballData} from './helperFunctions/helperFunctions';
 import './App.scss';
-import FootballData from './type/FootballData';
 import Navbar from './components/Navbar/Navbar';
 import PremPage from './containers/PremPage';
 import SerieAPage from './containers/SerieAPage';
@@ -30,29 +27,29 @@ import HomePage from './containers/HomePage';
     //  - https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=2024-2025
 
 function App() {
-  const [champData, setChampData] = useState<FootballData[]>([]);
-  const [europaData, setEuropaData] = useState<FootballData[]>([]);
+  // const [champData, setChampData] = useState<FootballData[]>([]);
+  // const [europaData, setEuropaData] = useState<FootballData[]>([]);
 
-  useEffect(()=> {
-    const champRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2024-2025").then(response => response.json());
-    const europaRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4481&s=2024-2025").then(response => response.json());
+  // useEffect(()=> {
+  //   const champRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4480&s=2024-2025").then(response => response.json());
+  //   const europaRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4481&s=2024-2025").then(response => response.json());
    
-    Promise.all([champRequest, europaRequest])
-      .then(([dataChamp, dataEuropa]) => {
-        setChampData(dataChamp.events)
-        setEuropaData(dataEuropa.events)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+  //   Promise.all([champRequest, europaRequest])
+  //     .then(([dataChamp, dataEuropa]) => {
+  //       setChampData(dataChamp.events)
+  //       setEuropaData(dataEuropa.events)
+  //     })
+  //     .catch((err) => console.log(err))
+  // }, [])
 
   // console.log("Europa data in state", europaData) //test
   // console.log("Champ data in state", champData) //test
  
-  const filteredChampData = getFilteredFootballData(champData)
-  const filteredEuropaData = getFilteredFootballData(europaData)
+  // const filteredChampData = getFilteredFootballData(champData)
+  // const filteredEuropaData = getFilteredFootballData(europaData)
  
-  const champWeekData = getPrimedFootballData(champData); 
-  const europaWeekData = getPrimedFootballData(europaData);
+  // const champWeekData = getPrimedFootballData(champData); 
+  // const europaWeekData = getPrimedFootballData(europaData);
 
   //testing without return
   // groupFootballData(filteredPremData)
@@ -63,61 +60,55 @@ function App() {
 
   //atm its just showing the top league of a country followed by international comps, later ill make it so each country shows top 3 leagues
   return (
-    <>
-     {champWeekData && europaWeekData ?
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route 
-            path='/' 
-            element={<HomePage />}
-          />
-          <Route 
-            path='/live-football-app/england-leagues' 
-            element={<PremPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={"england-leagues"}  />}
-          />
-          <Route 
-            path='/live-football-app/england-leagues/:id' 
-            element={<MatchDayCardInfo />}
-          />
-          <Route 
-            path='/live-football-app/italy-leagues' 
-            element={<SerieAPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'italy-leagues'} />}
-          />
-          <Route 
-            path='/live-football-app/italy-leagues/:id' 
-            element={<MatchDayCardInfo />}
-          />
-          <Route 
-            path='/live-football-app/france-leagues' 
-            element={<LigueOnePage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'france-leagues'} />}
-          />
-          <Route 
-            path='/live-football-app/france-leagues/:id' 
-            element={<MatchDayCardInfo />}
-          />
-          <Route 
-            path='/live-football-app/spain-leagues' 
-            element={<LaligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'spain-leagues'} />}
-          />
-          <Route 
-            path='/live-football-app/spain-leagues/:id' 
-            element={<MatchDayCardInfo />}
-          />
-          <Route 
-            path='/live-football-app/germany-leagues' 
-            element={<BundesligaPage champData={champWeekData} searchChampData={filteredChampData} euroData={europaWeekData} searchEuroData={filteredEuropaData} url={'germany-leagues'} />}
-          />
-          <Route 
-            path='/live-football-app/germany-leagues/:id' 
-            element={<MatchDayCardInfo />}
-          />
-        </Routes>
-      </BrowserRouter>
-      : 
-      <p>loading ...</p>
-      }
-    </>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route 
+          path='/' 
+          element={<HomePage />}
+        />
+        <Route 
+          path='/live-football-app/england-leagues' 
+          element={<PremPage />}
+        />
+        <Route 
+          path='/live-football-app/england-leagues/:id' 
+          element={<MatchDayCardInfo />}
+        />
+        <Route 
+          path='/live-football-app/italy-leagues' 
+          element={<SerieAPage />}
+        />
+        <Route 
+          path='/live-football-app/italy-leagues/:id' 
+          element={<MatchDayCardInfo />}
+        />
+        <Route 
+          path='/live-football-app/france-leagues' 
+          element={<LigueOnePage />}
+        />
+        <Route 
+          path='/live-football-app/france-leagues/:id' 
+          element={<MatchDayCardInfo />}
+        />
+        <Route 
+          path='/live-football-app/spain-leagues' 
+          element={<LaligaPage />}
+        />
+        <Route 
+          path='/live-football-app/spain-leagues/:id' 
+          element={<MatchDayCardInfo />}
+        />
+        <Route 
+          path='/live-football-app/germany-leagues' 
+          element={<BundesligaPage />}
+        />
+        <Route 
+          path='/live-football-app/germany-leagues/:id' 
+          element={<MatchDayCardInfo />}
+        />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

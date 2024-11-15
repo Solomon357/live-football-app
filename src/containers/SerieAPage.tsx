@@ -1,104 +1,93 @@
 import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
-import FootballData from '../type/FootballData';
-import { getPrimedFootballData, handleFootballSearch } from '../helperFunctions/helperFunctions';
+import { getPrimedFixtureData } from '../helperFunctions/helperFunctions';
+import FixtureData from '../type/NewFootballData';
+import { ClubTableData } from '../type/ClubTableData';
+import PlayerTableData from '../type/PlayerTableData';
+import StandingsTable from '../components/StandingsTable/StandingsTable';
+import PlayerTable from '../components/PlayerTable/PlayerTable';
 
-type SerieAPagePropTypes = {
-  champData: FootballData[][],
-  euroData: FootballData[][],
-  searchChampData: FootballData[],
-  searchEuroData: FootballData[],
-  url?: string
-}
+// type SerieAPagePropTypes = {
+//   champData: FootballData[][],
+//   euroData: FootballData[][],
+//   searchChampData: FootballData[],
+//   searchEuroData: FootballData[],
+//   url?: string
+// }
 
-  //Domestic Competitions
-  //  4332: Serie A ID
-  //  4394: Italian Serie B
-  //  5340: Italian Serie C Girone A
-const SerieAPage = ({ champData, searchChampData, euroData, searchEuroData, url }: SerieAPagePropTypes) => {
-  const [serieAData, setSerieAData] = useState<FootballData[]>([]);
+const SerieAPage = () => {
+  const [competitionTitle, setCompetitionTitle] = useState<string>("");
+  const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
-  const [userSerieAData, setUserSerieAData] = useState<FootballData[]>([]);
-  const [userChampData, setUserChampData] = useState<FootballData[]>([]);
-  const [userEuroData, setUserEuroData] = useState<FootballData[]>([]);
- 
-  const [leagueUserInput, setLeagueUserInput] = useState<string>("");
-  const [champUserInput, setChampUserInput] = useState<string>("");
-  const [euroUserInput, setEuroUserInput] = useState<string>("");
+  const [serieAData, setSerieAData] = useState<FixtureData[]>([]);
+  const [serieAStandingsData, setSerieAStandingsData] = useState<ClubTableData[]>([]);
+	const [serieAScorersData, setSerieAScorersData] = useState<PlayerTableData[]>([]);
 
-  const [leagueBtnPress, setLeagueBtnPress] = useState<boolean>(false);
-  const [champBtnPress, setChampBtnPress] = useState<boolean>(false);
-  const [euroBtnPress, setEuroBtnPress] = useState<boolean>(false);
 
   useEffect(() => {
-    const serieARequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4332&s=2024-2025").then(response => response.json());
+    const key: string = import.meta.env.VITE_API_KEY;
 
-    Promise.resolve(serieARequest)
-    .then(data => setSerieAData(data.events))
-    .catch((err) => console.log(err))
+    let leagueStartDate: Date | string =  new Date();
+    leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
+
+    let leagueEndDate: Date | string = new Date();
+    leagueEndDate.setMonth(leagueStartDate.getMonth() + 2);
+
+    leagueStartDate = leagueStartDate.toISOString().slice(0,10);
+    leagueEndDate = leagueEndDate.toISOString().slice(0,10);
+
+    const accessParams = {
+      method: "GET",
+      headers: {
+        mode: "cors",
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'X-Auth-Token': key
+      }
+    }
+      const serieARequest = fetch(`/api/v4/competitions/SA/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
+      const serieAStandingsRequest = fetch(`/api/v4/competitions/SA/standings`, accessParams).then(res => res.json());
+      const serieAScorersRequest = fetch(`/api/v4/competitions/SA/scorers`, accessParams).then(res => res.json());
+  
+      Promise.all([serieARequest, serieAStandingsRequest, serieAScorersRequest])
+      .then(([dataSerieA, serieAStandingsData , serieAScorersData]) => {
+        setCompetitionTitle(dataSerieA.competition.name);
+        setCompetitionBadge(dataSerieA.competition.emblem);
+        setSerieAData(dataSerieA.matches)
+        setSerieAStandingsData(serieAStandingsData.standings[0].table)
+        setSerieAScorersData(serieAScorersData.scorers)
+      })
+      .catch((err) => console.log(err))
   }, [])
   
   console.log("serie A data in Component", serieAData) //test
 
-  const serieAWeekData = getPrimedFootballData(serieAData);
-  const userSerieAWeekData = getPrimedFootballData(userSerieAData);
-  const userChampWeekData = getPrimedFootballData(userChampData);
-  const userEuroWeekData = getPrimedFootballData(userEuroData);
-
-
-  const handleLeagueUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLeagueBtnPress(false)
-    setLeagueUserInput(e.target.value)
-  }
-  const handleChampUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChampBtnPress(false)
-    setChampUserInput(e.target.value)
-  }
-  const handleEuroUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEuroBtnPress(false)
-    setEuroUserInput(e.target.value)
-  }
-
-  const handleLeagueSearch = () => {
-    setLeagueBtnPress(true)
-    setUserSerieAData(handleFootballSearch(serieAData, leagueUserInput))
-  }
-  const handleChampSearch = () => {
-    setChampBtnPress(true)
-    setUserChampData(handleFootballSearch(searchChampData, champUserInput))
-  }
-  const handleEuroSearch = () => {
-    setEuroBtnPress(true)
-    setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
-  }
+  const serieAWeekData = getPrimedFixtureData(serieAData);
+  console.log("grouped new prem data",serieAWeekData);
 
   return (
     <section>
     {serieAWeekData ?
     <>
       <header className='header-img'>
-        <img className="league-logo" src={serieAData[0]?.strLeagueBadge} alt="LeagueBadge" />
+        <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
       </header>
-      <input type="text" placeholder='search Serie teams...' onChange={handleLeagueUserInput}/>
-      <button onClick={handleLeagueSearch}>Search</button>
 
-      <Carousel heading={serieAData[0]?.strLeague} url={url} data={leagueBtnPress ? userSerieAWeekData : serieAWeekData}/>
+      <Carousel heading={competitionTitle} data={serieAWeekData} searchData={serieAData}/>
 
 
-      <input type="text" placeholder='search UCL teams...' onChange={handleChampUserInput} />
-      <button onClick={handleChampSearch}>Search</button>
-
-      <Carousel heading="UEFA Champions League" url={url} data={champBtnPress ? userChampWeekData : champData}/>
-
-      <input type="text" placeholder='search UEL teams...' onChange={handleEuroUserInput} />
-      <button onClick={handleEuroSearch}>Search</button>
-
-      <Carousel heading="UEFA Europa League" url={url} data={euroBtnPress ? userEuroWeekData : euroData}/>
+      
     </>
     :
     <p>Loading...</p>
     }
+
+    <div className="table-container"> 
+      <StandingsTable tableData={serieAStandingsData} />
+
+      <PlayerTable tableData={serieAScorersData} />
+    </div>
   </section>
   )
 }

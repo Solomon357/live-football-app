@@ -1,109 +1,89 @@
 import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
-import FootballData from '../type/FootballData';
-import { getPrimedFootballData, handleFootballSearch } from '../helperFunctions/helperFunctions';
+import { getPrimedFixtureData } from '../helperFunctions/helperFunctions';
+import FixtureData from '../type/NewFootballData';
+import { ClubTableData } from '../type/ClubTableData';
+import PlayerTableData from '../type/PlayerTableData';
+import StandingsTable from '../components/StandingsTable/StandingsTable';
+import PlayerTable from '../components/PlayerTable/PlayerTable';
 
-type BundesligaPagePropTypes = {
-  champData: FootballData[][],
-  euroData: FootballData[][],
-  searchChampData: FootballData[],
-  searchEuroData: FootballData[],
-  url?: string
-}
+// type BundesligaPagePropTypes = {
+//   champData: FootballData[][],
+//   euroData: FootballData[][],
+//   searchChampData: FootballData[],
+//   searchEuroData: FootballData[],
+//   url?: string
+// }
 
-  //Domestic Competitions
-  //  4331: BundesLiga ID
-  //  4399: German 2. Bundesliga"
-const BundesligaPage = ({ champData, searchChampData, euroData, searchEuroData, url }: BundesligaPagePropTypes) => {
-  const [bundesligaData, setBundesligaData] = useState<FootballData[]>([]);
+const BundesligaPage = () => {
+  const [competitionTitle, setCompetitionTitle] = useState<string>("");
+  const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
-  const [userBundesligaData, setUserBundesligaData] = useState<FootballData[]>([]);
-  const [userChampData, setUserChampData] = useState<FootballData[]>([]);
-  const [userEuroData, setUserEuroData] = useState<FootballData[]>([]);
-  
-  const [leagueUserInput, setLeagueUserInput] = useState<string>("");
-  const [champUserInput, setChampUserInput] = useState<string>("");
-  const [euroUserInput, setEuroUserInput] = useState<string>("");
-
-  const [leagueBtnPress, setLeagueBtnPress] = useState<boolean>(false);
-  const [champBtnPress, setChampBtnPress] = useState<boolean>(false);
-  const [euroBtnPress, setEuroBtnPress] = useState<boolean>(false);
-
-    useEffect(() => {
-      const bundesligaRequest = fetch("https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4331&s=2024-2025").then(response => response.json());
-  
-      Promise.resolve(bundesligaRequest)
-      .then(data => setBundesligaData(data.events))
-      .catch((err) => console.log(err))
-  
-    }, [])
-
-    console.log("la liga data in Component", bundesligaData) //test
-
-  const bundesligaWeekData = getPrimedFootballData(bundesligaData);
-  const userBundesligaWeekData = getPrimedFootballData(userBundesligaData);
-
-  const userChampWeekData = getPrimedFootballData(userChampData);
-
-  const userEuroWeekData = getPrimedFootballData(userEuroData);
+  const [bundesligaData, setBundesligaData] = useState<FixtureData[]>([]);
+  const [bundesligaStandingsData, setBundesligaStandingsData] = useState<ClubTableData[]>([]);
+	const [bundesligaScorersData, setBundesligaScorersData] = useState<PlayerTableData[]>([]);
 
 
-  const handleLeagueUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLeagueBtnPress(false)
-    setLeagueUserInput(e.target.value)
-  }
-  const handleChampUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChampBtnPress(false)
-    setChampUserInput(e.target.value)
-  }
-  const handleEuroUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEuroBtnPress(false)
-    setEuroUserInput(e.target.value)
-  }
+  useEffect(() => {
+    const key: string = import.meta.env.VITE_API_KEY;
 
-  const handleLeagueSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
-    setLeagueBtnPress(true)
-    setUserBundesligaData(handleFootballSearch(bundesligaData, leagueUserInput))
-  }
-  const handleChampSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
-    setChampBtnPress(true)
-    setUserChampData(handleFootballSearch(searchChampData, champUserInput))
-  }
-  const handleEuroSearch = () => {
-    //I want to only display the match cards that contains the userInput teams
-    setEuroBtnPress(true)
-    setUserEuroData(handleFootballSearch(searchEuroData, euroUserInput))
-  }
+    let leagueStartDate: Date | string =  new Date();
+    leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
+
+    let leagueEndDate: Date | string = new Date();
+    leagueEndDate.setMonth(leagueStartDate.getMonth() + 2);
+
+    leagueStartDate = leagueStartDate.toISOString().slice(0,10);
+    leagueEndDate = leagueEndDate.toISOString().slice(0,10);
+
+    const accessParams = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'X-Auth-Token': key
+      }
+    }
+
+    const bundesligaRequest = fetch(`/api/v4/competitions/BL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
+    const bundesligaStandingsRequest = fetch(`/api/v4/competitions/BL1/standings`, accessParams).then(res => res.json());
+    const bundesligaScorersRequest = fetch(`/api/v4/competitions/BL1/scorers`, accessParams).then(res => res.json());
+
+    Promise.all([bundesligaRequest, bundesligaStandingsRequest, bundesligaScorersRequest])
+    .then(([dataBundesliga, bundesligaStandingsData, bundesligaScorersData]) => {
+      setCompetitionTitle(dataBundesliga.competition.name);
+      setCompetitionBadge(dataBundesliga.competition.emblem);
+      setBundesligaData(dataBundesliga.matches)
+      setBundesligaStandingsData(bundesligaStandingsData.standings[0].table)
+      setBundesligaScorersData(bundesligaScorersData.scorers)
+    })
+    .catch((err) => console.log(err))
+
+  }, [])
+
+  console.log("bundesliga data in Component", bundesligaData) //test
+
+  const bundesligaWeekData = getPrimedFixtureData(bundesligaData);
+  console.log("grouped new prem data",bundesligaWeekData)
 
   return (
     <section>
       {bundesligaWeekData ? 
       <>
         <header className='header-img'>
-          <img className="league-logo" src={bundesligaData[0]?.strLeagueBadge} alt="LeagueBadge" />
+          <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
         </header>
-        
-        <input type="text" placeholder='search BL teams...' onChange={handleLeagueUserInput} onKeyDown={(e) => e.key === "Enter" ? handleLeagueSearch : ""}/>
-        <button onClick={handleLeagueSearch}>Search</button>
 
-        <Carousel heading={bundesligaData[0]?.strLeague} url={url} data={leagueBtnPress ? userBundesligaWeekData : bundesligaWeekData}/>
-
-        <input type="text" placeholder='search UCL teams...' onChange={handleChampUserInput}/>
-        <button onClick={handleChampSearch}>Search</button>
-
-        <Carousel heading="UEFA Champions League" url={url} data={champBtnPress ? userChampWeekData : champData}/>
-
-        <input type="text" placeholder='search UEL teams...' onChange={handleEuroUserInput} />
-        <button onClick={handleEuroSearch}>Search</button>
-
-        <Carousel heading="UEFA Europa League" url={url} data={euroBtnPress ? userEuroWeekData : euroData}/>
+        <Carousel heading={competitionTitle} data={bundesligaWeekData} searchData={bundesligaData}/>
       </>
       :
       <p>Loading...</p>
       }
+      <div className="table-container"> 
+        <StandingsTable tableData={bundesligaStandingsData} />
+
+        <PlayerTable tableData={bundesligaScorersData} />
+      </div>
     </section>
   )
 }
