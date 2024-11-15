@@ -1,4 +1,4 @@
-import { ClubTableData } from "../../type/ClubTableData"
+import { ClubTableData } from "../../type/ClubData"
 import './StandingsTable.scss'
 
 type ClubTablePropTypes = {

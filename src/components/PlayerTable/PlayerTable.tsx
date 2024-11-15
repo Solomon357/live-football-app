@@ -1,4 +1,4 @@
-import PlayerTableData from "../../type/PlayerTableData"
+import PlayerTableData from "../../type/PlayerData"
 import './PlayerTable.scss'
 
  type PlayerTablePropTypes = {

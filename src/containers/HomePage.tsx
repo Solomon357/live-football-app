@@ -5,13 +5,13 @@ import HomeBadge from "../assets/homepage-badge.png";
 // import RightArrow from "../assets/right-arrow.png";
 // import MatchWeekCard from "../components/MatchWeekCard/MatchWeekCard";
 import { useEffect, useState } from "react";
-import FixtureData from "../type/NewFootballData";
+import FixtureData from "../type/FixtureData";
 import { getPrimedFixtureData } from "../helperFunctions/helperFunctions";
 import StandingsTable from "../components/StandingsTable/StandingsTable";
-import { ClubTableData } from "../type/ClubTableData";
-import PlayerTableData from "../type/PlayerTableData";
+import { ClubData } from "../type/ClubData";
 import PlayerTable from "../components/PlayerTable/PlayerTable";
 import Carousel from '../components/Carousel/Carousel';
+import PlayerData from '../type/PlayerData';
 
 const HomePage = () => {
 	const data = [1,2,3,4,5,6,7,8,9];
@@ -20,8 +20,8 @@ const HomePage = () => {
   // const [sliceEnd, setSliceEnd] = useState<number>(2);
 
 	const [champMatchData, setChampMatchData] = useState<FixtureData[]>([]);
-	const [champStandingsData, setChampStandingsData] = useState<ClubTableData[]>([]);
-	const [champScorersData, setChampScorersData] = useState<PlayerTableData[]>([]);
+	const [champStandingsData, setChampStandingsData] = useState<ClubData[]>([]);
+	const [champScorersData, setChampScorersData] = useState<PlayerData[]>([]);
 	const [competitionTitle, setCompetitionTitle] = useState<string>("");
 	// const [premData, setPremData] = useState<FixtureData[]>([]);
 

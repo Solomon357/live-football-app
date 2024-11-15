@@ -1,5 +1,5 @@
-import FootballData from '../../type/FootballData';
-import FixtureData from '../../type/NewFootballData';
+import FootballData from '../../type/FixtureData';
+import FixtureData from '../../type/FixtureData';
 import './MatchDayCard.scss';
 
 type MatchDayCardPropTypes = {

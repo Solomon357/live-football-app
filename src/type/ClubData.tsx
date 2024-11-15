@@ -5,7 +5,7 @@
   id: number
 }
 
-export type ClubTableData = {
+export type ClubData = {
   position: number,
   playedGames: number,
   won: number,

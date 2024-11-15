@@ -3,9 +3,9 @@ import leftArrow from "../../assets/left-arrow.png";
 import rightArrow from "../../assets/right-arrow.png";
 import MatchWeekCard from '../MatchWeekCard/MatchWeekCard';
 import { useState } from "react";
-import FootballData from "../../type/FootballData";
+import FootballData from "../../type/FixtureData";
 import { getPrimedFixtureData, getPrimedFootballData, handleFixtureSearch, handleFootballSearch } from "../../helperFunctions/helperFunctions";
-import FixtureData from "../../type/NewFootballData";
+import FixtureData from "../../type/FixtureData";
 
 type CarouselPropTypes = {
   heading: string,

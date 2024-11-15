@@ -4,9 +4,9 @@ import Carousel from '../components/Carousel/Carousel';
 import { getPrimedFixtureData } from '../helperFunctions/helperFunctions';
 import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
-import FixtureData from '../type/NewFootballData';
-import { ClubTableData } from '../type/ClubTableData';
-import PlayerTableData from '../type/PlayerTableData';
+import FixtureData from '../type/FixtureData';
+import { ClubData } from '../type/ClubData';
+import PlayerData from '../type/PlayerData';
 
 
 // type LaligaPagePropTypes = {
@@ -27,8 +27,8 @@ const LaligaPage = () => {
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
   const [laLigaData, setLaLigaData] = useState<FixtureData[]>([]);
-  const [laLigaStandingsData, setLaLigaStandingsData] = useState<ClubTableData[]>([]);
-	const [laLigaScorersData, setLaLigaScorersData] = useState<PlayerTableData[]>([]);
+  const [laLigaStandingsData, setLaLigaStandingsData] = useState<ClubData[]>([]);
+	const [laLigaScorersData, setLaLigaScorersData] = useState<PlayerData[]>([]);
 
 
     useEffect(() => {

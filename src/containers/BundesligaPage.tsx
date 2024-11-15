@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
 import { getPrimedFixtureData } from '../helperFunctions/helperFunctions';
-import FixtureData from '../type/NewFootballData';
-import { ClubTableData } from '../type/ClubTableData';
-import PlayerTableData from '../type/PlayerTableData';
+import FixtureData from '../type/FixtureData';
+import { ClubData } from '../type/ClubData';
 import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
+import PlayerData from '../type/PlayerData';
 
 // type BundesligaPagePropTypes = {
 //   champData: FootballData[][],
@@ -21,8 +21,8 @@ const BundesligaPage = () => {
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
   const [bundesligaData, setBundesligaData] = useState<FixtureData[]>([]);
-  const [bundesligaStandingsData, setBundesligaStandingsData] = useState<ClubTableData[]>([]);
-	const [bundesligaScorersData, setBundesligaScorersData] = useState<PlayerTableData[]>([]);
+  const [bundesligaStandingsData, setBundesligaStandingsData] = useState<ClubData[]>([]);
+	const [bundesligaScorersData, setBundesligaScorersData] = useState<PlayerData[]>([]);
 
 
   useEffect(() => {

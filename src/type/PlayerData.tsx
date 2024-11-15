@@ -1,4 +1,4 @@
-import { Team } from "./ClubTableData"
+import { Team } from "./ClubData"
 
 type Player = {
   name: string,
@@ -6,7 +6,7 @@ type Player = {
   id: number
 }
 
-type PlayerTableData = {
+type PlayerData = {
   assists: number | null,
   goals: number,
   penalties: number,
@@ -15,4 +15,4 @@ type PlayerTableData = {
   team: Team
 }
 
-export default PlayerTableData
+export default PlayerData;
