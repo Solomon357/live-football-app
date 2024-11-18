@@ -17,23 +17,23 @@ const cleanFixtureData = (anyData: FixtureData[]): FixtureData[] => {
 const groupFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
   // console.log("im here with data", anyData) //test
   const groupedData = [];
-  const startIndex:number = anyData[0]?.matchday;
-  const endIndex:number = anyData[anyData.length -1]?.matchday; 
+  const startIndex: number = anyData[0]?.matchday;
+  const endIndex: number = anyData[anyData.length -1]?.matchday; 
 
   for(let i = startIndex; i <= endIndex; i++){
     //getting an array where all the matches are related by given gameweek
-    const gameWeekData = anyData.filter((fixture) => { 
+    const dataByMatchWeek = anyData.filter((fixture) => { 
       if(i === fixture.matchday){
         return fixture;
       }
     })
-    groupedData.push(gameWeekData)
+    groupedData.push(dataByMatchWeek)
   }
   return groupedData;
 }
 
-export const handleFixtureSearch = (anyData: FixtureData[], userInput: string) => {
-  return anyData.filter((userData) => {
+export const handleFixtureSearch = (anyData: FixtureData[], userInput: string): FixtureData[][] => {
+  const filteredSearchData = anyData.filter((userData) => {
     if (userInput.toLowerCase() === userData?.homeTeam.name.toLowerCase() || 
         userInput.toLowerCase() === userData?.awayTeam.name.toLowerCase() || 
         userData?.homeTeam.name.toLowerCase().includes(userInput.toLowerCase()) || 
@@ -42,6 +42,9 @@ export const handleFixtureSearch = (anyData: FixtureData[], userInput: string) =
       return userData;
     }
   })
+
+  return getPrimedFixtureData(filteredSearchData);
+
 }
 
 export const getPrimedFixtureData = (anyData: FixtureData[]): FixtureData[][] => {

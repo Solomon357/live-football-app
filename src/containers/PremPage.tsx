@@ -70,7 +70,7 @@ const PremPage = () => {
   
   }, [])
 
-  console.log("Prem data in Component", premData) //test
+  // console.log("Prem data in Component", premData) //test
   
   const premWeekData = getPrimedFixtureData(premData);
   console.log("grouped new prem data",premWeekData)

@@ -3,8 +3,7 @@ import leftArrow from "../../assets/left-arrow.png";
 import rightArrow from "../../assets/right-arrow.png";
 import MatchWeekCard from '../MatchWeekCard/MatchWeekCard';
 import { useState } from "react";
-import FootballData from "../../type/FixtureData";
-import { getPrimedFixtureData, getPrimedFootballData, handleFixtureSearch, handleFootballSearch } from "../../helperFunctions/helperFunctions";
+import { handleFixtureSearch } from "../../helperFunctions/helperFunctions";
 import FixtureData from "../../type/FixtureData";
 
 type CarouselPropTypes = {
@@ -49,10 +48,12 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
   const handleLeagueSearch = () => {
     setIsSearch(true)
     const userSearchResult = handleFixtureSearch(searchData, userInput);
-    setUserSearchData(getPrimedFixtureData(userSearchResult))
+    console.log("search results: ",userSearchResult) // test
+    setUserSearchData(userSearchResult);
+    
   }
 
-  const displayedData = userSearchData.length ? userSearchData.slice(sliceStart, sliceEnd) : data.slice(sliceStart, sliceEnd);
+  const displayedData = isSearch ? userSearchData.slice(sliceStart, sliceEnd) : data.slice(sliceStart, sliceEnd);
 
   return (
     <div className="carousel-search-container">
@@ -70,11 +71,11 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
             <img src={leftArrow} alt="left-arrow" />
           </button>
 
-          {displayedData.map((gameWeekData, i) => {
+          {displayedData ? displayedData.map((gameWeekData, i) => {
             if (gameWeekData.length){
               return (
-                <div key={i} className="carousel-container__matchweek-info">
-                  <h3>Game Week {gameWeekData[i]?.matchday}</h3>
+                <div key={gameWeekData[0]?.id} className="carousel-container__matchweek-info">
+                  <h3>Game Week {gameWeekData[0]?.matchday}</h3>
                   <MatchWeekCard data={gameWeekData} url={url} />
                 </div>
               )
@@ -86,7 +87,12 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
                 <p>No Games this week</p>
               </div>
             ) 
-          })}
+          }) : 
+            <div className="carousel-container__matchweek-info">
+              <h3>Error</h3>
+              <p>Please try refreshing the page</p>
+            </div>
+          }
 
           <button className="carousel-container__rightbtn" onClick={handleIncrement}>
             <img src={rightArrow} alt="right-arrow" />
