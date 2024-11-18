@@ -25,6 +25,10 @@ function App() {
           element={<HomePage />}
         />
         <Route 
+          path='/live-football-app/europe-leagues/:id' 
+          element={<MatchDayCardInfo />}
+        />
+        <Route 
           path='/live-football-app/england-leagues' 
           element={<PremPage />}
         />

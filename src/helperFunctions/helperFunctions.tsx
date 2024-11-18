@@ -22,12 +22,12 @@ const groupFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
 
   for(let i = startIndex; i <= endIndex; i++){
     //getting an array where all the matches are related by given gameweek
-    const dataByMatchWeek = anyData.filter((fixture) => { 
+    const dataByGameWeek = anyData.filter((fixture) => { 
       if(i === fixture.matchday){
         return fixture;
       }
     })
-    groupedData.push(dataByMatchWeek)
+    groupedData.push(dataByGameWeek)
   }
   return groupedData;
 }

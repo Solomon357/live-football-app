@@ -10,10 +10,9 @@ type CarouselPropTypes = {
   heading: string,
   searchData: FixtureData[],
   data: FixtureData[][],
-  url?:string
 }
 
-const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
+const Carousel = ({ heading, data, searchData }: CarouselPropTypes) => {
   const [page, setPage] = useState<number>(1);
 
   const [userInput, setUserInput] = useState<string>("");
@@ -59,7 +58,7 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
     <div className="carousel-search-container">
 
       <div className="search-container">
-        <input type="text" placeholder='search League teams...' onChange={handleLeagueUserInput} />
+        <input type="text" placeholder='Search league teams...' onChange={handleLeagueUserInput} />
         <button onClick={handleLeagueSearch}>Search</button>
       </div>
 
@@ -76,7 +75,7 @@ const Carousel = ({ heading, data, searchData, url }: CarouselPropTypes) => {
               return (
                 <div key={gameWeekData[0]?.id} className="carousel-container__matchweek-info">
                   <h3>Game Week {gameWeekData[0]?.matchday}</h3>
-                  <MatchWeekCard data={gameWeekData} url={url} />
+                  <MatchWeekCard data={gameWeekData} />
                 </div>
               )
             }  

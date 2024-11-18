@@ -8,14 +8,6 @@ import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
 import PlayerData from '../type/PlayerData';
 
-// type BundesligaPagePropTypes = {
-//   champData: FootballData[][],
-//   euroData: FootballData[][],
-//   searchChampData: FootballData[],
-//   searchEuroData: FootballData[],
-//   url?: string
-// }
-
 const BundesligaPage = () => {
   const [competitionTitle, setCompetitionTitle] = useState<string>("");
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
@@ -64,7 +56,7 @@ const BundesligaPage = () => {
   console.log("bundesliga data in Component", bundesligaData) //test
 
   const bundesligaWeekData = getPrimedFixtureData(bundesligaData);
-  console.log("grouped new prem data",bundesligaWeekData)
+  console.log("grouped bundesliga data",bundesligaWeekData) // test
 
   return (
     <section>
@@ -79,13 +71,16 @@ const BundesligaPage = () => {
       :
       <p>Loading...</p>
       }
-      <div className="table-container"> 
+      <div className="all-tables-container"> 
         <StandingsTable tableData={bundesligaStandingsData} />
 
         <PlayerTable tableData={bundesligaScorersData} />
       </div>
+
+      <a href="#top" className='link-to-top'>back to top</a>
+      
     </section>
   )
 }
 
-export default BundesligaPage
+export default BundesligaPage;

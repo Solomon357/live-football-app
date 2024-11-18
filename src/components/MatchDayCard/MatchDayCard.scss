@@ -1,5 +1,7 @@
+
+
 .matchday-card {
-    font-size: x-small;
+    font-size: small;
     text-align: center;
     padding: .4%;
     margin: .4%;
@@ -11,13 +13,16 @@
     }
     &__main-info-container{
         display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-        &--verses{
+        &--main{
+            font-size: medium;
+            font-weight: 600;
             margin-bottom: 0;
             display: flex;
-            flex-direction: column;
-            width: 50%;
-            margin-right: 8%;
+            justify-content: center;
+            align-items: center;
         }
         &--teams {
             margin: 2%; 
@@ -27,20 +32,24 @@
         }
 
         &--score-card {
-            width: 40%;
-            display: block;
-            padding: 2%;
-            border-left: 1px solid rgb(94, 93, 93);
-            span {
-                display: block;
-            }
+            background-color: rgb(143, 31, 31);
+            // border: 1px solid white;
+            border-radius: 5px;
+            display: flex;
+            padding: 0px 3% 0px;   
         }
 
+        &--time-card {
+            border: 1px solid white;
+            border-radius: 5px;
+            display: flex;
+            padding: 0px 3% 0px;   
+        }
     }
     
     &__time{
         margin: 0;
-        font-size: xx-small;
+        font-size: small;
         color: darkgrey;
     }
 }

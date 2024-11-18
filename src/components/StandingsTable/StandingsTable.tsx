@@ -1,31 +1,31 @@
-import { ClubTableData } from "../../type/ClubData"
+import { ClubData } from '../../type/ClubData'
 import './StandingsTable.scss'
 
 type ClubTablePropTypes = {
-  tableData: ClubTableData[]
+  tableData: ClubData[]
 }
 
 const StandingsTable = ({ tableData }: ClubTablePropTypes) => {
 
   return (
-    <table>
+    <table className='table-container'>
       <thead>
         <tr>
-          <th>Position</th>
+          <th>Pos</th>
           <th>Club</th>
-          <th>Played</th>
-          <th>Won</th>
-          <th>Drawn</th>
-          <th>Lost</th>
+          <th>PL</th>
+          <th>W</th>
+          <th>D</th>
+          <th>L</th>
           <th>GF</th>
           <th>GA</th>
           <th>GD</th>
-          <th>Points</th>
+          <th>PTS</th>
         </tr>
       </thead>
       <tbody>
         {tableData.map((clubs) => (
-          <tr key={clubs.team.id}>
+          <tr key={clubs.team.id} className='table-row'>
             <td>{clubs.position}</td>
             <td><img src={clubs.team.crest} alt="teamBadge" width={"15px"} height={"15px"} /> {clubs.team.shortName}</td>
             <td>{clubs.playedGames}</td>
@@ -35,7 +35,7 @@ const StandingsTable = ({ tableData }: ClubTablePropTypes) => {
             <td>{clubs.goalsFor}</td>
             <td>{clubs.goalsAgainst}</td>
             <td>{clubs.goalDifference}</td>
-            <td>{clubs.points}</td>
+            <td className='points-data'>{clubs.points}</td>
           </tr>
         ))}
       </tbody>
@@ -44,4 +44,4 @@ const StandingsTable = ({ tableData }: ClubTablePropTypes) => {
   )
 }
 
-export default StandingsTable
+export default StandingsTable;

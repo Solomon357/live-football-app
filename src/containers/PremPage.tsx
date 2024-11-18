@@ -8,20 +8,6 @@ import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
 import PlayerData from '../type/PlayerData';
 
-// type PremPagePropType = {
-//   champData: FootballData[][],
-//   euroData: FootballData[][],
-//   searchChampData: FootballData[],
-//   searchEuroData: FootballData[],
-//   url?: string
-// }
-
-
-  //Domestic Competitions
-  //  4328: Prem ID
-  //  4329: EFL Championship ID
-  //  4397: English League 2
-  //  4396: English League 3
 const PremPage = () => {
 
   const [competitionTitle, setCompetitionTitle] = useState<string>("");
@@ -48,35 +34,34 @@ const PremPage = () => {
     const accessParams = {
       method: "GET",
       headers: {
-        mode: "cors",
-        Accept: "application/json",
         "Content-Type": "application/json",
         'X-Auth-Token': key
       }
     }
-      const premRequest = fetch(`/api/v4/competitions/PL/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
-      const premStandingsRequest = fetch(`/api/v4/competitions/PL/standings`, accessParams).then(res => res.json());
-      const premScorersRequest = fetch(`/api/v4/competitions/PL/scorers`, accessParams).then(res => res.json());
-  
-      Promise.all([premRequest, premStandingsRequest, premScorersRequest])
-      .then(([dataPrem, premStandingsData , premScorersData]) => {
-        setCompetitionTitle(dataPrem.competition.name);
-        setCompetitionBadge(dataPrem.competition.emblem);
-        setPremData(dataPrem.matches)
-        setPremStandingsData(premStandingsData.standings[0].table)
-        setPremScorersData(premScorersData.scorers)
-      })
-      .catch((err) => console.log(err))
+
+    const premRequest = fetch(`/api/v4/competitions/PL/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
+    const premStandingsRequest = fetch(`/api/v4/competitions/PL/standings`, accessParams).then(res => res.json());
+    const premScorersRequest = fetch(`/api/v4/competitions/PL/scorers?limit=20`, accessParams).then(res => res.json());
+
+    Promise.all([premRequest, premStandingsRequest, premScorersRequest])
+    .then(([dataPrem, premStandingsData , premScorersData]) => {
+      setCompetitionTitle(dataPrem.competition.name);
+      setCompetitionBadge(dataPrem.competition.emblem);
+      setPremData(dataPrem.matches)
+      setPremStandingsData(premStandingsData.standings[0].table)
+      setPremScorersData(premScorersData.scorers)
+    })
+    .catch((err) => console.log(err))
   
   }, [])
 
-  // console.log("Prem data in Component", premData) //test
+  console.log("Prem data in Component", premData) //test
   
   const premWeekData = getPrimedFixtureData(premData);
-  console.log("grouped new prem data",premWeekData)
+  console.log("grouped prem data", premWeekData) //test
 
   return (
-    <section>
+    <section className='section-body'>
       {premWeekData ? 
       <>
         <header className='header-img'>
@@ -88,11 +73,14 @@ const PremPage = () => {
       :
       <p>Loading...</p>
       }
-      <div className="table-container"> 
+      <div className="all-tables-container"> 
         <StandingsTable tableData={premStandingsData} />
 
         <PlayerTable tableData={premScorersData} />
       </div>
+
+      <a href="#top" className='link-to-top'>back to top</a>
+      
     </section>
   )
 }

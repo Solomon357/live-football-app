@@ -8,7 +8,7 @@ import './PlayerTable.scss'
 const PlayerTable = ({ tableData }: PlayerTablePropTypes) => {
 
   return (
-    <table>
+    <table className="player-table">
       <thead>
         <tr>
           <th>Pos</th>

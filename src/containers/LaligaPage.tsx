@@ -7,19 +7,6 @@ import PlayerTable from '../components/PlayerTable/PlayerTable';
 import FixtureData from '../type/FixtureData';
 import { ClubData } from '../type/ClubData';
 import PlayerData from '../type/PlayerData';
-
-
-// type LaligaPagePropTypes = {
-//   champData: FootballData[][],
-//   euroData: FootballData[][],
-//   searchChampData: FootballData[],
-//   searchEuroData: FootballData[],
-//   url?: string
-// }
-  //Domestic Competitions
-  //  4335: LaLiga ID
-  //  5106: Spanish Liga F
-  //  4400: La Liga 2
   
 const LaligaPage = () => {
 
@@ -30,52 +17,48 @@ const LaligaPage = () => {
   const [laLigaStandingsData, setLaLigaStandingsData] = useState<ClubData[]>([]);
 	const [laLigaScorersData, setLaLigaScorersData] = useState<PlayerData[]>([]);
 
+  useEffect(() => {
+    const key: string = import.meta.env.VITE_API_KEY;
 
-    useEffect(() => {
-      const key: string = import.meta.env.VITE_API_KEY;
+    let leagueStartDate: Date | string =  new Date();
+    leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
 
-      let leagueStartDate: Date | string =  new Date();
-      leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
-  
-      let leagueEndDate: Date | string = new Date();
-      leagueEndDate.setMonth(leagueStartDate.getMonth() + 2);
-  
-      leagueStartDate = leagueStartDate.toISOString().slice(0,10);
-      leagueEndDate = leagueEndDate.toISOString().slice(0,10);
-  
-      const accessParams = {
-        method: "GET",
-        headers: {
-          mode: "cors",
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'X-Auth-Token': key
-        }
+    let leagueEndDate: Date | string = new Date();
+    leagueEndDate.setMonth(leagueStartDate.getMonth() + 2);
+
+    leagueStartDate = leagueStartDate.toISOString().slice(0,10);
+    leagueEndDate = leagueEndDate.toISOString().slice(0,10);
+
+    const accessParams = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'X-Auth-Token': key
       }
-        const laLigaRequest = fetch(`/api/v4/competitions/PD/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
-        const laLigaStandingsRequest = fetch(`/api/v4/competitions/PD/standings`, accessParams).then(res => res.json());
-        const laLigaScorersRequest = fetch(`/api/v4/competitions/PD/scorers`, accessParams).then(res => res.json());
-    
-        Promise.all([laLigaRequest, laLigaStandingsRequest, laLigaScorersRequest])
-        .then(([dataLaLiga, laLigaStandingsData, laLigaScorersData]) => {
-          setCompetitionTitle(dataLaLiga.competition.name);
-          setCompetitionBadge(dataLaLiga.competition.emblem);
-          setLaLigaData(dataLaLiga.matches)
-          setLaLigaStandingsData(laLigaStandingsData.standings[0].table)
-          setLaLigaScorersData(laLigaScorersData.scorers)
-        })
-        .catch((err) => console.log(err))
-    
-    }, [])
+    }
+    const laLigaRequest = fetch(`/api/v4/competitions/PD/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
+    const laLigaStandingsRequest = fetch(`/api/v4/competitions/PD/standings`, accessParams).then(res => res.json());
+    const laLigaScorersRequest = fetch(`/api/v4/competitions/PD/scorers`, accessParams).then(res => res.json());
 
-    console.log("la liga data in Component", laLigaData) //test
+    Promise.all([laLigaRequest, laLigaStandingsRequest, laLigaScorersRequest])
+    .then(([dataLaLiga, laLigaStandingsData, laLigaScorersData]) => {
+      setCompetitionTitle(dataLaLiga.competition.name);
+      setCompetitionBadge(dataLaLiga.competition.emblem);
+      setLaLigaData(dataLaLiga.matches)
+      setLaLigaStandingsData(laLigaStandingsData.standings[0].table)
+      setLaLigaScorersData(laLigaScorersData.scorers)
+    })
+    .catch((err) => console.log(err))
+  
+  }, [])
 
-    const laLigaWeekData = getPrimedFixtureData(laLigaData);
-    console.log("grouped new prem data",laLigaWeekData)
+  console.log("la liga data in Component", laLigaData) //test
 
+  const laLigaWeekData = getPrimedFixtureData(laLigaData);
+  console.log("grouped la liga data", laLigaWeekData)
 
   return (
-    <section>
+    <section className='section-body'>
       {laLigaWeekData ? 
       <>
         <header className='header-img'>
@@ -87,13 +70,18 @@ const LaligaPage = () => {
       :
       <p>Loading...</p>
       }
-      <div className="table-container"> 
+      <div className="all-tables-container"> 
         <StandingsTable tableData={laLigaStandingsData} />
 
         <PlayerTable tableData={laLigaScorersData} />
       </div>
+
+      <a href="#top" className='link-to-top'>back to top</a>
+      
     </section>
+
+    
   )
 }
 
-export default LaligaPage
+export default LaligaPage;

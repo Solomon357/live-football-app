@@ -1,4 +1,6 @@
-
+.section-body{
+    margin: 0 2% 0;
+}
 .header-img{
     display: flex;
     justify-content: center;
@@ -10,7 +12,82 @@
     height: 200px;
 }
 
-.table-container {
+.link-to-top {
+    text-align: center;
+    text-decoration: none;
+    margin: 5%;
+    font-size: larger;
+}
+
+.link-to-top:hover {
+    transition: all 0.4s;
+    font-weight: 600;
+}
+
+.all-tables-container {
     display: flex;
     justify-content: space-around;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-radius: 10px;
+    border-style: hidden; /* hide standard table (collapsed) border */
+    box-shadow: 0 0 0 3px white;
+}
+  
+thead th:nth-child(1) {
+    width: 5%;
+}
+
+thead th:nth-child(2) {
+    width:20%;
+}
+
+thead th:nth-child(3) {
+    width: 5%;
+}
+
+thead th:nth-child(4) {
+    width: 5%;
+}
+thead th:nth-child(5) {
+    width: 5%;
+}
+thead th:nth-child(6) {
+    width: 5%;
+}
+thead th:nth-child(7) {
+    width: 5%;
+}
+thead th:nth-child(8) {
+    width: 5%;
+}
+thead th:nth-child(9) {
+    width: 5%;
+}
+thead th:nth-child(10) {
+    width: 5%;
+}
+
+th {
+    border-bottom: 2px solid white;
+    padding: 2% 0 2%;
+}
+
+tbody td {
+    text-align: center;
+}
+
+tbody tr {
+    border-bottom: 2px solid white;
+}
+
+td {
+    padding: 20px;
+}
+
+.points-data {
+    font-weight: 700;
 }
