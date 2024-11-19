@@ -22,23 +22,25 @@ const MatchDayCard = ({ data, linkID }: MatchDayCardPropTypes) => {
 
           <div className='matchday-card__main-info-container--teams'>
             <span>{data.homeTeam.tla}</span>
-            <img src={data.homeTeam.crest} alt="homeBadge" height={'20px'} width={'20px'} />
+            <img className="team-badge" src={data.homeTeam.crest} alt="homeBadge" height={'20px'} width={'20px'} />
           </div>
           
-          {new Date(data.utcDate).getTime() <= new Date(currentTime).getTime() ?
+          {new Date(data.utcDate).getTime() <= new Date(currentTime).getTime() && data.status !== "POSTPONED" ?
             <div className='matchday-card__main-info-container--score-card'>
-              <span>{data.score.fullTime.home ? data.score.fullTime.home : data.score.halfTime.home ? data.score.halfTime.home : 0}</span>
-              <span> - </span>
-              <span>{data.score.fullTime.away ? data.score.fullTime.away : data.score.halfTime.away ? data.score.halfTime.away : 0}</span>
+              <span>{data.score.fullTime.home ? data.score.fullTime.home : data.score.halfTime.home ? data.score.halfTime.home : 0} - {data.score.fullTime.away ? data.score.fullTime.away : data.score.halfTime.away ? data.score.halfTime.away : 0}</span>
             </div>
-          :
+          : new Date(data.utcDate).getTime() > new Date(currentTime).getTime()  ?
           <div className='matchday-card__main-info-container--time-card'>
             <p className='matchday-card__time'>{data.utcDate?.slice(11,16)} KO</p>
-          </div>  
+          </div> 
+          :
+          <div className='matchday-card__main-info-container--score-card'>
+            <span>N - A</span>
+          </div> 
           }
 
           <div className='matchday-card__main-info-container--teams'>
-            <img src={data.awayTeam.crest} alt="awayBadge" height={'20px'} width={'20px'} />
+            <img className="team-badge" src={data.awayTeam.crest} alt="awayBadge" height={'20px'} width={'20px'} />
             <span>{data.awayTeam.tla}</span>
           </div>
         </div>

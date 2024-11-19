@@ -1,4 +1,4 @@
-
+@import '../../mixins/mixin.scss';
 
 .matchday-card {
     font-size: small;
@@ -25,10 +25,8 @@
             align-items: center;
         }
         &--teams {
-            margin: 2%; 
-            display: flex;
-            justify-content: flex-start;
-            flex-flow: row;
+            margin: 2%;
+            @include center-img-text;
         }
 
         &--score-card {

@@ -1,3 +1,9 @@
+@import '../../mixins/mixin.scss';
+
 .player-table {
   height: fit-content;
+}
+
+.table-column {
+  @include center-img-text;
 }

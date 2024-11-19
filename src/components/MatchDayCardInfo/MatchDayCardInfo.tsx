@@ -1,47 +1,64 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import VenueData from "../../type/VenueData"
 //import FootballData from "../../type/FootballData"
 import './MatchDayCard.scss'
+import FixtureData from "../../type/FixtureData";
 
 
 const MatchDayCardInfo = () => {
-  const[venueData, setVenueData] = useState({} as VenueData)
-  //const[eventData, setEventData] = useState({} as FootballData)
+  const navigate = useNavigate();
+
+  const[eventData, setEventData] = useState({} as FixtureData)
+ 
   const { id } = useParams();
   
   useEffect(()=> {
-    const venueRequest = fetch(`https://www.thesportsdb.com/api/v1/json/3/lookupvenue.php?id=${id}`).then(response => response.json());
-  
-    Promise.resolve(venueRequest)
-    .then(data => setVenueData(data.venues[0] ? data.venues[0] : []))
-    .catch((err) => console.log(err))
+    const key: string = import.meta.env.VITE_API_KEY;
 
-  }, [id])
+    const accessParams = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'X-Auth-Token': key
+      }
+    }
+    const eventRequest = fetch(`/api/v4/matches/${id}`, accessParams).then(response => response.json());
+  
+    Promise.resolve(eventRequest)
+    .then(data => setEventData(data))
+    .catch((err) => {
+      console.log(err);
+      navigate("/timeout", {state:{prevURL: window.location.href}});
+    })
+
+  }, [id, navigate])
+
+  console.log("particular match info: ", eventData);
 
   return (
     <section>
-      {Object.keys(venueData).length ?
+      {eventData ?
         <>
           <h1>Home Team Ground</h1>
           <div className="venue-card">
-            <h2 className="venue-card__venue-header">{venueData.strVenue}</h2>
-            {venueData.strWebsite ?
-              <a href={"https://" + venueData.strWebsite} target="_blank">Click here for more info!</a>
+            {/* <h2 className="venue-card__venue-header">{eventData?.competition.name}</h2> */}
+            {/* {eventData.strWebsite ?
+              <a href={"https://" + eventData.strWebsite} target="_blank">Click here for more info!</a>
               :
               ""
-            }
+            } 
     
-            <img src={venueData.strThumb} alt="stadiumPic" width={"80%"} height={"20%"} />
+            <img src={eventData.strThumb} alt="stadiumPic" width={"80%"} height={"20%"} />
     
-            <p>Location: <span className="venue-card__venue-metadata">{venueData.strLocation}</span></p>
-            <p>Capacity: <span className="venue-card__venue-metadata">{venueData.intCapacity}</span></p>
+            <p>Location: <span className="venue-card__venue-metadata">{eventData.strLocation}</span></p>
+            <p>Capacity: <span className="venue-card__venue-metadata">{eventData.intCapacity}</span></p>
     
             <article className="venue-card__venue-desc">
-              <h3>About {venueData.strVenue}</h3>
-              <p>{venueData.strDescriptionEN}</p>
+              <h3>About {eventData.strVenue}</h3>
+              <p>{eventData.strDescriptionEN}</p>
             </article>
-          </div>
+            */}
+          </div> 
         </>
         :
         <div className="venue-card venue-card__venue-no-data">

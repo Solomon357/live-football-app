@@ -1,0 +1,5 @@
+@import '../../mixins/mixin.scss';
+
+.table-column {
+  @include center-img-text;
+}

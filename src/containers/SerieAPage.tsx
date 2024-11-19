@@ -7,8 +7,12 @@ import { ClubData } from '../type/ClubData';
 import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
 import PlayerData from '../type/PlayerData';
+import { useNavigate } from 'react-router-dom';
+
 
 const SerieAPage = () => {
+  const navigate = useNavigate();
+
   const [competitionTitle, setCompetitionTitle] = useState<string>("");
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
@@ -38,7 +42,7 @@ const SerieAPage = () => {
     }
       const serieARequest = fetch(`/api/v4/competitions/SA/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
       const serieAStandingsRequest = fetch(`/api/v4/competitions/SA/standings`, accessParams).then(res => res.json());
-      const serieAScorersRequest = fetch(`/api/v4/competitions/SA/scorers`, accessParams).then(res => res.json());
+      const serieAScorersRequest = fetch(`/api/v4/competitions/SA/scorers?limit=20`, accessParams).then(res => res.json());
   
       Promise.all([serieARequest, serieAStandingsRequest, serieAScorersRequest])
       .then(([dataSerieA, serieAStandingsData , serieAScorersData]) => {
@@ -48,8 +52,11 @@ const SerieAPage = () => {
         setSerieAStandingsData(serieAStandingsData.standings[0].table);
         setSerieAScorersData(serieAScorersData.scorers);
       })
-      .catch((err) => console.log(err))
-  }, [])
+      .catch((err) => {
+        console.log(err);
+        navigate("/timeout", {state:{prevURL: window.location.href}});
+      })
+  }, [navigate])
   
   console.log("serie A data in Component", serieAData); //test
 
@@ -58,23 +65,25 @@ const SerieAPage = () => {
 
   return (
     <section className='section-body'>
-    {serieAWeekData ?
-    <>
-      <header className='header-img'>
-        <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
-      </header>
+    {serieAWeekData.length ?
+      <>
+        <header className='header-img'>
+          <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
+        </header>
 
-      <Carousel heading={competitionTitle} data={serieAWeekData} searchData={serieAData}/>
-    </>
-    :
-    <p>Loading...</p>
+        <Carousel heading={competitionTitle} data={serieAWeekData} searchData={serieAData}/>
+
+        <div className="all-tables-container"> 
+          <StandingsTable tableData={serieAStandingsData} />
+
+          <PlayerTable tableData={serieAScorersData} />
+        </div>
+
+        <a href="#top" className='navigate'>Back to top</a>
+      </>
+      :
+      <h1>Loading...</h1>
     }
-
-    <div className="all-tables-container"> 
-      <StandingsTable tableData={serieAStandingsData} />
-
-      <PlayerTable tableData={serieAScorersData} />
-    </div>
   </section>
   )
 }

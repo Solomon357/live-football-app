@@ -9,6 +9,7 @@ const StandingsTable = ({ tableData }: ClubTablePropTypes) => {
 
   return (
     <table className='table-container'>
+      <caption className='table-header'>24/25 Season</caption>
       <thead>
         <tr>
           <th>Pos</th>
@@ -27,14 +28,27 @@ const StandingsTable = ({ tableData }: ClubTablePropTypes) => {
         {tableData.map((clubs) => (
           <tr key={clubs.team.id} className='table-row'>
             <td>{clubs.position}</td>
-            <td><img src={clubs.team.crest} alt="teamBadge" width={"15px"} height={"15px"} /> {clubs.team.shortName}</td>
+            <td>
+              <div className='table-column'>
+                <img src={clubs.team.crest} alt="teamBadge" width={"20px"} height={"20px"} />
+                <span>{clubs.team.shortName}</span>
+              </div>
+            </td>
             <td>{clubs.playedGames}</td>
             <td>{clubs.won}</td>
             <td>{clubs.draw}</td>
             <td>{clubs.lost}</td>
             <td>{clubs.goalsFor}</td>
             <td>{clubs.goalsAgainst}</td>
-            <td>{clubs.goalDifference}</td>
+            <td>
+              {clubs.goalDifference > 0 ?
+                <span style={{color:"lightgreen"}}>+{clubs.goalDifference}</span>
+              : clubs.goalDifference === 0 ?
+                <span>{clubs.goalDifference}</span>
+              :
+                <span style={{color:"red"}}>{clubs.goalDifference}</span>
+              }
+              </td>
             <td className='points-data'>{clubs.points}</td>
           </tr>
         ))}

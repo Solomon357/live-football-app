@@ -7,8 +7,11 @@ import { ClubData } from '../type/ClubData';
 import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
 import PlayerData from '../type/PlayerData';
+import { useNavigate } from 'react-router-dom';
 
 const BundesligaPage = () => {
+  const navigate = useNavigate();
+
   const [competitionTitle, setCompetitionTitle] = useState<string>("");
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
@@ -39,7 +42,7 @@ const BundesligaPage = () => {
 
     const bundesligaRequest = fetch(`/api/v4/competitions/BL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
     const bundesligaStandingsRequest = fetch(`/api/v4/competitions/BL1/standings`, accessParams).then(res => res.json());
-    const bundesligaScorersRequest = fetch(`/api/v4/competitions/BL1/scorers`, accessParams).then(res => res.json());
+    const bundesligaScorersRequest = fetch(`/api/v4/competitions/BL1/scorers?limit=20`, accessParams).then(res => res.json());
 
     Promise.all([bundesligaRequest, bundesligaStandingsRequest, bundesligaScorersRequest])
     .then(([dataBundesliga, bundesligaStandingsData, bundesligaScorersData]) => {
@@ -49,9 +52,12 @@ const BundesligaPage = () => {
       setBundesligaStandingsData(bundesligaStandingsData.standings[0].table)
       setBundesligaScorersData(bundesligaScorersData.scorers)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      navigate("/timeout", {state:{prevURL: window.location.href}});
+    })
 
-  }, [])
+  }, [navigate])
 
   console.log("bundesliga data in Component", bundesligaData) //test
 
@@ -60,25 +66,25 @@ const BundesligaPage = () => {
 
   return (
     <section>
-      {bundesligaWeekData ? 
-      <>
-        <header className='header-img'>
-          <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
-        </header>
+      { bundesligaWeekData.length ? 
+        <>
+          <header className='header-img'>
+            <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
+          </header>
 
-        <Carousel heading={competitionTitle} data={bundesligaWeekData} searchData={bundesligaData}/>
-      </>
-      :
-      <p>Loading...</p>
+          <Carousel heading={competitionTitle} data={bundesligaWeekData} searchData={bundesligaData}/>
+
+          <div className="all-tables-container"> 
+            <StandingsTable tableData={bundesligaStandingsData} />
+
+            <PlayerTable tableData={bundesligaScorersData} />
+          </div>
+
+          <a href="#top" className='navigate'>Back to top</a>
+        </>
+        :
+        <h1>Loading...</h1>
       }
-      <div className="all-tables-container"> 
-        <StandingsTable tableData={bundesligaStandingsData} />
-
-        <PlayerTable tableData={bundesligaScorersData} />
-      </div>
-
-      <a href="#top" className='link-to-top'>back to top</a>
-      
     </section>
   )
 }

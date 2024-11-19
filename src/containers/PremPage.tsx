@@ -7,9 +7,10 @@ import { ClubData } from '../type/ClubData';
 import StandingsTable from '../components/StandingsTable/StandingsTable';
 import PlayerTable from '../components/PlayerTable/PlayerTable';
 import PlayerData from '../type/PlayerData';
+import { useNavigate } from 'react-router-dom';
 
 const PremPage = () => {
-
+  const navigate = useNavigate();
   const [competitionTitle, setCompetitionTitle] = useState<string>("");
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
 
@@ -51,7 +52,10 @@ const PremPage = () => {
       setPremStandingsData(premStandingsData.standings[0].table)
       setPremScorersData(premScorersData.scorers)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      navigate("/timeout", {state:{prevURL: window.location.href}});
+    })
   
   }, [])
 
@@ -62,25 +66,25 @@ const PremPage = () => {
 
   return (
     <section className='section-body'>
-      {premWeekData ? 
-      <>
-        <header className='header-img'>
-          <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
-        </header>
+      {premWeekData.length ? 
+        <>
+          <header className='header-img'>
+            <img className="league-logo" src={competitionBadge} alt="LeagueBadge" />
+          </header>
 
-        <Carousel heading={competitionTitle} data={premWeekData} searchData={premData}/>
-      </>
-      :
-      <p>Loading...</p>
+          <Carousel heading={competitionTitle} data={premWeekData} searchData={premData}/>
+
+          <div className="all-tables-container"> 
+            <StandingsTable tableData={premStandingsData} />
+
+            <PlayerTable tableData={premScorersData} />
+          </div>
+
+          <a href="#top" className='navigate'>Back to top</a>
+        </>
+        :
+        <h1>Loading...</h1>
       }
-      <div className="all-tables-container"> 
-        <StandingsTable tableData={premStandingsData} />
-
-        <PlayerTable tableData={premScorersData} />
-      </div>
-
-      <a href="#top" className='link-to-top'>back to top</a>
-      
     </section>
   )
 }

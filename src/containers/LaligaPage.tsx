@@ -7,8 +7,10 @@ import PlayerTable from '../components/PlayerTable/PlayerTable';
 import FixtureData from '../type/FixtureData';
 import { ClubData } from '../type/ClubData';
 import PlayerData from '../type/PlayerData';
+import { useNavigate } from 'react-router-dom';
   
 const LaligaPage = () => {
+  const navigate = useNavigate();
 
   const [competitionTitle, setCompetitionTitle] = useState<string>("");
   const [competitionBadge, setCompetitionBadge] = useState<string>("");
@@ -36,9 +38,10 @@ const LaligaPage = () => {
         'X-Auth-Token': key
       }
     }
+
     const laLigaRequest = fetch(`/api/v4/competitions/PD/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
     const laLigaStandingsRequest = fetch(`/api/v4/competitions/PD/standings`, accessParams).then(res => res.json());
-    const laLigaScorersRequest = fetch(`/api/v4/competitions/PD/scorers`, accessParams).then(res => res.json());
+    const laLigaScorersRequest = fetch(`/api/v4/competitions/PD/scorers?limit=20`, accessParams).then(res => res.json());
 
     Promise.all([laLigaRequest, laLigaStandingsRequest, laLigaScorersRequest])
     .then(([dataLaLiga, laLigaStandingsData, laLigaScorersData]) => {
@@ -48,9 +51,12 @@ const LaligaPage = () => {
       setLaLigaStandingsData(laLigaStandingsData.standings[0].table)
       setLaLigaScorersData(laLigaScorersData.scorers)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      navigate("/timeout", {state:{prevURL: window.location.href}});
+    })
   
-  }, [])
+  }, [navigate])
 
   console.log("la liga data in Component", laLigaData) //test
 
@@ -59,25 +65,26 @@ const LaligaPage = () => {
 
   return (
     <section className='section-body'>
-      {laLigaWeekData ? 
-      <>
-        <header className='header-img'>
-          <img className="league-logo"src={competitionBadge} alt="LeagueBadge" />
-        </header>
+      {laLigaWeekData.length ? 
+        <>
+          <header className='header-img'>
+            <img className="league-logo"src={competitionBadge} alt="LeagueBadge" />
+          </header>
 
-        <Carousel heading={competitionTitle} data={laLigaWeekData} searchData={laLigaData}/>
-      </>
-      :
-      <p>Loading...</p>
+          <Carousel heading={competitionTitle} data={laLigaWeekData} searchData={laLigaData}/>
+
+          <div className="all-tables-container"> 
+            <StandingsTable tableData={laLigaStandingsData} />
+
+            <PlayerTable tableData={laLigaScorersData} />
+          </div>
+
+          <a href="#top" className='navigate'>Back to top</a>
+        </>
+        :
+        <h1>Loading...</h1>
       }
-      <div className="all-tables-container"> 
-        <StandingsTable tableData={laLigaStandingsData} />
 
-        <PlayerTable tableData={laLigaScorersData} />
-      </div>
-
-      <a href="#top" className='link-to-top'>back to top</a>
-      
     </section>
 
     

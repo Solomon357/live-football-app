@@ -8,6 +8,7 @@ import LaligaPage from './containers/LaligaPage';
 import BundesligaPage from './containers/BundesligaPage';
 import MatchDayCardInfo from './components/MatchDayCardInfo/MatchDayCardInfo';
 import HomePage from './containers/HomePage';
+import TimeoutPage from './containers/TimeoutPage';
 
 //TODO:
 //  1. create error pages for when too many requests are called  and for when theres any other error with the fetch req
@@ -67,6 +68,10 @@ function App() {
         <Route 
           path='/live-football-app/germany-leagues/:id' 
           element={<MatchDayCardInfo />}
+        />
+        <Route 
+          path='/timeout' 
+          element={<TimeoutPage />}
         />
       </Routes>
     </BrowserRouter>

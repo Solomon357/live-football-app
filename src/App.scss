@@ -1,27 +1,17 @@
 .section-body{
     margin: 0 2% 0;
 }
+
 .header-img{
     display: flex;
     justify-content: center;
     margin-bottom: 5%;
     margin-top: 2%;
 }
+
 .league-logo {
     width: 200px;
     height: 200px;
-}
-
-.link-to-top {
-    text-align: center;
-    text-decoration: none;
-    margin: 5%;
-    font-size: larger;
-}
-
-.link-to-top:hover {
-    transition: all 0.4s;
-    font-weight: 600;
 }
 
 .all-tables-container {
@@ -35,6 +25,12 @@ table {
     border-radius: 10px;
     border-style: hidden; /* hide standard table (collapsed) border */
     box-shadow: 0 0 0 3px white;
+}
+caption {
+    font-weight: 700;
+    font-size:x-large;
+    text-align: left;
+    margin: 4% 0;
 }
   
 thead th:nth-child(1) {
@@ -77,7 +73,7 @@ th {
 }
 
 tbody td {
-    text-align: center;
+    text-align: left;
 }
 
 tbody tr {
@@ -90,4 +86,55 @@ td {
 
 .points-data {
     font-weight: 700;
+}
+
+.timer {
+    text-align: center;
+    font-size: x-large;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px white;
+    border-radius: 7px;
+    width: fit-content;
+    padding: .8%;
+    margin: auto;
+    margin-bottom: 3%;
+}
+
+.timeout-para {
+    text-align: center;
+    vertical-align: middle;
+    font-size: larger;
+    margin-bottom: 3%;
+}
+
+.timeout-disabled {
+    text-decoration: none;
+    font-size: medium;
+    border-radius: 7px;
+    margin: auto;
+    width:fit-content;
+    padding: 1%;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px grey;
+    background-color: gray;
+}
+
+.navigate {
+    text-decoration: none;
+    font-size: medium;
+    border-radius: 7px;
+    margin: auto;
+    margin-top: 5%;
+    cursor: pointer;
+    width:fit-content;
+    padding: 1%;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px white;
+}
+
+.navigate:hover {
+    transition: all 0.3s;
+    background-color: white;
+    color: black;
+
 }

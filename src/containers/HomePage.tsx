@@ -8,8 +8,10 @@ import { ClubData } from "../type/ClubData";
 import PlayerTable from "../components/PlayerTable/PlayerTable";
 import Carousel from '../components/Carousel/Carousel';
 import PlayerData from '../type/PlayerData';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+	const navigate = useNavigate();
 	const [champMatchData, setChampMatchData] = useState<FixtureData[]>([]);
 	const [champStandingsData, setChampStandingsData] = useState<ClubData[]>([]);
 	const [champScorersData, setChampScorersData] = useState<PlayerData[]>([]);
@@ -51,9 +53,12 @@ const HomePage = () => {
       setChampStandingsData(champStandingsData.standings[0].table)
       setChampScorersData(champScorersData.scorers)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+			console.log(err);
+			navigate("/timeout", {state:{prevURL: window.location.href}});
+		})
 
-  }, [])
+  }, [navigate])
 
 	const groupedChampMatchData = getPrimedFixtureData(champMatchData);
 
@@ -64,29 +69,29 @@ const HomePage = () => {
 
 	return (
 		<section className='section-body'>
-			{groupedChampMatchData ? 
-			<>
-				<header className='header-img'>
-					<img className="league-logo" src={HomeBadge} alt="HomeBadge" />
-				</header>
+			{groupedChampMatchData.length ? 
+				<>
+					<header className='header-img'>
+						<img className="league-logo" src={HomeBadge} alt="HomeBadge" />
+					</header>
 
-				<section>
-					<h2>{competitionTitle}</h2>
+					<section>
+						<h2>{competitionTitle}</h2>
 
-					<Carousel heading={competitionTitle} data={groupedChampMatchData} searchData={champMatchData} />
+						<Carousel heading={competitionTitle} data={groupedChampMatchData} searchData={champMatchData} />
 
-					<div className="all-tables-container"> 
-						<StandingsTable tableData={champStandingsData} />
+						<div className="all-tables-container"> 
+							<StandingsTable tableData={champStandingsData} />
 
-						<PlayerTable tableData={champScorersData} />
-					</div>
+							<PlayerTable tableData={champScorersData} />
+						</div>
 
-					<a href="#top" className='link-to-top'>back to top</a>
-					
-				</section>
-			</>
-			:
-			<p>Loading...</p>
+						<a href="#top" className='navigate'>Back to top</a>
+						
+					</section>
+				</>
+				:
+				<h1>Loading...</h1>
 			}
 		</section>
 	)
