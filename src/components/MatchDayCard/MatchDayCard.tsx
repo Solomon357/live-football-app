@@ -29,7 +29,7 @@ const MatchDayCard = ({ data, linkID }: MatchDayCardPropTypes) => {
             <div className='matchday-card__main-info-container--score-card'>
               <span>{data.score.fullTime.home ? data.score.fullTime.home : data.score.halfTime.home ? data.score.halfTime.home : 0} - {data.score.fullTime.away ? data.score.fullTime.away : data.score.halfTime.away ? data.score.halfTime.away : 0}</span>
             </div>
-          : new Date(data.utcDate).getTime() > new Date(currentTime).getTime()  ?
+          : new Date(data.utcDate).getTime() > new Date(currentTime).getTime() ?
           <div className='matchday-card__main-info-container--time-card'>
             <p className='matchday-card__time'>{data.utcDate?.slice(11,16)} KO</p>
           </div> 
@@ -45,7 +45,7 @@ const MatchDayCard = ({ data, linkID }: MatchDayCardPropTypes) => {
           </div>
         </div>
 
-        <Link to={linkID}>More info</Link>
+        <Link to={linkID} state={data} className='matchday-card__main-info-container--more-info-btn'>More info</Link>
       </div>
     </div> 
   )

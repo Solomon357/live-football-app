@@ -63,7 +63,7 @@ const Carousel = ({ heading, data, searchData }: CarouselPropTypes) => {
       </div>
 
       <div className="carousel-container">
-        <h2>{heading}</h2>
+        <h2 className="carousel-container__heading">{heading} Scores & Fixtures</h2>
         <div className="carousel-container__carousel-row">
 
           <button className="carousel-container__leftbtn" onClick={handleDecrement}>
@@ -74,7 +74,7 @@ const Carousel = ({ heading, data, searchData }: CarouselPropTypes) => {
             if (gameWeekData.length){
               return (
                 <div key={gameWeekData[0]?.id} className="carousel-container__matchweek-info">
-                  <h3>Game Week {gameWeekData[0]?.matchday}</h3>
+                  <h3 className="carousel-container__matchweek-info--subheading">Game Week {gameWeekData[0]?.matchday}</h3>
                   <MatchWeekCard data={gameWeekData} />
                 </div>
               )

@@ -57,7 +57,7 @@ const PremPage = () => {
       navigate("/timeout", {state:{prevURL: window.location.href}});
     })
   
-  }, [])
+  }, [navigate])
 
   console.log("Prem data in Component", premData) //test
   

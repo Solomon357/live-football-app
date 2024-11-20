@@ -10,7 +10,9 @@ const cleanFixtureData = (anyData: FixtureData[]): FixtureData[] => {
     matchday: data.matchday,
     score: data.score,
     status: data.status,
-    utcDate: data.utcDate
+    utcDate: data.utcDate,
+    lastUpdated: data.lastUpdated,
+    referees: data.referees
   }))
 }
 

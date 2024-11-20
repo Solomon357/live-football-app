@@ -27,19 +27,18 @@ const MatchWeekCard = ({ data }: MatchWeekCardPropType) => {
       leagueURL = "france-leagues"
       break;
     case "Europe":
-      leagueURL = "europe-leagues"
-    
+      leagueURL = "europe-leagues"  
   }
   
-return (
-  <section className='matchweek-container'>
-    {data.map((matchDayData) => {
-      return (
-        <MatchDayCard key={matchDayData.id} data={matchDayData} linkID={`/live-football-app/${leagueURL}/${matchDayData.id}`}/>
-      )
-    })}
-  </section>
-)
+  return (
+    <section className='matchweek-container'>
+      {data.map((matchDayData) => {
+        return (
+          <MatchDayCard key={matchDayData.id} data={matchDayData} linkID={`/live-football-app/${leagueURL}/${matchDayData.id}`}/>
+        )
+      })}
+    </section>
+  )
 }
 
 export default MatchWeekCard;

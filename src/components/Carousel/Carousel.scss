@@ -7,6 +7,12 @@
     margin: 2% 0 5%;
     height: fit-content;
 
+    &__heading {
+        text-align: left;
+        color: rgba(255, 255, 255, 0.87);
+        margin-bottom: 2%;
+    }
+
     &__leftbtn,
     &__rightbtn {
         background-color: transparent;
@@ -30,5 +36,9 @@
     &__matchweek-info {
         display: block;
         width: 48%;
+
+        &--subheading {
+            color: rgba(255, 255, 255, 0.87);
+        }
     }
 }

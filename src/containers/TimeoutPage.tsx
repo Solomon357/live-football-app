@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import '../App.scss';
 const TimeoutPage = () => {
   const [seconds, setSeconds] = useState<number>(60);
   const location = useLocation();
@@ -35,7 +35,7 @@ const TimeoutPage = () => {
 
         <p className="timer">{seconds}</p>
 
-        <p className="timeout-disabled" >As you were</p>
+        <p className="timeout-disabled" >Go Back</p>
       </>
       :
       <>
@@ -49,7 +49,7 @@ const TimeoutPage = () => {
           Click below to get back to checking football statistics!
         </p>
 
-        <Link to={location.state.prevURL} className="navigate">As you were</Link>
+        <Link to={location.state.prevURL} className="navigate">Go Back</Link>
       </>
       }
     </div>

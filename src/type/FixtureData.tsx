@@ -27,6 +27,13 @@ type Score = {
     winner: string | null
 }
 
+type Referee = {
+    id: number,
+    name: string,
+    type: string,
+    nationality: string,
+}
+
 type FixtureData = {
     area: Area,
     awayTeam: TeamInfo,
@@ -36,7 +43,9 @@ type FixtureData = {
     matchday: number,
     score: Score,
     status: string,
-    utcDate: string
+    utcDate: string,
+    lastUpdated: string,
+    referees: Referee[]
 }
 
 export default FixtureData;
