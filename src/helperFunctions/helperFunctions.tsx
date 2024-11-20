@@ -17,7 +17,6 @@ const cleanFixtureData = (anyData: FixtureData[]): FixtureData[] => {
 }
 
 const groupFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
-  // console.log("im here with data", anyData) //test
   const groupedData = [];
   const startIndex: number = anyData[0]?.matchday;
   const endIndex: number = anyData[anyData.length -1]?.matchday; 
@@ -46,7 +45,6 @@ export const handleFixtureSearch = (anyData: FixtureData[], userInput: string): 
   })
 
   return getPrimedFixtureData(filteredSearchData);
-
 }
 
 export const getPrimedFixtureData = (anyData: FixtureData[]): FixtureData[][] => {

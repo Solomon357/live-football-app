@@ -1,4 +1,5 @@
 import FixtureData from '../../type/FixtureData';
+import infoArrow from '../../assets/info-arrow-icon.png';
 import './MatchDayCard.scss';
 import { Link } from 'react-router-dom';
 
@@ -45,7 +46,7 @@ const MatchDayCard = ({ data, linkID }: MatchDayCardPropTypes) => {
           </div>
         </div>
 
-        <Link to={linkID} state={data} className='matchday-card__main-info-container--more-info-btn'>More info</Link>
+        <Link to={linkID} state={data} className='matchday-card__main-info-container--more-info-btn'>More info <img src={infoArrow} alt="infoArrow" width={"15px"} height={"15px"} /></Link>
       </div>
     </div> 
   )

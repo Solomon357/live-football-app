@@ -1,7 +1,27 @@
+@import './theme.scss';
 
 h1 {
     text-align: center;
-    font-size: 3em;
+    font-size: 3.2em;
+    margin: 0;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+h2 {
+    color: orange;
+    margin: 0;
+}
+
+h3 {
+    color: lightgray;
+    font-weight: 500;
+}
+
+a {
+    color: $text-color;
 }
 
 .section-body{
@@ -121,25 +141,27 @@ td {
     width:fit-content;
     padding: 1%;
     font-weight: 700;
-    box-shadow: inset 0 0 0 2px grey;
+    box-shadow: inset 0 0 0 2px gray;
     background-color: gray;
 }
 
 .navigate {
+    display:block;
     text-decoration: none;
     font-size: medium;
     border-radius: 7px;
     margin: auto;
-    margin-top: 5%;
+    margin-top: 3%;
     cursor: pointer;
     width:fit-content;
     padding: 1%;
     font-weight: 700;
     box-shadow: inset 0 0 0 2px white;
+    transition: all ease 0.4s;
 }
 
 .navigate:hover {
-    transition: all 0.3s;
+    
     background-color: white;
     color: black;
 

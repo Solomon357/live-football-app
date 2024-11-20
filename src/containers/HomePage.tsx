@@ -1,5 +1,4 @@
 import '../App.scss';
-import HomeBadge from "../assets/homepage-badge.png";
 import { useEffect, useState } from "react";
 import FixtureData from "../type/FixtureData";
 import { getPrimedFixtureData } from "../helperFunctions/helperFunctions";
@@ -12,10 +11,14 @@ import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
 	const navigate = useNavigate();
+	
+	const [competitionTitle, setCompetitionTitle] = useState<string>("");
+	const [competitionBadge, setCompetitionBadge] = useState<string>("");
+
 	const [champMatchData, setChampMatchData] = useState<FixtureData[]>([]);
 	const [champStandingsData, setChampStandingsData] = useState<ClubData[]>([]);
 	const [champScorersData, setChampScorersData] = useState<PlayerData[]>([]);
-	const [competitionTitle, setCompetitionTitle] = useState<string>("");
+
 
 	//TOO MANY REQUESTS, MAX 10 requests per minute
 	// pick 10 competitions I like to pull at initial load, then just filter those requests through all my pages
@@ -49,6 +52,7 @@ const HomePage = () => {
     Promise.all([champMatchRequest, champStandingsRequest, champScorersRequest])
     .then(([champMatchData, champStandingsData , champScorersData]) => {
 			setCompetitionTitle(champMatchData.competition.name);
+			setCompetitionBadge(champMatchData.competition.emblem);
       setChampMatchData(champMatchData.matches)
       setChampStandingsData(champStandingsData.standings[0].table)
       setChampScorersData(champScorersData.scorers)
@@ -72,12 +76,10 @@ const HomePage = () => {
 			{groupedChampMatchData.length ? 
 				<>
 					<header className='header-img'>
-						<img className="league-logo" src={HomeBadge} alt="HomeBadge" />
+						<img className="league-logo" src={competitionBadge} alt="HomeBadge" />
 					</header>
 
 					<section>
-						<h2>{competitionTitle}</h2>
-
 						<Carousel heading={competitionTitle} data={groupedChampMatchData} searchData={champMatchData} />
 
 						<div className="all-tables-container"> 
@@ -86,7 +88,7 @@ const HomePage = () => {
 							<PlayerTable tableData={champScorersData} />
 						</div>
 
-						<a href="#top" className='navigate'>Back to top</a>
+						<p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
 						
 					</section>
 				</>

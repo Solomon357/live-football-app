@@ -1,7 +1,4 @@
-h1 {
-    font-size: 2.8em;
-}
-
+@import '../../mixins/mixin.scss';
 .navbar{
     background-color: black;
     display: flex;
@@ -10,14 +7,23 @@ h1 {
     max-height: 130px;
 }
 
+.list-item {
+    align-content: center;
+}
+
 .header-link {
+    @include center-img-text;
     text-decoration: none;
+    align-content: center;
 }
 
 .flag-navigation {
    display: flex;
    width: 25%;
    justify-content: space-between;
+   align-content: center;
    list-style: none;
 }
+
+
 

@@ -79,7 +79,7 @@ const LaligaPage = () => {
             <PlayerTable tableData={laLigaScorersData} />
           </div>
 
-          <a href="#top" className='navigate'>Back to top</a>
+          <p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
         </>
         :
         <h1>Loading...</h1>

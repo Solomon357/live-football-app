@@ -14,25 +14,7 @@ const MatchDayCardInfo = () => {
   const { id } = useParams();
   
   useEffect(()=> {
-    // const key: string = import.meta.env.VITE_API_KEY;
-
-    // const accessParams = {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     'X-Auth-Token': key
-    //   }
-    // }
-    // const eventRequest = fetch(`/api/v4/matches/${id}`, accessParams).then(response => response.json());
-  
-    // Promise.resolve(eventRequest)
-    // .then(data => setEventData(data))
-    // .catch((err) => {
-    //   console.log(err);
-    //   navigate("/timeout", {state:{prevURL: window.location.href}});
-    // })
-
-    // potential error handling for location state
+    //error handling for location state
     if(location.state.errorCode){
       navigate("/timeout", {state:{prevURL: window.location.href}});
     }
@@ -72,8 +54,10 @@ const MatchDayCardInfo = () => {
               </header>
               <h2>FT</h2>
               <h3> HT {eventData.score.halfTime.home !== null ? eventData.score.halfTime.home : "N" } - {eventData.score.halfTime.away !== null ? eventData.score.halfTime.away : "A"}</h3>
-              <section className="venue-card">
-                <p><span>Referee: </span>{eventData.referees.length ? eventData.referees[0].name : "N/A"}, {eventData.referees.length ? eventData.referees[0].nationality : "N/A"}</p>
+
+              <section className="referee-info-container">
+                <p><span>Referee: </span>{eventData.referees.length ? eventData.referees[0].name : "N/A"}</p>
+                <p><span>Nationality: </span>{eventData.referees.length ? eventData.referees[0].nationality : "N/A"}</p>
               </section> 
             </> 
             :
@@ -95,7 +79,7 @@ const MatchDayCardInfo = () => {
                 </div>
               </header>
 
-              <h3>Scheduled to be played {matchDate} at {eventData.utcDate.slice(11,16)}</h3> 
+              <h3>This match is scheduled to be played {matchDate} at <span style={{textDecoration:"underline"}}>{eventData.utcDate.slice(11,16)}</span></h3> 
 
               <Link className="navigate" to={'..'} onClick={() => navigate(-1)}>Go Back</Link>
             </>

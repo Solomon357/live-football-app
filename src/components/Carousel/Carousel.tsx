@@ -1,6 +1,7 @@
 import "./Carousel.scss";
 import leftArrow from "../../assets/left-arrow.png";
 import rightArrow from "../../assets/right-arrow.png";
+import searchIcon from '../../assets/search-icon.png';
 import MatchWeekCard from '../MatchWeekCard/MatchWeekCard';
 import { useState } from "react";
 import { handleFixtureSearch } from "../../helperFunctions/helperFunctions";
@@ -58,8 +59,19 @@ const Carousel = ({ heading, data, searchData }: CarouselPropTypes) => {
     <div className="carousel-search-container">
 
       <div className="search-container">
-        <input type="text" placeholder='Search league teams...' onChange={handleLeagueUserInput} />
-        <button onClick={handleLeagueSearch}>Search</button>
+        <input 
+          type="text" 
+          placeholder='Search teams...' 
+          onChange={handleLeagueUserInput} 
+          onKeyDown={(e) => {
+            if(e.key === "Enter"){
+              handleLeagueSearch();
+            }
+          }} 
+        />
+        <button className="search-btn" onClick={handleLeagueSearch}>
+          <img src={searchIcon} alt="searchIcon" width={"90%"} height={"70%"} />
+        </button>
       </div>
 
       <div className="carousel-container">
@@ -67,7 +79,7 @@ const Carousel = ({ heading, data, searchData }: CarouselPropTypes) => {
         <div className="carousel-container__carousel-row">
 
           <button className="carousel-container__leftbtn" onClick={handleDecrement}>
-            <img src={leftArrow} alt="left-arrow" />
+            <img src={leftArrow} alt="left-arrow" height={"40px"} />
           </button>
 
           {displayedData ? displayedData.map((gameWeekData, i) => {
