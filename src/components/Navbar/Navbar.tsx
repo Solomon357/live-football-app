@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className='navbar'>
-      <Link to={'/'} className='header-link'>
+      <Link to={'/live-football-app'} className='header-link'>
         <h1>Live Football Matches</h1>
         <img src={footballIcon} alt="navbarImage" width={"60px"} height={"60px"} />
       </Link>
