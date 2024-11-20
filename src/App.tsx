@@ -22,7 +22,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route 
-          path='/' 
+          path='/live-football-app' 
           element={<HomePage />}
         />
         <Route 
@@ -70,7 +70,7 @@ function App() {
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/timeout' 
+          path='/live-football-app/timeout' 
           element={<TimeoutPage />}
         />
       </Routes>

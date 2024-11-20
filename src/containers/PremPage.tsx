@@ -54,15 +54,15 @@ const PremPage = () => {
     })
     .catch((err) => {
       console.log(err);
-      navigate("/timeout", {state:{prevURL: window.location.href}});
+      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
     })
   
   }, [navigate])
 
-  console.log("Prem data in Component", premData) //test
-  
   const premWeekData = getPrimedFixtureData(premData);
-  console.log("grouped prem data", premWeekData) //test
+
+  // console.log("Prem data in Component", premData) //test
+  // console.log("grouped prem data", premWeekData) //test
 
   return (
     <section className='section-body'>

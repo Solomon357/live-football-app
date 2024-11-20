@@ -16,7 +16,7 @@ const MatchDayCardInfo = () => {
   useEffect(()=> {
     //error handling for location state
     if(location.state.errorCode){
-      navigate("/timeout", {state:{prevURL: window.location.href}});
+      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
     }
 
     setEventData(location.state);

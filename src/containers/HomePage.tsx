@@ -19,11 +19,6 @@ const HomePage = () => {
 	const [champStandingsData, setChampStandingsData] = useState<ClubData[]>([]);
 	const [champScorersData, setChampScorersData] = useState<PlayerData[]>([]);
 
-
-	//TOO MANY REQUESTS, MAX 10 requests per minute
-	// pick 10 competitions I like to pull at initial load, then just filter those requests through all my pages
-
-
 	useEffect(() => {
 
     const key: string = import.meta.env.VITE_API_KEY;
@@ -59,17 +54,16 @@ const HomePage = () => {
     })
     .catch((err) => {
 			console.log(err);
-			navigate("/timeout", {state:{prevURL: window.location.href}});
+			navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
 		})
 
   }, [navigate])
 
 	const groupedChampMatchData = getPrimedFixtureData(champMatchData);
 
-	console.log("grouped Champions League Data", groupedChampMatchData);
-	console.log("Champions League Standings", champStandingsData);
-	//i want to sort by assists aswell (for later)
-	console.log("Champions League Scorers ", champScorersData);
+	// console.log("grouped Champions League Data", groupedChampMatchData); //test
+	// console.log("Champions League Standings", champStandingsData); //test
+	// console.log("Champions League Scorers ", champScorersData); //test
 
 	return (
 		<section className='section-body'>

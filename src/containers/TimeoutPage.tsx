@@ -5,7 +5,6 @@ const TimeoutPage = () => {
   const [seconds, setSeconds] = useState<number>(60);
   const location = useLocation();
 
-
   useEffect(() => {
 
     if (seconds <= 0) {

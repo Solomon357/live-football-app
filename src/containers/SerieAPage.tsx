@@ -54,14 +54,14 @@ const SerieAPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/timeout", {state:{prevURL: window.location.href}});
+        navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
       })
   }, [navigate])
   
-  console.log("serie A data in Component", serieAData); //test
-
   const serieAWeekData = getPrimedFixtureData(serieAData);
-  console.log("grouped serie A data",serieAWeekData); //test
+
+  // console.log("serie A data in Component", serieAData); //test
+  // console.log("grouped serie A data",serieAWeekData); //test
 
   return (
     <section className='section-body'>

@@ -53,15 +53,15 @@ const LaligaPage = () => {
     })
     .catch((err) => {
       console.log(err);
-      navigate("/timeout", {state:{prevURL: window.location.href}});
+      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
     })
   
   }, [navigate])
 
-  console.log("la liga data in Component", laLigaData) //test
-
   const laLigaWeekData = getPrimedFixtureData(laLigaData);
-  console.log("grouped la liga data", laLigaWeekData)
+
+  // console.log("grouped la liga data", laLigaWeekData) //test
+  // console.log("la liga data in Component", laLigaData) //test
 
   return (
     <section className='section-body'>
@@ -84,10 +84,7 @@ const LaligaPage = () => {
         :
         <h1>Loading...</h1>
       }
-
     </section>
-
-    
   )
 }
 

@@ -54,15 +54,15 @@ const BundesligaPage = () => {
     })
     .catch((err) => {
       console.log(err)
-      navigate("/timeout", {state:{prevURL: window.location.href}});
+      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
     })
 
   }, [navigate])
 
-  console.log("bundesliga data in Component", bundesligaData) //test
-
   const bundesligaWeekData = getPrimedFixtureData(bundesligaData);
-  console.log("grouped bundesliga data",bundesligaWeekData) // test
+
+  // console.log("bundesliga data in Component", bundesligaData) //test
+  // console.log("grouped bundesliga data",bundesligaWeekData) // test
 
   return (
     <section>

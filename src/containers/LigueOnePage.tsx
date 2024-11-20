@@ -53,14 +53,14 @@ const LigueOnePage = () => {
     })
     .catch((err) => {
       console.log(err);
-      navigate("/timeout", {state:{prevURL: window.location.href}});
+      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
     })
   }, [navigate])
-
-  console.log("Ligue One data in Component", ligueOneData) //test
   
   const ligueOneWeekData = getPrimedFixtureData(ligueOneData);
-  console.log("grouped ligue one data", ligueOneWeekData) //test
+
+  // console.log("Ligue One data in Component", ligueOneData) //test
+  // console.log("grouped ligue one data", ligueOneWeekData) //test
 
   return (
     <section className='section-body'>
