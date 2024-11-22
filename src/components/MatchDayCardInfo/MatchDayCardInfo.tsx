@@ -16,7 +16,7 @@ const MatchDayCardInfo = () => {
   useEffect(()=> {
     //error handling for location state
     if(location.state.errorCode){
-      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
+      navigate("/timeout", {state:{prevURL: window.location.href}});
     }
 
     setEventData(location.state);
@@ -44,7 +44,7 @@ const MatchDayCardInfo = () => {
                 </div>
 
                 <div className="info-header-container__fulltime-score">
-                  <span>{eventData.score.fullTime.home !== null ? eventData.score.fullTime.home : "N" }<span style={{color:"orange"}}> | </span>{eventData.score.fullTime.away !== null ? eventData.score.fullTime.away : "A"}</span>
+                  <span>{eventData.score.fullTime.home ?? "N" }<span style={{color:"orange"}}> | </span>{eventData.score.fullTime.away ?? "A"}</span>
                 </div>
                 
                 <div className="info-header-container__header">
@@ -53,7 +53,7 @@ const MatchDayCardInfo = () => {
                 </div>
               </header>
               <h2>FT</h2>
-              <h3> HT {eventData.score.halfTime.home !== null ? eventData.score.halfTime.home : "N" } - {eventData.score.halfTime.away !== null ? eventData.score.halfTime.away : "A"}</h3>
+              <h3> HT {eventData.score.halfTime.home ?? "N" } - {eventData.score.halfTime.away ?? "A"}</h3>
 
               <section className="referee-info-container">
                 <p><span>Referee: </span>{eventData.referees.length ? eventData.referees[0].name : "N/A"}</p>
@@ -70,7 +70,7 @@ const MatchDayCardInfo = () => {
                 </div>
 
                 <div className="info-header-container__fulltime-score">
-                  <span>{eventData.score.fullTime.home !== null ? eventData.score.fullTime.home : "N" }<span style={{color:"orange"}}> | </span>{eventData.score.fullTime.away !== null ? eventData.score.fullTime.away : "A"}</span>
+                  <span>{eventData.score.fullTime.home ?? "N" }<span style={{color:"orange"}}> | </span>{eventData.score.fullTime.away ?? "A"}</span>
                 </div>
                 
                 <div className="info-header-container__header">

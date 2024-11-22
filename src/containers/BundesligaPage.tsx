@@ -54,7 +54,7 @@ const BundesligaPage = () => {
     })
     .catch((err) => {
       console.log(err)
-      navigate("/live-football-app/timeout", {state:{prevURL: window.location.href}});
+      navigate("/timeout", {state:{prevURL: window.location.href}});
     })
 
   }, [navigate])

@@ -18,59 +18,59 @@ import TimeoutPage from './containers/TimeoutPage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Navbar />
       <Routes>
         <Route 
-          path='/live-football-app' 
+          path='/' 
           element={<HomePage />}
         />
         <Route 
-          path='/live-football-app/europe-leagues/:id' 
+          path='/europe-leagues/:id' 
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/live-football-app/england-leagues' 
+          path='/england-leagues' 
           element={<PremPage />}
         />
         <Route 
-          path='/live-football-app/england-leagues/:id' 
+          path='/england-leagues/:id' 
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/live-football-app/italy-leagues' 
+          path='/italy-leagues' 
           element={<SerieAPage />}
         />
         <Route 
-          path='/live-football-app/italy-leagues/:id' 
+          path='/italy-leagues/:id' 
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/live-football-app/france-leagues' 
+          path='/france-leagues' 
           element={<LigueOnePage />}
         />
         <Route 
-          path='/live-football-app/france-leagues/:id' 
+          path='/france-leagues/:id' 
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/live-football-app/spain-leagues' 
+          path='/spain-leagues' 
           element={<LaligaPage />}
         />
         <Route 
-          path='/live-football-app/spain-leagues/:id' 
+          path='/spain-leagues/:id' 
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/live-football-app/germany-leagues' 
+          path='/germany-leagues' 
           element={<BundesligaPage />}
         />
         <Route 
-          path='/live-football-app/germany-leagues/:id' 
+          path='/germany-leagues/:id' 
           element={<MatchDayCardInfo />}
         />
         <Route 
-          path='/live-football-app/timeout' 
+          path='/timeout' 
           element={<TimeoutPage />}
         />
       </Routes>

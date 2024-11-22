@@ -10,33 +10,33 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className='navbar'>
-      <Link to={'/live-football-app'} className='header-link'>
+      <Link to={'/'} className='header-link'>
         <h1>Live Football Matches</h1>
         <img src={footballIcon} alt="navbarImage" width={"60px"} height={"60px"} />
       </Link>
       <ul className='flag-navigation'>
         <li className='list-item'>
-          <Link to="/live-football-app/england-leagues">
+          <Link to="/england-leagues">
             <img src={englandFlag} alt="englandFlag" />
           </Link>
         </li>
         <li className='list-item'>
-          <Link to="/live-football-app/spain-leagues">
+          <Link to="/spain-leagues">
             <img src={spainFlag} alt="spainFlag" />
           </Link>
         </li>
         <li className='list-item'>
-          <Link to="/live-football-app/germany-leagues">
+          <Link to="/germany-leagues">
             <img src={germanyFlag} alt="germanyFlag" />
           </Link>
         </li>
         <li className='list-item'>
-          <Link to="/live-football-app/italy-leagues">
+          <Link to="/italy-leagues">
             <img src={italyFlag} alt="italyFlag" />
           </Link>
         </li>
         <li className='list-item'>
-          <Link to="/live-football-app/france-leagues">
+          <Link to="/france-leagues">
             <img src={franceFlag} alt="franceFlag" />
           </Link>
         </li>

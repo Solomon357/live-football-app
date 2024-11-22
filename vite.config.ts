@@ -5,15 +5,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/live-football-app/',
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://api.football-data.org",
-        changeOrigin: true,
-        secure: false,
-        rewrite: (p) => p.replace(/^\/api/, ""),
-      },
-    },
-    cors: false
-  }
+  // server: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "https://api.football-data.org",
+  //       changeOrigin: true,
+  //       secure: false,
+  //       rewrite: (p) => p.replace(/^\/api/, ""),
+  //     },
+  //   },
+  //   cors: false
+  // }
 })
