@@ -34,7 +34,7 @@ const MatchWeekCard = ({ data }: MatchWeekCardPropType) => {
     <section className='matchweek-container'>
       {data.map((matchDayData) => {
         return (
-          <MatchDayCard key={matchDayData.id} data={matchDayData} linkID={`/live-football-app/${leagueURL}/${matchDayData.id}`}/>
+          <MatchDayCard key={matchDayData.id} data={matchDayData} linkID={`/${leagueURL}/${matchDayData.id}`}/>
         )
       })}
     </section>
