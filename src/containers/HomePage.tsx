@@ -40,9 +40,9 @@ const HomePage = () => {
       }
     }
 
-		const champMatchRequest = fetch(`https://api.football-data.org/v4/competitions/2001/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`, accessParams).then(res => res.json());
-		const champStandingsRequest = fetch(`https://api.football-data.org/v4/competitions/2001/standings`, accessParams).then(res => res.json());
-		const champScorersRequest = fetch(`https://api.football-data.org/v4/competitions/2001/scorers?limit=20`, accessParams).then(res => res.json());
+		const champMatchRequest = fetch(`/api/v4/competitions/2001/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`, accessParams).then(res => res.json());
+		const champStandingsRequest = fetch(`/api/v4/competitions/2001/standings`, accessParams).then(res => res.json());
+		const champScorersRequest = fetch(`/api/v4/competitions/2001/scorers?limit=20`, accessParams).then(res => res.json());
 
     Promise.all([champMatchRequest, champStandingsRequest, champScorersRequest])
     .then(([champMatchData, champStandingsData , champScorersData]) => {
