@@ -19,7 +19,7 @@ import TimeoutPage from './containers/TimeoutPage';
 
 function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <Navbar />
       <Routes>
         <Route 

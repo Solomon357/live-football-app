@@ -21,7 +21,7 @@ const HomePage = () => {
 
 	useEffect(() => {
 
-    const key: string = import.meta.env.VITE_API_KEY;
+    // const key: string = import.meta.env.VITE_API_KEY;
 
     let europeStartDate: Date | string =  new Date();
     europeStartDate.setDate((europeStartDate.getDate() - (europeStartDate.getDay() + 3) % 7) -7);
@@ -32,27 +32,28 @@ const HomePage = () => {
     europeStartDate = europeStartDate.toISOString().slice(0,10);
     europeEndDate = europeEndDate.toISOString().slice(0,10);
 
-    const accessParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Auth-Token': key
-      }
-    }
+    // const accessParams = {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     'X-Auth-Token': key
+    //   }
+    // }
 
-		const champMatchRequest = fetch(`/api/v4/competitions/2001/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`, accessParams).then(res => res.json());
-		const champStandingsRequest = fetch(`/api/v4/competitions/2001/standings`, accessParams).then(res => res.json());
-		const champScorersRequest = fetch(`/api/v4/competitions/2001/scorers?limit=20`, accessParams).then(res => res.json());
+		const champMatchRequest = fetch(`http://localhost:8080/api/CL/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`).then(res => res.json());
+		const champStandingsRequest = fetch(`http://localhost:8080/api/CL/standings`).then(res => res.json());
+		const champScorersRequest = fetch(`http://localhost:8080/api/CL/scorers`).then(res => res.json());
 
-    Promise.all([champMatchRequest, champStandingsRequest, champScorersRequest])
-    .then(([champMatchData, champStandingsData , champScorersData]) => {
+
+		Promise.all([champMatchRequest, champStandingsRequest, champScorersRequest])
+		.then(([champMatchData, champStandingsData , champScorersData]) => {
 			setCompetitionTitle(champMatchData.competition.name);
 			setCompetitionBadge(champMatchData.competition.emblem);
-      setChampMatchData(champMatchData.matches);
-      setChampStandingsData(champStandingsData.standings[0].table);
-      setChampScorersData(champScorersData.scorers);
-    })
-    .catch((err) => {
+			setChampMatchData(champMatchData.matches);
+			setChampStandingsData(champStandingsData.standings[0].table);
+			setChampScorersData(champScorersData.scorers);
+		})
+		.catch((err) => {
 			console.log(err);
 			navigate("/timeout", {state:{prevURL: window.location.href}});
 		})
