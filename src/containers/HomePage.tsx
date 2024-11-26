@@ -40,9 +40,9 @@ const HomePage = () => {
     //   }
     // }
 
-		const champMatchRequest = fetch(`http://localhost:8080/api/CL/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`).then(res => res.json());
-		const champStandingsRequest = fetch(`http://localhost:8080/api/CL/standings`).then(res => res.json());
-		const champScorersRequest = fetch(`http://localhost:8080/api/CL/scorers`).then(res => res.json());
+		const champMatchRequest = fetch(`https://live-football-express.netlify.app/api/CL/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`).then(res => res.json());
+		const champStandingsRequest = fetch(`https://live-football-express.netlify.app/api/CL/standings`).then(res => res.json());
+		const champScorersRequest = fetch(`https://live-football-express.netlify.app/api/CL/scorers`).then(res => res.json());
 
 
 		Promise.all([champMatchRequest, champStandingsRequest, champScorersRequest])
