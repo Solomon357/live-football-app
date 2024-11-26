@@ -26,8 +26,9 @@ const MatchDayCardInfo = () => {
 
   const matchDate = new Date(eventData.utcDate).toUTCString().slice(0,17);
   const currentDate = new Date().toISOString(); 
-  console.log("data passed as state", location.state)
-  console.log("particular match info: ", eventData);
+  
+  //console.log("data passed as state", location.state) //test
+  //console.log("particular match info: ", eventData); //test
 
   return (
     <section>

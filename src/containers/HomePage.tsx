@@ -21,8 +21,6 @@ const HomePage = () => {
 
 	useEffect(() => {
 
-    // const key: string = import.meta.env.VITE_API_KEY;
-
     let europeStartDate: Date | string =  new Date();
     europeStartDate.setDate((europeStartDate.getDate() - (europeStartDate.getDay() + 3) % 7) -7);
 
@@ -31,14 +29,6 @@ const HomePage = () => {
 
     europeStartDate = europeStartDate.toISOString().slice(0,10);
     europeEndDate = europeEndDate.toISOString().slice(0,10);
-
-    // const accessParams = {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     'X-Auth-Token': key
-    //   }
-    // }
 
 		const champMatchRequest = fetch(`https://live-football-express.netlify.app/api/CL/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`).then(res => res.json());
 		const champStandingsRequest = fetch(`https://live-football-express.netlify.app/api/CL/standings`).then(res => res.json());
@@ -74,7 +64,7 @@ const HomePage = () => {
 						<img className="league-logo" src={competitionBadge} alt="HomeBadge" />
 					</header>
 
-					<section>
+					<section className='tables-container'>
 						<Carousel heading={competitionTitle} data={groupedChampMatchData} searchData={champMatchData} />
 
 						<div className="all-tables-container"> 
@@ -83,7 +73,7 @@ const HomePage = () => {
 							<PlayerTable tableData={champScorersData} />
 						</div>
 
-						<p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
+						<a href='#top' className='navigate'>Back to top</a>
 						
 					</section>
 				</>

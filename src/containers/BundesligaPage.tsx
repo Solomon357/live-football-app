@@ -19,9 +19,7 @@ const BundesligaPage = () => {
   const [bundesligaStandingsData, setBundesligaStandingsData] = useState<ClubData[]>([]);
 	const [bundesligaScorersData, setBundesligaScorersData] = useState<PlayerData[]>([]);
 
-
   useEffect(() => {
-    const key: string = import.meta.env.VITE_API_KEY;
 
     let leagueStartDate: Date | string =  new Date();
     leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
@@ -32,17 +30,10 @@ const BundesligaPage = () => {
     leagueStartDate = leagueStartDate.toISOString().slice(0,10);
     leagueEndDate = leagueEndDate.toISOString().slice(0,10);
 
-    const accessParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Auth-Token': key
-      }
-    }
 
-    const bundesligaRequest = fetch(`/api/v4/competitions/BL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json())
-    const bundesligaStandingsRequest = fetch(`/api/v4/competitions/BL1/standings`, accessParams).then(res => res.json());
-    const bundesligaScorersRequest = fetch(`/api/v4/competitions/BL1/scorers?limit=20`, accessParams).then(res => res.json());
+    const bundesligaRequest = fetch(`https://live-football-express.netlify.app/api/BL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`).then(res => res.json())
+    const bundesligaStandingsRequest = fetch(`https://live-football-express.netlify.app/api/BL1/standings`).then(res => res.json());
+    const bundesligaScorersRequest = fetch(`https://live-football-express.netlify.app/api/BL1/scorers`).then(res => res.json());
 
     Promise.all([bundesligaRequest, bundesligaStandingsRequest, bundesligaScorersRequest])
     .then(([dataBundesliga, bundesligaStandingsData, bundesligaScorersData]) => {
@@ -65,7 +56,7 @@ const BundesligaPage = () => {
   // console.log("grouped bundesliga data",bundesligaWeekData) // test
 
   return (
-    <section>
+    <section className='section-body'>
       { bundesligaWeekData.length ? 
         <>
           <header className='header-img'>
@@ -74,13 +65,15 @@ const BundesligaPage = () => {
 
           <Carousel heading={competitionTitle} data={bundesligaWeekData} searchData={bundesligaData}/>
 
-          <div className="all-tables-container"> 
-            <StandingsTable tableData={bundesligaStandingsData} />
+          <section className='tables-container'>
+            <div className="all-tables-container"> 
+              <StandingsTable tableData={bundesligaStandingsData} />
 
-            <PlayerTable tableData={bundesligaScorersData} />
-          </div>
+              <PlayerTable tableData={bundesligaScorersData} />
+            </div>
 
-          <p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
+            <a href='#top' className='navigate'>Back to top</a>
+          </section>
         </>
         :
         <h1>Loading...</h1>

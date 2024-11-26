@@ -21,8 +21,6 @@ const PremPage = () => {
 
   useEffect(() => {
 
-    const key: string = import.meta.env.VITE_API_KEY;
-
     let leagueStartDate: Date | string =  new Date();
     leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
 
@@ -32,17 +30,9 @@ const PremPage = () => {
     leagueStartDate = leagueStartDate.toISOString().slice(0,10);
     leagueEndDate = leagueEndDate.toISOString().slice(0,10);
 
-    const accessParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Auth-Token': key
-      }
-    }
-
-    const premRequest = fetch(`/api/v4/competitions/PL/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
-    const premStandingsRequest = fetch(`/api/v4/competitions/PL/standings`, accessParams).then(res => res.json());
-    const premScorersRequest = fetch(`/api/v4/competitions/PL/scorers?limit=20`, accessParams).then(res => res.json());
+    const premRequest = fetch(`https://live-football-express.netlify.app/api/PL/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`).then(res => res.json());
+    const premStandingsRequest = fetch(`https://live-football-express.netlify.app/api/PL/standings`).then(res => res.json());
+    const premScorersRequest = fetch(`https://live-football-express.netlify.app/api/PL/scorers`).then(res => res.json());
 
     Promise.all([premRequest, premStandingsRequest, premScorersRequest])
     .then(([dataPrem, premStandingsData , premScorersData]) => {
@@ -74,13 +64,15 @@ const PremPage = () => {
 
           <Carousel heading={competitionTitle} data={premWeekData} searchData={premData}/>
 
-          <div className="all-tables-container"> 
-            <StandingsTable tableData={premStandingsData} />
+          <section className='tables-container'>
+            <div className="all-tables-container"> 
+              <StandingsTable tableData={premStandingsData} />
 
-            <PlayerTable tableData={premScorersData} />
-          </div>
+              <PlayerTable tableData={premScorersData} />
+            </div>
 
-          <p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
+            <a href="#top" className='navigate'>Back to top</a>
+          </section>
         </>
         :
         <h1>Loading...</h1>

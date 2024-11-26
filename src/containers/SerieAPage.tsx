@@ -22,7 +22,6 @@ const SerieAPage = () => {
 
 
   useEffect(() => {
-    const key: string = import.meta.env.VITE_API_KEY;
 
     let leagueStartDate: Date | string =  new Date();
     leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
@@ -33,29 +32,23 @@ const SerieAPage = () => {
     leagueStartDate = leagueStartDate.toISOString().slice(0,10);
     leagueEndDate = leagueEndDate.toISOString().slice(0,10);
 
-    const accessParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Auth-Token': key
-      }
-    }
-      const serieARequest = fetch(`/api/v4/competitions/SA/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
-      const serieAStandingsRequest = fetch(`/api/v4/competitions/SA/standings`, accessParams).then(res => res.json());
-      const serieAScorersRequest = fetch(`/api/v4/competitions/SA/scorers?limit=20`, accessParams).then(res => res.json());
-  
-      Promise.all([serieARequest, serieAStandingsRequest, serieAScorersRequest])
-      .then(([dataSerieA, serieAStandingsData , serieAScorersData]) => {
-        setCompetitionTitle(dataSerieA.competition.name);
-        setCompetitionBadge(dataSerieA.competition.emblem);
-        setSerieAData(dataSerieA.matches);
-        setSerieAStandingsData(serieAStandingsData.standings[0].table);
-        setSerieAScorersData(serieAScorersData.scorers);
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/timeout", {state:{prevURL: window.location.href}});
-      })
+    const serieARequest = fetch(`https://live-football-express.netlify.app/api/SA/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`).then(res => res.json());
+    const serieAStandingsRequest = fetch(`https://live-football-express.netlify.app/api/SA/standings`).then(res => res.json());
+    const serieAScorersRequest = fetch(`https://live-football-express.netlify.app/api/SA/scorers`).then(res => res.json());
+
+    Promise.all([serieARequest, serieAStandingsRequest, serieAScorersRequest])
+    .then(([dataSerieA, serieAStandingsData , serieAScorersData]) => {
+      setCompetitionTitle(dataSerieA.competition.name);
+      setCompetitionBadge(dataSerieA.competition.emblem);
+      setSerieAData(dataSerieA.matches);
+      setSerieAStandingsData(serieAStandingsData.standings[0].table);
+      setSerieAScorersData(serieAScorersData.scorers);
+    })
+    .catch((err) => {
+      console.log(err);
+      navigate("/timeout", {state:{prevURL: window.location.href}});
+    })
+
   }, [navigate])
   
   const serieAWeekData = getPrimedFixtureData(serieAData);
@@ -73,13 +66,15 @@ const SerieAPage = () => {
 
         <Carousel heading={competitionTitle} data={serieAWeekData} searchData={serieAData}/>
 
-        <div className="all-tables-container"> 
-          <StandingsTable tableData={serieAStandingsData} />
+        <section>
+          <div className="all-tables-container"> 
+            <StandingsTable tableData={serieAStandingsData} />
 
-          <PlayerTable tableData={serieAScorersData} />
-        </div>
+            <PlayerTable tableData={serieAScorersData} />
+          </div>
 
-        <p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
+          <a href='#top' className='navigate'>Back to top</a>
+        </section>
       </>
       :
       <h1>Loading...</h1>

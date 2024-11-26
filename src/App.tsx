@@ -11,7 +11,6 @@ import HomePage from './containers/HomePage';
 import TimeoutPage from './containers/TimeoutPage';
 
 //TODO:
-//  1. find a hosting service thats NOT github pages for this project
 //  2. create error pages for when theres any other error with the fetch req
 //  3. focus on building out my more info pages
   

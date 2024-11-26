@@ -20,7 +20,6 @@ const LigueOnePage = () => {
 
 
   useEffect(() => {
-    const key: string = import.meta.env.VITE_API_KEY;
 
     let leagueStartDate: Date | string =  new Date();
     leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
@@ -31,17 +30,9 @@ const LigueOnePage = () => {
     leagueStartDate = leagueStartDate.toISOString().slice(0,10);
     leagueEndDate = leagueEndDate.toISOString().slice(0,10);
 
-    const accessParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Auth-Token': key
-      }
-    }
-
-    const ligueOneRequest = fetch(`/api/v4/competitions/FL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
-    const ligueOneStandingsRequest = fetch(`/api/v4/competitions/FL1/standings`, accessParams).then(res => res.json());
-    const ligueOneScorersRequest = fetch(`/api/v4/competitions/FL1/scorers?limit=20`, accessParams).then(res => res.json());
+    const ligueOneRequest = fetch(`https://live-football-express.netlify.app/api/FL1/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`).then(res => res.json());
+    const ligueOneStandingsRequest = fetch(`https://live-football-express.netlify.app/api/FL1/standings`).then(res => res.json());
+    const ligueOneScorersRequest = fetch(`https://live-football-express.netlify.app/api/FL1/scorers`).then(res => res.json());
 
     Promise.all([ligueOneRequest, ligueOneStandingsRequest, ligueOneScorersRequest])
     .then(([dataLigueOne, ligueOneStandingsData, ligueOneScorersData]) => {
@@ -72,13 +63,17 @@ const LigueOnePage = () => {
 
           <Carousel heading={competitionTitle} data={ligueOneWeekData} searchData={ligueOneData}/>
 
-          <div className="all-tables-container"> 
-            <StandingsTable tableData={ligueOneStandingsData} />
+          <section className='tables-container'>
+            <div className="all-tables-container"> 
+              <StandingsTable tableData={ligueOneStandingsData} />
 
-            <PlayerTable tableData={ligueOneScorersData} />
-          </div>
+              <PlayerTable tableData={ligueOneScorersData} />
+            </div>
 
-          <p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
+            <a href='#top' className='navigate'>Back to top</a>
+
+          </section>
+         
         </>
         :
         <h1>Loading...</h1>

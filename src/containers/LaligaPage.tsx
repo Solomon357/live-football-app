@@ -20,7 +20,6 @@ const LaligaPage = () => {
 	const [laLigaScorersData, setLaLigaScorersData] = useState<PlayerData[]>([]);
 
   useEffect(() => {
-    const key: string = import.meta.env.VITE_API_KEY;
 
     let leagueStartDate: Date | string =  new Date();
     leagueStartDate.setDate((leagueStartDate.getDate() - (leagueStartDate.getDay() + 4) % 7) -7);
@@ -31,17 +30,9 @@ const LaligaPage = () => {
     leagueStartDate = leagueStartDate.toISOString().slice(0,10);
     leagueEndDate = leagueEndDate.toISOString().slice(0,10);
 
-    const accessParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        'X-Auth-Token': key
-      }
-    }
-
-    const laLigaRequest = fetch(`/api/v4/competitions/PD/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`, accessParams).then(res => res.json());
-    const laLigaStandingsRequest = fetch(`/api/v4/competitions/PD/standings`, accessParams).then(res => res.json());
-    const laLigaScorersRequest = fetch(`/api/v4/competitions/PD/scorers?limit=20`, accessParams).then(res => res.json());
+    const laLigaRequest = fetch(`https://live-football-express.netlify.app/api/PD/matches?dateFrom=${leagueStartDate}&dateTo=${leagueEndDate}`).then(res => res.json());
+    const laLigaStandingsRequest = fetch(`https://live-football-express.netlify.app/api/PD/standings`).then(res => res.json());
+    const laLigaScorersRequest = fetch(`https://live-football-express.netlify.app/api/PD/scorers`).then(res => res.json());
 
     Promise.all([laLigaRequest, laLigaStandingsRequest, laLigaScorersRequest])
     .then(([dataLaLiga, laLigaStandingsData, laLigaScorersData]) => {
@@ -72,14 +63,15 @@ const LaligaPage = () => {
           </header>
 
           <Carousel heading={competitionTitle} data={laLigaWeekData} searchData={laLigaData}/>
+          <section className='tables-section'>
+            <div className="all-tables-container"> 
+              <StandingsTable tableData={laLigaStandingsData} />
 
-          <div className="all-tables-container"> 
-            <StandingsTable tableData={laLigaStandingsData} />
+              <PlayerTable tableData={laLigaScorersData} />
+            </div>
 
-            <PlayerTable tableData={laLigaScorersData} />
-          </div>
-
-          <p onClick={() => window.scroll({ top: 0, behavior: 'smooth' })} className='navigate'>Back to top</p>
+            <a href="#top" className='navigate'>Back to top</a>
+          </section>
         </>
         :
         <h1>Loading...</h1>
