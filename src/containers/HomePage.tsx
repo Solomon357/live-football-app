@@ -33,7 +33,8 @@ const HomePage = () => {
 		const champMatchRequest = fetch(`https://live-football-express.netlify.app/api/CL/matches?dateFrom=${europeStartDate}&dateTo=${europeEndDate}`).then(res => res.json());
 		const champStandingsRequest = fetch(`https://live-football-express.netlify.app/api/CL/standings`).then(res => res.json());
 		const champScorersRequest = fetch(`https://live-football-express.netlify.app/api/CL/scorers`).then(res => res.json());
-
+		
+		//console.log("data now on site!") //test
 
 		Promise.all([champMatchRequest, champStandingsRequest, champScorersRequest])
 		.then(([champMatchData, champStandingsData , champScorersData]) => {
@@ -50,22 +51,25 @@ const HomePage = () => {
 
   }, [navigate])
 
-	const groupedChampMatchData = getPrimedFixtureData(champMatchData);
+	const ChampWeekData = getPrimedFixtureData(champMatchData);
+	//console.log("non grouped champ data", champMatchData) // test
 
-	// console.log("grouped Champions League Data", groupedChampMatchData); //test
-	// console.log("Champions League Standings", champStandingsData); //test
-	// console.log("Champions League Scorers ", champScorersData); //test
+	//console.log("grouped Champions League Data", groupedChampMatchData); //test
+
+	//console.log("Champions League Standings", champStandingsData); //test
+
+	//console.log("Champions League Scorers ", champScorersData); //test
 
 	return (
 		<section className='section-body'>
-			{groupedChampMatchData.length ? 
+			{ChampWeekData.length ? 
 				<>
 					<header className='header-img'>
 						<img className="league-logo" src={competitionBadge} alt="HomeBadge" />
 					</header>
 
 					<section className='tables-container'>
-						<Carousel heading={competitionTitle} data={groupedChampMatchData} searchData={champMatchData} />
+						<Carousel heading={competitionTitle} data={ChampWeekData} searchData={champMatchData} />
 
 						<div className="all-tables-container"> 
 							<StandingsTable tableData={champStandingsData} />

@@ -12,7 +12,9 @@ const cleanFixtureData = (anyData: FixtureData[]): FixtureData[] => {
     status: data.status,
     utcDate: data.utcDate,
     lastUpdated: data.lastUpdated,
-    referees: data.referees
+    season: data.season,
+    referees: data.referees,
+    stage: data.stage
   }))
 }
 
@@ -33,8 +35,34 @@ const groupFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
   return groupedData;
 }
 
+//dealing with displaying playoff/knockout fixtures later
+const groupTournamentFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
+  const groupedData = [];
+  const startIndex: number = anyData[0]?.matchday;
+  const endIndex: number = 8; 
+
+  for(let i = startIndex; i <= endIndex; i++){
+    const dataByGameWeek = anyData.filter((fixture) => { 
+      if(i === fixture.matchday){
+        return fixture;
+      }
+    })
+    groupedData.push(dataByGameWeek)
+  }
+  return groupedData;
+}
+
 export const handleFixtureSearch = (anyData: FixtureData[], userInput: string): FixtureData[][] => {
-  const filteredSearchData = anyData.filter((userData) => {
+  //console.log("data coming in", anyData) //test
+
+  //edge case: filter out any fixtures that have not been decided yet
+  const removedNulls = anyData.filter((data)=> {
+    if(data.homeTeam.name && data.awayTeam.name){
+      return data;
+    }
+  })
+
+  const filteredSearchData = removedNulls.filter((userData) => {
     if (userInput.toLowerCase() === userData?.homeTeam.name.toLowerCase() || 
         userInput.toLowerCase() === userData?.awayTeam.name.toLowerCase() || 
         userData?.homeTeam.name.toLowerCase().includes(userInput.toLowerCase()) || 
@@ -42,6 +70,7 @@ export const handleFixtureSearch = (anyData: FixtureData[], userInput: string): 
       ){
       return userData;
     }
+
   })
 
   return getPrimedFixtureData(filteredSearchData);
@@ -49,5 +78,9 @@ export const handleFixtureSearch = (anyData: FixtureData[], userInput: string): 
 
 export const getPrimedFixtureData = (anyData: FixtureData[]): FixtureData[][] => {
   const cleanFixtures = cleanFixtureData(anyData);
-  return groupFixtureData(cleanFixtures)
+
+  if(anyData[0]?.competition.code === "CL") {
+    return groupTournamentFixtureData(anyData);
+  }
+  return groupFixtureData(cleanFixtures);
 }

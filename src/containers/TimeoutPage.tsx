@@ -17,7 +17,7 @@ const TimeoutPage = () => {
     return () => clearInterval(timer);
 
   }, [seconds]);
-
+  
   return (
 
     <div>
@@ -29,7 +29,7 @@ const TimeoutPage = () => {
         </p>
 
         <p className="timeout-para"> 
-          Please wait until the timer below is finished before clicking the link. Thank you for being patient😊
+          Please wait until the timer below is finished before clicking any links. Thank you for being patient😊
         </p>
 
         <p className="timer">{seconds}</p>
@@ -45,7 +45,7 @@ const TimeoutPage = () => {
         </p>
 
         <p className="timeout-para"> 
-          Click below to get back to checking football statistics!
+          Thank you for waiting! Click below to get back to checking football statistics!
         </p>
 
         <Link to={location.state.prevURL} className="navigate">Go Back</Link>

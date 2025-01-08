@@ -1,3 +1,10 @@
+type Season = {
+    id: number,
+    startDate: string,
+    endDate: string,
+    currentMatchday: number
+}
+
 type Area = {
     code: string,
     flag: string,
@@ -45,7 +52,9 @@ type FixtureData = {
     status: string,
     utcDate: string,
     lastUpdated: string,
-    referees: Referee[]
+    season: Season,
+    referees: Referee[],
+    stage: string
 }
 
 export default FixtureData;

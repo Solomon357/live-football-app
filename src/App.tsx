@@ -11,8 +11,10 @@ import HomePage from './containers/HomePage';
 import TimeoutPage from './containers/TimeoutPage';
 
 //TODO:
+//  1. need to account for CL playoff and knockout stages
 //  2. create error pages for when theres any other error with the fetch req
 //  3. focus on building out my more info pages
+//  4. make website more responsive 
   
 
 

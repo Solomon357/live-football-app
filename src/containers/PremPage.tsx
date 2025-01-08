@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../App.scss';
 import Carousel from '../components/Carousel/Carousel';
-import { getPrimedFixtureData, } from '../helperFunctions/helperFunctions';
+import { getPrimedFixtureData } from '../helperFunctions/helperFunctions';
 import FixtureData from '../type/FixtureData';
 import { ClubData } from '../type/ClubData';
 import StandingsTable from '../components/StandingsTable/StandingsTable';
@@ -34,6 +34,7 @@ const PremPage = () => {
     const premStandingsRequest = fetch(`https://live-football-express.netlify.app/api/PL/standings`).then(res => res.json());
     const premScorersRequest = fetch(`https://live-football-express.netlify.app/api/PL/scorers`).then(res => res.json());
 
+    //console.log("prem data on site!") //test
     Promise.all([premRequest, premStandingsRequest, premScorersRequest])
     .then(([dataPrem, premStandingsData , premScorersData]) => {
       setCompetitionTitle(dataPrem.competition.name);
@@ -51,8 +52,8 @@ const PremPage = () => {
 
   const premWeekData = getPrimedFixtureData(premData);
 
-  // console.log("Prem data in Component", premData) //test
-  // console.log("grouped prem data", premWeekData) //test
+  //console.log("Prem data in Component", premData) //test
+  //console.log("grouped prem data", premWeekData) //test
 
   return (
     <section className='section-body'>

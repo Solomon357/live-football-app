@@ -6,29 +6,69 @@
     padding: 2% 2% 1% 2%;
 
     &__header {
-        font-size: x-large;
+        font-size: xx-large;
         font-weight: 700;
         width: 30%;
+        margin: 0 5%;
         @include center-img-text;
     }
     
     &__fulltime-score {
-        font-size: x-large;
+        font-size: xx-large;
         font-weight: 700;
-        width: 5%;
+        width: 6%;
         display: flex;
         justify-content: center;
     }
 }
 
 .referee-info-container{
-    // max-width: 80%;
-    // max-height: 80%;
-    // border: 2px solid whitesmoke;
-    // border-radius: 5px;
     margin: auto;
     text-align: center;
     padding: 1%;
+    display: flex;
+    justify-content: center;
+    gap: 4%;
+    font-size: large;
+}
+
+.head2head-title {
+    margin-top:3%;
+    font-size: xx-large;
+}
+
+.head2head-card {
+    padding: 2% 0;
+    
+
+    &__container{
+        display: flex;
+        justify-content: center;
+        padding: 2% 2% 1% 2%;
+        text-align: center;
+    }
+
+    &__teams {
+        font-size: x-large;
+        font-weight: 700;
+        width: 30%;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    &__score-card {
+        font-size: x-large;
+        font-weight: 700;
+        width: 30%;
+
+        &--date {
+            color: lightgray;
+            font-weight: 600;
+        }
+    }
+
+    
 }
 
 

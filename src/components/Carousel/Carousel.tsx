@@ -48,7 +48,7 @@ const Carousel = ({ heading, data, searchData }: CarouselPropTypes) => {
   const handleLeagueSearch = () => {
     setIsSearch(true)
     const userSearchResult = handleFixtureSearch(searchData, userInput);
-    console.log("search results: ",userSearchResult) // test
+    //console.log("search results: ", userSearchResult) // test
     setUserSearchData(userSearchResult);
     
   }
