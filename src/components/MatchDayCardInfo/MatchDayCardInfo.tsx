@@ -73,7 +73,7 @@ const MatchDayCardInfo = () => {
 
               <section className="head2head">
                 <h2 className="head2head-title">Previous Match Results</h2>
-                {head2headData.map((match, i) => {
+                {head2headData.length > 1 ? head2headData.map((match, i) => {
                   if(i !== 0){
                    // console.log(match.utcDate)
                    // console.log(matchDate)
@@ -97,10 +97,11 @@ const MatchDayCardInfo = () => {
                           </div>
                         </div>
                       </header>
-                    
                     )
                   }
                 })
+                :
+                  <div className="no-info-subhead">These Teams have never faced off in the {eventData.competition.name}!</div>
                 }
               </section>
             </> 
@@ -126,6 +127,37 @@ const MatchDayCardInfo = () => {
               <h3>This match is scheduled to be played {matchDate} at <span style={{textDecoration:"underline"}}>{eventData.utcDate.slice(11,16)}</span></h3> 
 
               <Link className="navigate" to={'..'} onClick={() => navigate(-1)}>Go Back</Link>
+
+              <section className="head2head">
+                <h2 className="head2head-title">Previous Match Results</h2>
+                {head2headData.length ? head2headData.map((match) => {
+                    const head2headDate = new Date(match.utcDate).toUTCString().slice(0,17);
+                    return(
+                      <header className="head2head-card" key={match.id}>
+                        <div className="head2head-card__container">
+                          <div className='head2head-card__teams'>
+                            <img className="team-badge" src={match.homeTeam.crest} alt="homeBadge" height={'40px'} width={'40px'} />
+                            <span>{match.homeTeam.name}</span>
+                          </div>
+
+                          <div className="head2head-card__score-card">
+                            <span>{match.score.fullTime.home} - {match.score.fullTime.away}</span>
+                            <p className="head2head-card__score-card--date">{head2headDate}</p>
+                          </div>
+
+                          <div className='head2head-card__teams'>
+                            <span>{match.awayTeam.name}</span>
+                            <img className="team-badge" src={match.awayTeam.crest} alt="homeBadge" height={'40px'} width={'40px'} />
+                          </div>
+                        </div>
+                      </header>
+                    ) 
+                })
+
+                :
+                  <div className="no-info-subhead">These Teams have never faced off in the {eventData.competition.name}!</div>
+                }
+              </section>
             </>
           }
         </>
